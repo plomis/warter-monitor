@@ -35,12 +35,12 @@ target 'WaterMonitor' do
   use_native_modules!
 end
 
-target 'WaterMonitor-tvOS' do
-  # Pods for WaterMonitor-tvOS
+# target 'WaterMonitor-tvOS' do
+#   # Pods for WaterMonitor-tvOS
 
-  target 'WaterMonitor-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+#   target 'WaterMonitor-tvOSTests' do
+#     inherit! :search_paths
+#     # Pods for testing
+#   end
 
-end
+# end
