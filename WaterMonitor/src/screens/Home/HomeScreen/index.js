@@ -8,6 +8,7 @@ import AnimatedScrollView from '../../../components/AnimatedScrollView';
 import { connect } from '../../../utils/plodux';
 import Banner from './Banner';
 import IndexBlock from './IndexBlock';
+import ChartBlock from './ChartBlock';
 
 
 const BANNER_HEIGHT = 400;
@@ -43,7 +44,8 @@ function Screen({ dispatch }) {
         style={styles.scrollView}
         headerHeight={BANNER_HEIGHT}>
         <Banner statusBarHeight={statusBarHeight} bannerHeight={BANNER_HEIGHT} />
-
+        <IndexBlock data={{ 'a': 29.90, 'b': 29.90, 'c': 29.90, 'd': 29.90, 'e': 29.90, 'f': 29.90 }} />
+        <ChartBlock />
       </AnimatedScrollView>
     </View>
   );

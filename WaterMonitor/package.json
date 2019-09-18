@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "dev": "react-native run-ios --simulator 'iPhone X (12.4)'",
+    "dev-small": "react-native run-ios --simulator 'iPhone 8 (12.4)'",
+    "dev-plus": "react-native run-ios --simulator 'iPhone 8 Plus (12.4)'",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint ."
