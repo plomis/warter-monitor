@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { createAppContainer, ThemeColors, ThemeContext } from 'react-navigation';
+import { createAppContainer, ThemeContext } from 'react-navigation';
 import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
 import MeasureScreen from './MeasureScreen';
 import StatisticsScreen from './StatisticsScreen';
@@ -8,22 +8,8 @@ import ProfileScreen from './ProfileScreen';
 import NewsScreen from './NewsScreen';
 import HomeScreen from './HomeScreen';
 import { Home, News, Statistics, Measure, Profile } from './navigationOptions';
+import { ThemeConstants } from '../../components/constants';
 
-
-const ThemeConstants = {
-  light: {
-    backgroundColor: 'rgb(245, 245, 245)',
-    activeTintColor: 'rgb(51, 163, 244)',
-    inactiveTintColor: 'rgb(148, 148, 148)',
-    borderTopColor: 'rgb(221, 221, 221)'
-  },
-  dark: {
-    backgroundColor: ThemeColors.dark.header,
-    activeTintColor: '#fff',
-    inactiveTintColor: '#7f7f7f',
-    borderTopColor: ThemeColors.dark.headerBorder
-  },
-};
 
 class ThemedBottomTabBar extends React.Component {
   render() {

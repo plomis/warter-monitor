@@ -12,7 +12,7 @@ export const Home = {
         size={25}
         name="home"
         color={tintColor}
-        badgeCount={3}
+        // badgeCount={3}
         component={focused ? IconFill : IconOutline} />
     );
   }
@@ -46,11 +46,11 @@ export const News = {
 
 export const Statistics = {
   tabBarLabel: '统计',
-  tabBarIcon({ tintColor }) {
+  tabBarIcon({ focused, tintColor }) {
     return (
       <IconWithBadge
         size={25}
-        name="read"
+        name="profile"
         color={tintColor}
         component={focused ? IconFill : IconOutline} />
     );
@@ -59,13 +59,13 @@ export const Statistics = {
 
 export const Profile = {
   tabBarLabel: '我的',
-  tabBarIcon({ tintColor }) {
+  tabBarIcon({ focused, tintColor }) {
     return (
       <IconWithBadge
         size={25}
-        name="read"
+        name={focused ? 'area-chart' : 'bar-chart'}
         color={tintColor}
-        component={focused ? IconFill : IconOutline} />
+        component={IconOutline} />
     );
   }
 };

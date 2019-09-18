@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Text, View } from 'react-native';
+import { createStackNavigator } from 'react-navigation-stack';
 
 
 class Screen extends React.Component {
@@ -13,4 +14,9 @@ class Screen extends React.Component {
   }
 }
 
-export default Screen;
+
+export default createStackNavigator({
+  Home: Screen
+}, {
+  initialRouteName: 'Home'
+});

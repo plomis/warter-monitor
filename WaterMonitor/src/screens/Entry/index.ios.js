@@ -6,9 +6,10 @@ import { connect } from '../../utils/plodux';
 
 
 const App = ({ mode, barStyle }) => {
+
   return (
     <Fragment>
-      <StatusBar animated barStyle={barStyle} />
+      <StatusBar barStyle={barStyle} />
       <Home theme={mode} />
     </Fragment>
   );

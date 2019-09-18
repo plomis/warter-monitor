@@ -54,6 +54,7 @@ export function loadModel( model ) {
   modelCache[model.namespace] = model;
   const actionBridge = fs( model.namespace );
   const getKey = getPropsKey( model.namespace );
+  model.bridge = actionBridge;
   Object.keys( model.reducers ).forEach(( key ) => {
     const reducer = model.reducers[key];
     actionBridge.watch( getKey( key ), ( action ) => {
@@ -61,8 +62,6 @@ export function loadModel( model ) {
       if ( newState !== state[model.namespace]) {
         state[model.namespace] = newState;
         bridge.dispense( 'rerender' );
-      } else {
-        state[model.namespace] = newState;
       }
     });
   });
@@ -83,6 +82,7 @@ export const connect = ( mapStateToProps ) => ( Component ) => {
       super( props );
       this.state = {};
       this.unique = shortid.gen();
+      this.handlers = null;
       if ( mapStateToProps ) {
         this.state = mapStateToProps( state, props );
       }
@@ -110,14 +110,65 @@ export const connect = ( mapStateToProps ) => ( Component ) => {
         this.watcher.clear();
         this.watcher = null;
       }
+      if ( this.handlers ) {
+        this.handlers();
+        this.watcher = null;
+      }
     }
 
     handleDispatch = ( action ) => {
       bridge.dispatch( action );
     };
 
+    handleEffects = ( namespace, effects ) => {
+      if ( modelCache[namespace] ) {
+        const actionBridge = modelCache[namespace].bridge;
+        const getKey = getPropsKey( namespace );
+        Object.keys( effects ).forEach(( key ) => {
+          const effect = effects[key];
+          const watcher = actionBridge.watch( getKey( key ), ( action ) => {
+            effect( action, getFuncs( namespace ));
+          });
+          const older = this.handlers;
+          this.handlers = () => {
+            if ( older ) older();
+            watcher.clear();
+          }
+        });
+      }
+    };
+
+    handleReducers = ( namespace, reducers ) => {
+      if ( modelCache[namespace] ) {
+        const actionBridge = modelCache[namespace].bridge;
+        const getKey = getPropsKey( namespace );
+        Object.keys( reducers ).forEach(( key ) => {
+          const reducer = reducers[key];
+          const watcher = actionBridge.watch( getKey( key ), ( action ) => {
+            const newState = reducer( state[namespace], action );
+            if ( newState !== state[namespace]) {
+              state[namespace] = newState;
+              bridge.dispense( 'rerender' );
+            }
+          });
+          const older = this.handlers;
+          this.handlers = () => {
+            if ( older ) older();
+            watcher.clear();
+          }
+        });
+      }
+    };
+
     render() {
-      return <Component {...this.props} {...this.state} dispatch={this.handleDispatch} />;
+      return (
+        <Component
+          {...this.props}
+          {...this.state}
+          effect={this.handleEffects}
+          reducer={this.handleReducers}
+          dispatch={this.handleDispatch} />
+      );
     }
   }
 
