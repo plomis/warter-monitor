@@ -188,6 +188,9 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-local-resource')
+    implementation project(':react-native-fs')
+    implementation project(':react-native-webview')
     implementation project(':react-native-svg')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-vector-icons')
