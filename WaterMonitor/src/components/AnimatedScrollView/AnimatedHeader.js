@@ -1,6 +1,6 @@
 
-import React, { useContext, Fragment } from 'react';
-import { StyleSheet, View, Animated, TouchableOpacity } from 'react-native';
+import React, { useContext } from 'react';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { ACTIVE_OPACITY } from '../constants';
 import AnimatedContainer from './AnimatedContainer';
