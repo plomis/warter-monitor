@@ -1,7 +1,5 @@
 
 import React from 'react';
-// import { IconFill, IconOutline } from '@ant-design/icons-react-native';
-// import IconWithBadge from '../../components/IconWithBadge';
 import IconSvg from '../../components/IconSvg';
 import TabIcon1 from '../../assets/svg/tab_1.svg';
 import TabIcon2 from '../../assets/svg/tab_2.svg';

@@ -18,7 +18,7 @@ function Screen({ dispatch }) {
   };
 
   const injectedJavascript = `
-    alert(1)
+
   `;
 
   return (

@@ -60,7 +60,7 @@ function Chart({ data, type }) {
       originWhitelist={['*']}
       // renderLoading={() => <Loading />}
       // injectedJavaScript={injectedJavascript}
-      style={{ flex: 1, height: 220,borderWidth: 1 }}
+      style={{ flex: 1, height: 220 }}
       source={source}
       onLoad={handleLoad} />
   );

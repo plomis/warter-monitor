@@ -3,8 +3,11 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import Icon from 'react-native-vector-icons/Ionicons';
 import AnimatedScrollView from '../../../components/AnimatedScrollView';
+import IconSvg from '../../../components/IconSvg';
+import IconWithBadge from '../../../components/IconWithBadge';
+import scan from '../../../assets/svg/scan.svg';
+import message from '../../../assets/svg/message.svg';
 import { connect } from '../../../utils/plodux';
 import Banner from './Banner';
 import IndexBlock from './IndexBlock';
@@ -33,8 +36,8 @@ function Screen({ dispatch }) {
       <NavigationEvents onDidFocus={handleDidFocus} />
       <AnimatedScrollView
         title={title}
-        headerLeft={<Icon name="ios-apps" color="#fff" size={28} />}
-        headerRight={<Icon name="ios-apps" color="#fff" size={28} />}
+        headerLeft={<IconSvg name={scan} color="#fff" size={28} />}
+        headerRight={<IconWithBadge component={IconSvg} name={message} color="#fff" size={28} />}
         onLeftPress={() => {console.log('left')}}
         onRightPress={() => {console.log('right')}}
         style={styles.scrollView}
@@ -44,13 +47,17 @@ function Screen({ dispatch }) {
         <ChartBlock />
         <MapBlock />
         <RuleBlock data={[{
-          title: '用水设备巡回检查制度'
+          title: '用水设备巡回检查制度',
+          date: '2019-02-01'
         }, {
-          title: '用水计量制度'
+          title: '用水计量制度',
+          date: '2019-02-01'
         }, {
-          title: '节水管理岗位责任规划'
+          title: '节水管理岗位责任规划',
+          date: '2019-02-01'
         }, {
-          title: '节水管理岗位责任规划'
+          title: '节水管理岗位责任规划',
+          date: '2019-02-01'
         }]} />
       </AnimatedScrollView>
     </View>

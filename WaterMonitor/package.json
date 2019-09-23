@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "react-native run-ios --simulator 'iPhone X (12.4)'",
-    "dev-small": "react-native run-ios --simulator 'iPhone 8 (12.4)'",
-    "dev-plus": "react-native run-ios --simulator 'iPhone 8 Plus (12.4)'",
+    "dev": "react-native run-ios --simulator 'iPhone 11'",
+    "dev-small": "react-native run-ios --simulator 'iPhone 8 (13.0)'",
+    "dev-plus": "react-native run-ios --simulator 'iPhone 8 Plus (13.0)'",
     "start-non-cache": "react-native start --reset-cache",
     "start": "react-native start",
     "test": "jest",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@ant-design/icons-react-native": "^1.0.2",
+    "@ant-design/icons-svg": "^4.0.0-alpha.0",
     "@ant-design/react-native": "^3.1.15",
     "events": "^3.0.0",
     "flystore": "^1.1.2",
