@@ -6,7 +6,10 @@ import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
 import { connect } from '../../utils/plodux';
 
 
-function MessageHome({ dispatch }) {
+function Info({ dispatch, navigation }) {
+
+  // const { state } = navigation;
+  // const { params } = state;
 
   const handleWillFocus = () => {
     dispatch({
@@ -50,10 +53,13 @@ function MessageHome({ dispatch }) {
   );
 }
 
-MessageHome.navigationOptions = ({ navigation }) => ({
-  title: '消息告警',
-  headerLeft: <HeaderBackButton onPress={navigation.goBack} />
-});
+Info.navigationOptions = ({ navigation }) => {
+  const title = navigation.getParam( 'title' );
+  return {
+    title: title,
+    headerLeft: <HeaderBackButton onPress={navigation.goBack} />
+  };
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -67,10 +73,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const Message = createStackNavigator({
-  MessageHome: {
-    screen: connect()( MessageHome )
+const Measure = createStackNavigator({
+  Info: {
+    screen: connect()( Info )
   }
 });
 
-export default Message;
+export default Measure;

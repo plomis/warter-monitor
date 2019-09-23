@@ -14,6 +14,8 @@ function Screen({
   headerHeight,
   headerLeft,
   headerRight,
+  onLeftPress,
+  onRightPress,
   title
 }) {
 
@@ -64,7 +66,13 @@ function Screen({
           {children}
         </Animated.ScrollView>
         <AnimatedBackground height={headerHeight + statusBarHeight} />
-        <AnimatedHeader headerRange={headerRange} title={title} left={headerLeft} right={headerRight} />
+        <AnimatedHeader
+          headerRange={headerRange}
+          onLeftPress={onLeftPress}
+          onRightPress={onRightPress}
+          title={title}
+          left={headerLeft}
+          right={headerRight} />
       </View>
     </Context.Provider>
   );

@@ -50,10 +50,10 @@ const data = [{
   dosage: 26
 }];
 
-function Screen({ dispatch }) {
+function Screen({ dispatch, navigation }) {
 
   const theme = useContext( ThemeContext );
-  const handleDidFocus = () => {
+  const handleWillFocus = () => {
     dispatch({
       type: 'statusBar.update',
       payload: {
@@ -62,9 +62,16 @@ function Screen({ dispatch }) {
     });
   };
 
+  const handleInfo = ( item ) => () => {
+    navigation.navigate( 'MeasureInfo', {
+      title: item.title,
+      data: item
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <NavigationEvents onDidFocus={handleDidFocus} />
+      <NavigationEvents onWillFocus={handleWillFocus} />
       <View style={[ styles.header, {
         borderColor: ThemeConstants[theme].borderTopColor,
         borderBottomWidth: 1,
@@ -99,17 +106,18 @@ function Screen({ dispatch }) {
           <RefreshControl refreshing={false} onRefresh={() => {}} />
         }>
         <List>
-          {data.map(({ title }) => {
+          {data.map(( item ) => {
+            const { title, dosage } = item;
             const extra = (
               <View style={styles.extra}>
                 <View style={styles.extraWrap}>
-                  <Text style={styles.extraValue}>12313</Text>
+                  <Text style={styles.extraValue}>{dosage}</Text>
                   <Text style={styles.extraUnit}>吨</Text>
                 </View>
               </View>
             );
             return (
-              <Item key={title} extra={extra} arrow="horizontal" onPress={() => {}}>
+              <Item key={title} extra={extra} arrow="horizontal" onPress={handleInfo( item )}>
                 <View style={styles.itemTitle}>
                   <View style={styles.dot} />
                   <Text style={styles.itemTitleText}>{title}</Text>

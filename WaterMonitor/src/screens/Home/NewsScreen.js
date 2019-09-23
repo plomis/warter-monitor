@@ -8,7 +8,7 @@ import { connect } from '../../utils/plodux';
 
 function Screen({ dispatch }) {
 
-  const handleDidFocus = () => {
+  const handleWillFocus = () => {
     dispatch({
       type: 'statusBar.update',
       payload: {
@@ -23,7 +23,7 @@ function Screen({ dispatch }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavigationEvents onDidFocus={handleDidFocus} />
+      <NavigationEvents onWillFocus={handleWillFocus} />
       <ScrollView
         style={styles.scrollview}
         refreshControl={

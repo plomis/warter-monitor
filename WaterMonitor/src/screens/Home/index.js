@@ -60,4 +60,4 @@ const TabBar = createBottomTabNavigator({
 });
 
 
-export default createAppContainer( TabBar );
+export default TabBar;

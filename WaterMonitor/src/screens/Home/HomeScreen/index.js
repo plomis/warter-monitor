@@ -18,11 +18,11 @@ import RuleBlock from './RuleBlock';
 
 const BANNER_HEIGHT = 400;
 
-function Screen({ dispatch }) {
+function Screen({ dispatch, navigation }) {
 
   const statusBarHeight = getStatusBarHeight();
   const title = '总览';
-  const handleDidFocus = () => {
+  const handleWillFocus = () => {
     dispatch({
       type: 'statusBar.update',
       payload: {
@@ -31,15 +31,19 @@ function Screen({ dispatch }) {
     });
   };
 
+  const handleMessage = () => {
+    navigation.navigate( 'Message' );
+  };
+
   return (
     <View style={styles.container}>
-      <NavigationEvents onDidFocus={handleDidFocus} />
+      <NavigationEvents onWillFocus={handleWillFocus} />
       <AnimatedScrollView
         title={title}
         headerLeft={<IconSvg name={scan} color="#fff" size={28} />}
         headerRight={<IconWithBadge component={IconSvg} name={message} color="#fff" size={28} />}
         onLeftPress={() => {console.log('left')}}
-        onRightPress={() => {console.log('right')}}
+        onRightPress={handleMessage}
         style={styles.scrollView}
         headerHeight={BANNER_HEIGHT}>
         <Banner statusBarHeight={statusBarHeight} bannerHeight={BANNER_HEIGHT} />

@@ -10,7 +10,7 @@ const Item = List.Item;
 
 function Screen({ dispatch }) {
 
-  const handleDidFocus = () => {
+  const handleWillFocus = () => {
     dispatch({
       type: 'statusBar.update',
       payload: {
@@ -21,7 +21,7 @@ function Screen({ dispatch }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavigationEvents onDidFocus={handleDidFocus} />
+      <NavigationEvents onWillFocus={handleWillFocus} />
       <View style={styles.header}>
         <View style={styles.profile}>
           <View style={styles.pic}>

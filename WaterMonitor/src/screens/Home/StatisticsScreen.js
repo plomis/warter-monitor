@@ -1,15 +1,45 @@
 
 import React from 'react';
-import { Text, View } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
+import { SafeAreaView, StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import { connect } from '../../utils/plodux';
 
 
-class Screen extends React.Component {
-  render() {
-    return (
-      <View >
-      </View>
-    );
-  }
+function Screen({ dispatch }) {
+
+  const handleWillFocus = () => {
+    dispatch({
+      type: 'statusBar.update',
+      payload: {
+        barStyle: 'dark-content'
+      }
+    });
+  };
+
+  const injectedJavascript = `
+
+  `;
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <NavigationEvents onWillFocus={handleWillFocus} />
+      <ScrollView
+        style={styles.scrollview}
+        refreshControl={
+          <RefreshControl refreshing={false} onRefresh={() => {}} />
+        }>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
-export default Screen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  scrollview: {
+    flex: 1
+  }
+});
+
+export default connect()( Screen );
