@@ -18,7 +18,7 @@ function MessageHome({ dispatch }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
       <ScrollView
         style={styles.scrollview}
@@ -46,7 +46,7 @@ function MessageHome({ dispatch }) {
         <Text style={styles.text}>1231313</Text>
         <Text style={styles.text}>1231313</Text>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
