@@ -56,7 +56,10 @@ const TabBar = createBottomTabNavigator({
   Statistics: StatisticsScreen,
   Profile: ProfileScreen
 }, {
-  tabBarComponent: ThemedBottomTabBar
+  tabBarComponent: ThemedBottomTabBar,
+  defaultNavigationOptions: {
+    headerBackTitle: '返回'
+  }
 });
 
 

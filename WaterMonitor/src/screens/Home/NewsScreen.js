@@ -17,9 +17,9 @@ function Screen({ dispatch }) {
     });
   };
 
-  const injectedJavascript = `
+  // const injectedJavascript = `
 
-  `;
+  // `;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -38,7 +38,7 @@ function Screen({ dispatch }) {
           // onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
           zoomable={false}
           source={{ html: '<body style="height:1000px;background-color:#444">loading</body>' }}
-          customScript={injectedJavascript}
+          // customScript={injectedJavascript}
           // onMessage={onMessage}
         />
       </ScrollView>

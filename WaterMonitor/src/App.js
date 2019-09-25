@@ -8,11 +8,13 @@ import { loadModel } from './utils/plodux';
 import themeModel from './models/theme';
 import globelModel from './models/global';
 import statusBarModel from './models/statusBar';
+import measure from './models/measure';
 
 
 loadModel( themeModel );
 loadModel( globelModel );
 loadModel( statusBarModel );
+loadModel( measure );
 
 const App = () => {
 

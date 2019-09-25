@@ -1,8 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Animated, StyleSheet, RefreshControl } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { HEADER_HEIGHT } from '../constants';
+import { ThemeContext } from 'react-navigation';
+import { HEADER_HEIGHT, ThemeConstants } from '../constants';
 
 
 function Screen({
@@ -11,6 +12,7 @@ function Screen({
   range
 }) {
 
+  const theme = useContext( ThemeContext );
   const [ state ] = useState({ scrollY: new Animated.Value( 0 ) });
 
   const animationRange = state.scrollY.interpolate({
@@ -38,7 +40,13 @@ function Screen({
       </Animated.ScrollView>
       <Animated.View style={[
         styles.headerBackground,
-        { height: statusBarHeight + HEADER_HEIGHT, opacity: animationRange }
+        {
+          height: statusBarHeight + HEADER_HEIGHT,
+          backgroundColor: ThemeConstants[theme].backgroundColor,
+          borderBottomColor: ThemeConstants[theme].borderTopColor,
+          opacity: animationRange,
+          borderBottomWidth: 1
+        }
       ]} />
     </View>
   );
@@ -55,7 +63,6 @@ const styles = StyleSheet.create({
   headerBackground: {
     position: 'absolute',
     width: '100%',
-    backgroundColor: '#fff',
     zIndex: 1
   }
 });

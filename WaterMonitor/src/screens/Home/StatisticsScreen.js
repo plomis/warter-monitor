@@ -16,10 +16,6 @@ function Screen({ dispatch }) {
     });
   };
 
-  const injectedJavascript = `
-
-  `;
-
   return (
     <SafeAreaView style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />

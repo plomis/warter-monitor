@@ -7,6 +7,10 @@ import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
 import AnimatedScrollView from '../../components/AnimatedScrollViewSample';
 import { connect } from '../../utils/plodux';
 import Charts from './Charts';
+import HistoryBlcok from './History';
+import Online from './History/Online';
+import History from './History/History';
+import BaseInfo from './History/BaseInfo';
 
 
 function Info({ dispatch, navigation }) {
@@ -49,6 +53,7 @@ function Info({ dispatch, navigation }) {
           </View>
         </View>
         <Charts />
+        <HistoryBlcok navigation={navigation} />
       </AnimatedScrollView>
     </View>
   );
@@ -146,6 +151,19 @@ const styles = StyleSheet.create({
 const Measure = createStackNavigator({
   Info: {
     screen: connect()( Info )
+  },
+  Online: {
+    screen: Online
+  },
+  History: {
+    screen: History
+  },
+  BaseInfo: {
+    screen: BaseInfo
+  }
+}, {
+  defaultNavigationOptions: {
+    headerBackTitle: null
   }
 });
 

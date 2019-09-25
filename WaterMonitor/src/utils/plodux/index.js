@@ -3,6 +3,7 @@ import fs from 'flystore';
 import React from 'react';
 import shortid from 'js-shortid';
 import memoize from 'lodash.memoize';
+import request from '../request';
 
 
 // bridge 用来跳转
@@ -68,7 +69,7 @@ export function loadModel( model ) {
   Object.keys( model.effects ).forEach(( key ) => {
     const effect = model.effects[key];
     actionBridge.watch( getKey( key ), ( action ) => {
-      effect( action, getFuncs( namespace ));
+      effect( action, getFuncs( model.namespace ));
     });
   });
 }
@@ -81,6 +82,7 @@ export const connect = ( mapStateToProps ) => ( Component ) => {
     constructor( props ) {
       super( props );
       this.state = {};
+      this.abortRequests = null;
       this.unique = shortid.gen();
       this.handlers = null;
       if ( mapStateToProps ) {
@@ -93,7 +95,7 @@ export const connect = ( mapStateToProps ) => ( Component ) => {
       this.watcher = bridge.watch( 'rerender', () => {
         let newProps = {};
         if ( mapStateToProps ) {
-          newProps = mapStateToProps( state, this.props );
+          newProps = mapStateToProps( state, this.props ) || {};
         }
         const prevProps = propsCache.get( this.unique );
         const needUpdate = Object.keys( newProps ).map(
@@ -114,10 +116,14 @@ export const connect = ( mapStateToProps ) => ( Component ) => {
         this.handlers();
         this.watcher = null;
       }
+      if ( this.abortRequests ) {
+        this.abortRequests();
+        this.abortRequests = null;
+      }
     }
 
     handleDispatch = ( action ) => {
-      bridge.dispatch( action );
+      bridge.dispatch({ request: this.handleRequest, ...action });
     };
 
     handleEffects = ( namespace, effects ) => {
@@ -158,6 +164,19 @@ export const connect = ( mapStateToProps ) => ( Component ) => {
           }
         });
       }
+    };
+
+    handleRequest = ( url, config = {}) => {
+      let cancel = null;
+      const CancelToken = request.CancelToken;
+      const abortRequests = this.abortRequests;
+      config.cancelToken = new CancelToken( function executor( cancel ) {
+        this.abortRequests = () => {
+          abortRequests();
+          cancel();
+        };
+      });
+      return request( url, config );
     };
 
     render() {

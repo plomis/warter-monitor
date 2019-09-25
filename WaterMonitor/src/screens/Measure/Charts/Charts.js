@@ -1,11 +1,11 @@
 
 import moment from 'moment';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 import loadLocalResource from 'react-native-local-resource'
-import f2Html from '../../../../assets/pages/f2.html';
-import jstpl from '../../../../assets/pages/chart1.html';
+import f2Html from '../../../assets/pages/f2.html';
+import jstpl from '../../../assets/pages/chart1.html';
 
 
 function Chart({ data, type }) {
@@ -23,16 +23,12 @@ function Chart({ data, type }) {
   const handleLoad = () => {
     loadLocalResource( jstpl ).then(( jstpl ) => {
       webViewRef.current.injectJavaScript( jstpl );
-      webViewRef.current.injectJavaScript( `
-        chartApi.renderChart(${dataString});
-      ` );
+      webViewRef.current.injectJavaScript( `chartApi.renderChart(${dataString});` );
     });
   };
 
   useEffect(() => {
-    webViewRef.current.injectJavaScript( `
-      chartApi.changeData(${dataString});
-    ` );
+    webViewRef.current.injectJavaScript( `chartApi.changeData(${dataString});` );
   }, [data]);
 
   // RNFS.readDir( RNFS.MainBundlePath )

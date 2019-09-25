@@ -1,8 +1,9 @@
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { StatusBar } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import { Provider } from '@ant-design/react-native';
 import { connect } from '../../utils/plodux';
 import Home from '../Home';
 import Message from '../Message';
@@ -27,10 +28,10 @@ const Stack = createAppContainer( Routes );
 
 const App = ({ mode, barStyle }) => {
   return (
-    <Fragment>
+    <Provider>
       <StatusBar barStyle={barStyle} />
       <Stack theme={mode} />
-    </Fragment>
+    </Provider>
   );
 };
 

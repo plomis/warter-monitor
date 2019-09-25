@@ -12,7 +12,6 @@ const tabs = [
   { title: '近一年' }
 ];
 
-
 function Block() {
   return (
     <Tabs tabs={tabs}>
