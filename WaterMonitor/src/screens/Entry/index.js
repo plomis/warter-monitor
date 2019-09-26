@@ -8,6 +8,7 @@ import { connect } from '../../utils/plodux';
 import Home from '../Home';
 import Message from '../Message';
 import Measure from '../Measure';
+import News from '../News';
 
 
 const Routes = createStackNavigator({
@@ -19,6 +20,9 @@ const Routes = createStackNavigator({
   },
   MeasureInfo: {
     screen: Measure
+  },
+  NewsInfo: {
+    screen: News
   }
 }, {
   headerMode: 'none'

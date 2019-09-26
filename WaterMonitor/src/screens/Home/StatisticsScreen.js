@@ -1,12 +1,13 @@
 
 import moment from 'moment';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Animated, Button,
-  Easing, TouchableWithoutFeedback } from 'react-native';
+  Easing, TouchableWithoutFeedback, RefreshControl } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SegmentedControl, Icon } from '@ant-design/react-native';
 import { NavigationEvents, ThemeContext } from 'react-navigation';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AutoHeightWebView from 'react-native-autoheight-webview';
 import { ACTIVE_OPACITY, HEADER_HEIGHT, ThemeConstants } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
@@ -15,10 +16,13 @@ const pickerHeight = 230;
 
 function Screen({ dispatch }) {
 
+  const webViewRef = useRef( null );
   const theme = useContext( ThemeContext );
   const statusBarHeight = getStatusBarHeight();
   const [ selected, setSelected ] = useState( moment());
   const [ show, setShow ] = useState( false );
+  const [ type, setType ] = useState( '月报' );
+  const [ refresh, setRefresh ] = useState( false );
   const [ state ] = useState({ y: new Animated.Value( 0 ) });
 
   const handleWillFocus = () => {
@@ -57,7 +61,16 @@ function Screen({ dispatch }) {
   });
 
   const handleChange = ( _event, date ) => {
-    setSelected( moment( date ));
+    const selected = moment( date );
+    setSelected( selected );
+    webViewRef.current.injectJavaScript( `(function() {
+      if ( window.refreshPage ) {
+        window.refreshPage(
+          ${type === '月报' ? 'month' : 'year'},
+          ${type === '月报' ? selected.format( 'YYYY-MM' ) : selected.format( 'YYYY' )}
+        );
+      }
+    })();` );
   };
 
   const handleOpen = () => {
@@ -90,16 +103,24 @@ function Screen({ dispatch }) {
   };
 
   const handleTypeChange = ( value ) => {
-    console.log(handleTypeChange);
-
+    setType( value );
+    webViewRef.current.injectJavaScript( `(function() {
+      if ( window.refreshPage ) {
+        window.refreshPage(
+          ${value === '月报' ? 'month' : 'year'},
+          ${value === '月报' ? selected.format( 'YYYY-MM' ) : selected.format( 'YYYY' )}
+        );
+      }
+    })();` );
   };
 
-  const renderItem = () => {
-    return (
-      <View>
-        <Text>asdasd</Text>
-      </View>
-    );
+  const handleRefresh = () => {
+    setRefresh( true );
+    webViewRef.current.reload();
+  };
+
+  const handleLoad = () => {
+    setRefresh( false );
   };
 
   return (
@@ -155,25 +176,29 @@ function Screen({ dispatch }) {
           <SegmentedControl
             style={styles.segment}
             values={[ '月报', '年报' ]}
+            tintColor="#047FFE"
             onValueChange={handleTypeChange} />
           <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleOpen}>
             <View style={styles.triggerContentText}>
               <Icon name="calendar" color="#047FFE" size={20}/>
-              <Text style={styles.pickerDate}>{selected.format( 'YYYY年MM月' )}</Text>
+              <Text style={styles.pickerDate}>{selected.format( type === '月报' ? 'YYYY年MM月' : 'YYYY年' )}</Text>
             </View>
           </TouchableOpacity>
         </Animated.View>
       </View>
-      <ScrollView style={[
-        styles.scrollview,
-        { marginTop: statusBarHeight + HEADER_HEIGHT }
-      ]}>
-        {/* <ListView
-          refreshable={false}
-          onFetch={handleFetch}
-          style={styles.listview}
-          keyExtractor={item => item.month}
-          renderItem={renderItem} /> */}
+      <ScrollView
+        style={[
+          styles.scrollview,
+          { marginTop: statusBarHeight + HEADER_HEIGHT }
+        ]}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={handleRefresh} />
+        }>
+        <AutoHeightWebView
+          ref={webViewRef}
+          zoomable={false}
+          onLoad={handleLoad}
+          source={{ uri: 'https://baidu.com' }} />
       </ScrollView>
       {show ? (
         <TouchableWithoutFeedback onPress={handleClose}>

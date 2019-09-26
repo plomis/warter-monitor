@@ -1,13 +1,13 @@
 
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { SafeAreaView, StyleSheet, ScrollView, RefreshControl } from 'react-native';
-import AutoHeightWebView from 'react-native-autoheight-webview';
+import { Text, View, StyleSheet } from 'react-native';
 import { connect } from '../../utils/plodux';
 
 
-function Screen({ navigation, dispatch }) {
+function Info({ dispatch, navigation }) {
 
+  const url = navigation.getParam( 'url' );
   const webViewRef = useRef( null );
   const [ refresh, setRefresh ] = useState( false );
 
@@ -31,7 +31,10 @@ function Screen({ navigation, dispatch }) {
 
   const handleMessage = ( event ) => {
     const data = JSON.stringify( event.nativeEvent.data );
-    navigation.navigate( 'NewsInfo', data );
+
+    // webViewRef.current.injectJavaScript(`(function() {
+    //   window.geToPage(  );
+    // })()`);
   };
 
   return (
@@ -46,12 +49,20 @@ function Screen({ navigation, dispatch }) {
           ref={webViewRef}
           zoomable={false}
           onLoad={handleLoad}
-          source={{ html: '<body style="height:1000px;background-color:#444">loading</body>' }}
+          source={{ uri: url }}
           onMessage={handleMessage} />
       </ScrollView>
     </SafeAreaView>
   );
 }
+
+Info.navigationOptions = ({ navigation }) => {
+  const title = navigation.getParam( 'title' );
+  return {
+    title,
+    headerRight: <Text>分享</Text>
+  };
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -62,4 +73,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect()( Screen );
+
+export default connect()( Info );
