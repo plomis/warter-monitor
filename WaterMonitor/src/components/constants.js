@@ -8,7 +8,7 @@ export const ACTIVE_OPACITY = 0.5
 
 export const ThemeConstants = {
   light: {
-    backgroundColor: 'rgb(245, 245, 245)',
+    backgroundColor: '#fff',// 'rgb(245, 245, 245)',
     activeTintColor: 'rgb(51, 163, 244)',
     inactiveTintColor: 'rgb(148, 148, 148)',
     borderTopColor: 'rgb(221, 221, 221)'

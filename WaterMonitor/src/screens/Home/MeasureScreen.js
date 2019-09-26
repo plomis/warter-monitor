@@ -1,9 +1,10 @@
 
 import React, { useContext } from 'react';
 import { NavigationEvents, ThemeContext } from 'react-navigation';
-import { Text, ScrollView, SafeAreaView, StyleSheet, View, RefreshControl } from 'react-native';
+import { Text, ScrollView, StyleSheet, View, RefreshControl } from 'react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { List } from '@ant-design/react-native';
-import { ThemeConstants } from '../../components/constants';
+import { HEADER_LARGE_HEIGHT, ThemeConstants } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
 
@@ -53,6 +54,7 @@ const data = [{
 function Screen({ dispatch, navigation }) {
 
   const theme = useContext( ThemeContext );
+  const statusBarHeight = getStatusBarHeight();
   const handleWillFocus = () => {
     dispatch({
       type: 'statusBar.update',
@@ -70,12 +72,13 @@ function Screen({ dispatch, navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
       <View style={[ styles.header, {
+        height: statusBarHeight + HEADER_LARGE_HEIGHT,
+        backgroundColor: ThemeConstants[theme].backgroundColor,
         borderColor: ThemeConstants[theme].borderTopColor,
-        borderBottomWidth: 1,
-        marginBottom: -1,
+        borderBottomWidth: 0.5,
         zIndex: 1
       }]}>
         <View style={styles.headerItem}>
@@ -127,7 +130,7 @@ function Screen({ dispatch, navigation }) {
           })}
         </List>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -142,35 +145,37 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    alignItems: 'flex-end',
     height: 64
   },
   headerItem: {
     flex: 0,
     width: '33.33%',
+    height: HEADER_LARGE_HEIGHT,
     justifyContent: 'center',
     alignItems: 'center'
   },
   title: {
-    height: 14,
-    lineHeight: 14,
+    height: 18,
+    lineHeight: 18,
     fontSize: 14,
     color: '#878c9a',
-    marginBottom: 8
+    marginBottom: 12
   },
   content: {
     flexDirection: 'row'
   },
   value: {
-    height: 16,
-    lineHeight: 16,
-    fontSize: 16,
+    height: 18,
+    lineHeight: 18,
+    fontSize: 18,
     color: '#595e6d',
     marginRight: 2
   },
   unit: {
     fontSize: 12,
-    color: '#595e6d'
+    color: '#595e6d',
+    marginTop: 2
   },
   extra: {
     flex: 1,

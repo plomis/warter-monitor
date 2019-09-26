@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { createAppContainer, ThemeContext } from 'react-navigation';
+import { ThemeContext } from 'react-navigation';
 import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
 import MeasureScreen from './MeasureScreen';
 import StatisticsScreen from './StatisticsScreen';

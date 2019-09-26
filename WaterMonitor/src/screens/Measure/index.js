@@ -52,8 +52,8 @@ function Info({ dispatch, navigation }) {
             </Text>
           </View>
         </View>
-        <Charts />
         <HistoryBlcok navigation={navigation} />
+        <Charts />
       </AnimatedScrollView>
     </View>
   );

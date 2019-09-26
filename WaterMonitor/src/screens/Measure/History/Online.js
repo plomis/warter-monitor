@@ -66,7 +66,7 @@ function Block({ dispatch }) {
           const data = monthData.find(({ day }) => day === date.dateString );
           const backgroundColor = ( !data || data.onLineRate > 0.98 ) ? 'rgba(255, 255, 255, 0)'
             : data.onLineRate <= 0.98 && data.onLineRate > 0.85 ? 'rgb(255, 215, 94)' : 'rgb(255, 94, 94)';
-          const color = ( data && data.onLineRate <= 0.85 ) ? 'rgb(255, 94, 94)' : null;
+          const color = ( data && data.onLineRate <= 0.85 ) ? '#fff' : null;
           return (
             <View key={date.dateString} style={styles.date}>
               <View style={[
@@ -76,7 +76,7 @@ function Block({ dispatch }) {
                 <Text style={[ styles.day, color ? { color } : {}]}>{date.day}</Text>
                 <Text style={[ styles.rate, color ? { color } : {}]}>
                   {data ? `${data.onLineRate * 100}`: ''}
-                  {data ? <Text style={styles.unit}>%</Text> : null}
+                  {data ? <Text style={[ styles.unit, color ? { color } : {}]}>%</Text> : null}
                 </Text>
               </View>
             </View>
@@ -97,8 +97,7 @@ function Block({ dispatch }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingHorizontal: 16
+    flex: 1
   },
   date: {
     flexDirection: 'row',
@@ -126,6 +125,7 @@ const styles = StyleSheet.create({
     color: 'rgba(0,0,0,0.6)'
   },
   calendar: {
+    marginHorizontal: 16,
     borderBottomWidth: 0.5,
     borderBottomColor: '#DDD',
     paddingBottom: 16,
