@@ -3,15 +3,18 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
+import { Transition } from 'react-native-reanimated';
 import { Provider } from '@ant-design/react-native';
 import { connect } from '../../utils/plodux';
 import Home from '../Home';
 import Message from '../Message';
-import Measure from '../Measure';
-import News from '../News';
+import MeasureInfo from '../Measure/Info';
+import NewsInfo from '../News/Info';
+import Login from '../Login';
 
 
-const Routes = createStackNavigator({
+const Stack = createStackNavigator({
   Home: {
     screen: Home
   },
@@ -19,22 +22,39 @@ const Routes = createStackNavigator({
     screen: Message
   },
   MeasureInfo: {
-    screen: Measure
+    screen: MeasureInfo
   },
   NewsInfo: {
-    screen: News
+    screen: NewsInfo
   }
 }, {
+  initialRouteName: 'Home',
   headerMode: 'none'
 });
 
-const Stack = createAppContainer( Routes );
+const Switcher = createAppContainer(
+  createAnimatedSwitchNavigator({
+    Login, Stack
+  }, {
+    initialRouteName: 'Login',
+    backBehavior: 'none',
+    transition: (
+      <Transition.Together>
+        <Transition.Out
+          type="slide-bottom"
+          durationMs={400}
+          interpolation="easeIn" />
+        <Transition.In type="fade" durationMs={500} />
+      </Transition.Together>
+    ),
+  })
+);
 
 const App = ({ mode, barStyle }) => {
   return (
     <Provider>
       <StatusBar barStyle={barStyle} />
-      <Stack theme={mode} />
+      <Switcher theme={mode} />
     </Provider>
   );
 };

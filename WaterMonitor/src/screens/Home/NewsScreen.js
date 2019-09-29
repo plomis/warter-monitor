@@ -1,15 +1,14 @@
 
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { SafeAreaView, StyleSheet, ScrollView, RefreshControl } from 'react-native';
-import AutoHeightWebView from 'react-native-autoheight-webview';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import WebView from 'react-native-webview';
 import { connect } from '../../utils/plodux';
 
 
-function Screen({ navigation, dispatch }) {
+const basename = 'http://192.168.1.3/water/monitor/app';
 
-  const webViewRef = useRef( null );
-  const [ refresh, setRefresh ] = useState( false );
+function Screen({ navigation, dispatch }) {
 
   const handleWillFocus = () => {
     dispatch({
@@ -20,35 +19,30 @@ function Screen({ navigation, dispatch }) {
     });
   };
 
-  const handleRefresh = () => {
-    setRefresh( true );
-    webViewRef.current.reload();
-  };
-
-  const handleLoad = () => {
-    setRefresh( false );
-  };
-
   const handleMessage = ( event ) => {
-    const data = JSON.stringify( event.nativeEvent.data );
-    navigation.navigate( 'NewsInfo', data );
+    try {
+      const data = JSON.parse( event.nativeEvent.data );
+      if ( Object.keys( data ).indexOf( 'url' ) !== -1 ) {
+        navigation.navigate( 'NewsInfo', data );
+      }
+    } catch( err ) {
+      console.log( err );
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
-      <ScrollView
-        style={styles.scrollview}
-        refreshControl={
-          <RefreshControl refreshing={refresh} onRefresh={handleRefresh} />
-        }>
-        <AutoHeightWebView
-          ref={webViewRef}
-          zoomable={false}
-          onLoad={handleLoad}
-          source={{ html: '<body style="height:1000px;background-color:#444">loading</body>' }}
-          onMessage={handleMessage} />
-      </ScrollView>
+      <WebView
+        zoomable={false}
+        source={{ uri: basename }}
+        onMessage={handleMessage}
+        dataDetectorTypes="none"
+        // scrollEnabled={false}
+        incognito
+        hideKeyboardAccessoryView
+        applicationNameForUserAgent="Thingspower/1.0.0"
+        style={styles.webview} />
     </SafeAreaView>
   );
 }
@@ -57,8 +51,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  scrollview: {
-    flex: 1
+  webview: {
+    flex: 1,
+    backgroundColor: '#F1F3FD'
   }
 });
 

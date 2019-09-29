@@ -2,10 +2,16 @@
 
 const host = 'http://192.168.1.3/'
 const tokens = {
-  prefix: 'app'
+  prefix: 'water/do/monitor/1/app',
+  account: 'v1',
+  admin: 'water/do/admin'
 };
 const urls = {
-  meter_online: '{prefix}/meter/online/list.do' //;sessionid={session}
+  login: '{admin}/{account}/login/user/login.do',
+  phone_login: '{admin}/{account}/login/user/mobile/login.do',
+  vertify_code: '{admin}/public/login/vertify-code/send.do',
+  meter_online: '{prefix}/meter/online/list.do',
+  warn_list: '{prefix}/warn/list.do'
 };
 
 export function getUrl( url ) {

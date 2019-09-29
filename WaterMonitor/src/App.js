@@ -22,12 +22,16 @@ import themeModel from './models/theme';
 import globelModel from './models/global';
 import statusBarModel from './models/statusBar';
 import measure from './models/measure';
+import message from './models/message';
+import login from './models/login';
 
 
 loadModel( themeModel );
 loadModel( globelModel );
 loadModel( statusBarModel );
 loadModel( measure );
+loadModel( message );
+loadModel( login );
 
 const App = () => {
 

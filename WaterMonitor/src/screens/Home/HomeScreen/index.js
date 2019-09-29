@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { Toast } from '@ant-design/react-native';
 import { NavigationEvents } from 'react-navigation';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import AnimatedScrollView from '../../../components/AnimatedScrollView';
@@ -42,7 +43,7 @@ function Screen({ dispatch, navigation }) {
         title={title}
         headerLeft={<IconSvg name={scan} color="#fff" size={28} />}
         headerRight={<IconWithBadge component={IconSvg} name={message} color="#fff" size={28} />}
-        onLeftPress={() => {console.log('left')}}
+        onLeftPress={() => { Toast.info( '敬请期待！' ) }}
         onRightPress={handleMessage}
         style={styles.scrollView}
         headerHeight={BANNER_HEIGHT}>

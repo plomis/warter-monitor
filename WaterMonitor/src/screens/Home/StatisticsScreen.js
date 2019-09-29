@@ -1,18 +1,19 @@
 
 import moment from 'moment';
 import React, { useState, useContext, useRef } from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Animated, Button,
-  Easing, TouchableWithoutFeedback, RefreshControl } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Animated, Button,
+  Easing, TouchableWithoutFeedback } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SegmentedControl, Icon } from '@ant-design/react-native';
 import { NavigationEvents, ThemeContext } from 'react-navigation';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import AutoHeightWebView from 'react-native-autoheight-webview';
+import WebView from 'react-native-webview';
 import { ACTIVE_OPACITY, HEADER_HEIGHT, ThemeConstants } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
 
 const pickerHeight = 230;
+const basename = 'http://192.168.1.3/water/monitor/app';
 
 function Screen({ dispatch }) {
 
@@ -22,7 +23,6 @@ function Screen({ dispatch }) {
   const [ selected, setSelected ] = useState( moment());
   const [ show, setShow ] = useState( false );
   const [ type, setType ] = useState( '月报' );
-  const [ refresh, setRefresh ] = useState( false );
   const [ state ] = useState({ y: new Animated.Value( 0 ) });
 
   const handleWillFocus = () => {
@@ -114,15 +114,6 @@ function Screen({ dispatch }) {
     })();` );
   };
 
-  const handleRefresh = () => {
-    setRefresh( true );
-    webViewRef.current.reload();
-  };
-
-  const handleLoad = () => {
-    setRefresh( false );
-  };
-
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
@@ -186,20 +177,19 @@ function Screen({ dispatch }) {
           </TouchableOpacity>
         </Animated.View>
       </View>
-      <ScrollView
+      <WebView
         style={[
-          styles.scrollview,
+          styles.webview,
           { marginTop: statusBarHeight + HEADER_HEIGHT }
         ]}
-        refreshControl={
-          <RefreshControl refreshing={refresh} onRefresh={handleRefresh} />
-        }>
-        <AutoHeightWebView
-          ref={webViewRef}
-          zoomable={false}
-          onLoad={handleLoad}
-          source={{ uri: 'https://baidu.com' }} />
-      </ScrollView>
+        ref={webViewRef}
+        zoomable={false}
+        source={{ uri: basename }}
+        // scrollEnabled={false}
+        dataDetectorTypes="none"
+        incognito
+        hideKeyboardAccessoryView
+        applicationNameForUserAgent="Thingspower/1.0.0" />
       {show ? (
         <TouchableWithoutFeedback onPress={handleClose}>
           <Animated.View style={[ styles.mask, { opacity: maskRange }]} />
@@ -255,7 +245,7 @@ const styles = StyleSheet.create({
     color: '#047FFE',
     fontSize: 16
   },
-  scrollview: {
+  webview: {
     flex: 1,
     backgroundColor: '#F1F3FD'
   },

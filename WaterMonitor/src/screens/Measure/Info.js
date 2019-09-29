@@ -13,7 +13,7 @@ import History from './History/History';
 import BaseInfo from './History/BaseInfo';
 
 
-function Info({ dispatch, navigation }) {
+function MeasureInfo({ dispatch, navigation }) {
 
   // const { state } = navigation;
   // const { params } = state;
@@ -59,7 +59,7 @@ function Info({ dispatch, navigation }) {
   );
 }
 
-Info.navigationOptions = ({ navigation }) => {
+MeasureInfo.navigationOptions = ({ navigation }) => {
   const title = navigation.getParam( 'title' );
   return {
     title: title,
@@ -148,9 +148,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const Measure = createStackNavigator({
-  Info: {
-    screen: connect()( Info )
+const Info = createStackNavigator({
+  MeasureInfoHome: {
+    screen: connect()( MeasureInfo )
   },
   Online: {
     screen: Online
@@ -162,9 +162,10 @@ const Measure = createStackNavigator({
     screen: BaseInfo
   }
 }, {
+  initialRouteName: 'MeasureInfoHome',
   defaultNavigationOptions: {
     headerBackTitle: null
   }
 });
 
-export default Measure;
+export default Info;

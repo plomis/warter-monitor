@@ -32,7 +32,10 @@ const getFuncs = memoize( function( namespace ) {
         return model.effects[action.type]( action, getFuncs( namespace ));
       }
       const newState = model.reducers[action.type]( state[namespace], action );
-      state[namespace] = newState;
+      if ( state[namespace] !== newState ) {
+        state[namespace] = newState;
+        bridge.dispense( 'rerender' );
+      }
       return action;
     },
 
@@ -99,7 +102,7 @@ export const connect = ( mapStateToProps ) => ( Component ) => {
         }
         const prevProps = propsCache.get( this.unique );
         const needUpdate = Object.keys( newProps ).map(
-          ( key ) => newProps[key] === prevProps[key]
+          ( key ) => newProps[key] !== prevProps[key]
         ).some( bool => bool );
         if ( needUpdate ) {
           this.setState( newProps );
