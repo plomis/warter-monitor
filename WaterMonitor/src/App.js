@@ -1,9 +1,8 @@
 
 import React, { useEffect } from 'react';
-import SplashScreen from 'react-native-splash-screen';
 import { LocaleConfig } from 'react-native-calendars';
+import { loadModel, connect } from './utils/plodux';
 import Entry from './screens/Entry';
-import { loadModel } from './utils/plodux';
 
 
 LocaleConfig.locales['zh'] = {
@@ -18,25 +17,25 @@ LocaleConfig.defaultLocale = 'zh';
 
 
 // models
-import themeModel from './models/theme';
-import globelModel from './models/global';
-import statusBarModel from './models/statusBar';
+import theme from './models/theme';
+import global from './models/global';
+import statusBar from './models/statusBar';
 import measure from './models/measure';
 import message from './models/message';
 import login from './models/login';
 
 
-loadModel( themeModel );
-loadModel( globelModel );
-loadModel( statusBarModel );
+loadModel( theme );
+loadModel( global );
+loadModel( statusBar );
 loadModel( measure );
 loadModel( message );
 loadModel( login );
 
-const App = () => {
+const App = ({ dispatch }) => {
 
   useEffect(() => {
-    SplashScreen.hide();
+    dispatch({ type: 'global.loaded' });
   }, []);
 
   return (
@@ -44,4 +43,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default connect()( App );

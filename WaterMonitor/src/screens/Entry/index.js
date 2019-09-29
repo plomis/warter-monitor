@@ -12,6 +12,7 @@ import Message from '../Message';
 import MeasureInfo from '../Measure/Info';
 import NewsInfo from '../News/Info';
 import Login from '../Login';
+import Auth from './Auth';
 
 
 const Stack = createStackNavigator({
@@ -34,23 +35,25 @@ const Stack = createStackNavigator({
 
 const Switcher = createAppContainer(
   createAnimatedSwitchNavigator({
-    Login, Stack
+    Auth,
+    Login,
+    Stack
   }, {
-    initialRouteName: 'Login',
+    initialRouteName: 'Auth',
     backBehavior: 'none',
     transition: (
       <Transition.Together>
         <Transition.Out
-          type="slide-bottom"
-          durationMs={400}
+          type="slide-left"
+          durationMs={200}
           interpolation="easeIn" />
-        <Transition.In type="fade" durationMs={500} />
+        <Transition.In type="fade" durationMs={200} />
       </Transition.Together>
     ),
   })
 );
 
-const App = ({ mode, barStyle }) => {
+const App = ({ mode, barStyle, accessToken }) => {
   return (
     <Provider>
       <StatusBar barStyle={barStyle} />
@@ -59,9 +62,10 @@ const App = ({ mode, barStyle }) => {
   );
 };
 
-export default connect(({ statusBar, theme }) => {
+export default connect(({ global, statusBar, theme }) => {
   return {
     mode: theme.mode,
-    barStyle: statusBar.barStyle
+    barStyle: statusBar.barStyle,
+    accessToken: global.accessToken
   };
 })( App );
