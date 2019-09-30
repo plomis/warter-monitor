@@ -7,11 +7,21 @@ const tokens = {
   admin: 'water/do/admin'
 };
 const urls = {
+
+  // 登录
   login: '{admin}/{account}/login/user/login.do',
   phone_login: '{admin}/{account}/login/user/mobile/login.do',
   vertify_code: '{admin}/public/login/vertify-code/send.do',
+
+  // 页面
+  meter_info: '{prefix}/meter/info.do',
+  meter_list: '{prefix}/meter/list.do',
   meter_online: '{prefix}/meter/online/list.do',
-  warn_list: '{prefix}/warn/list.do'
+  warn_list: '{prefix}/warn/list.do',
+  homepage_get: '{prefix}/homepage/get.do',
+  meter_day: '{prefix}/meter/energy/use/day.do',
+  meter_hour: '{prefix}/meter/energy/use/hour.do',
+  meter_month: '{prefix}/meter/energy/use/month.do'
 };
 
 export function getUrl( url ) {

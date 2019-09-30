@@ -1,57 +1,18 @@
 
-import React, { useContext } from 'react';
+import is from 'whatitis';
+import React, { useEffect, useContext } from 'react';
 import { NavigationEvents, ThemeContext } from 'react-navigation';
 import { Text, ScrollView, StyleSheet, View, RefreshControl } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { List } from '@ant-design/react-native';
 import { HEADER_LARGE_HEIGHT, ThemeConstants } from '../../components/constants';
+import EmptyList from '../../components/EmptyList';
 import { connect } from '../../utils/plodux';
 
 
 const Item = List.Item;
 
-const data = [{
-  title: '水利大厦1层用水',
-  dosage: 26
-}, {
-  title: '水利大厦2层用水',
-  dosage: 26
-}, {
-  title: '水利大厦3层用水',
-  dosage: 26
-}, {
-  title: '水利大厦4层用水',
-  dosage: 26
-}, {
-  title: '水利大厦5层用水',
-  dosage: 26
-}, {
-  title: '水利大厦6层用水',
-  dosage: 26
-}, {
-  title: '水利大厦7层用水',
-  dosage: 26
-}, {
-  title: '水利大厦8层用水',
-  dosage: 26
-}, {
-  title: '水利大厦9层用水',
-  dosage: 26
-}, {
-  title: '水利大厦10层用水',
-  dosage: 26
-}, {
-  title: '水利大厦11层用水',
-  dosage: 26
-}, {
-  title: '水利大厦12层用水',
-  dosage: 26
-}, {
-  title: '水利大厦13层用水',
-  dosage: 26
-}];
-
-function Screen({ dispatch, navigation }) {
+function Screen({ dispatch, navigation, loading, list, count }) {
 
   const theme = useContext( ThemeContext );
   const statusBarHeight = getStatusBarHeight();
@@ -71,6 +32,13 @@ function Screen({ dispatch, navigation }) {
     });
   };
 
+  const handleFetch = () => {
+    dispatch({ type: 'measure.getData' });
+  };
+
+  useEffect( handleFetch, []);
+console.log(list);
+
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
@@ -84,21 +52,21 @@ function Screen({ dispatch, navigation }) {
         <View style={styles.headerItem}>
           <Text style={styles.title}>表具总数</Text>
           <View style={styles.content}>
-            <Text style={styles.value}>320</Text>
+            <Text style={styles.value}>{count && is.Defined( count.totalCount ) ? count.totalCount : '--'}</Text>
             <Text style={styles.unit}>个</Text>
           </View>
         </View>
         <View style={styles.headerItem}>
           <Text style={styles.title}>在线</Text>
           <View style={styles.content}>
-            <Text style={styles.value}>320</Text>
+            <Text style={styles.value}>{count && is.Defined( count.onlineCount ) ? count.onlineCount : '--'}</Text>
             <Text style={styles.unit}>个</Text>
           </View>
         </View>
         <View style={styles.headerItem}>
           <Text style={styles.title}>在线率</Text>
           <View style={styles.content}>
-            <Text style={styles.value}>320</Text>
+            <Text style={styles.value}>{count && is.Defined( count.onlineRate ) ? Math.round( count.onlineRate * 10000 ) / 100 : '--'}</Text>
             <Text style={styles.unit}>%</Text>
           </View>
         </View>
@@ -106,29 +74,35 @@ function Screen({ dispatch, navigation }) {
       <ScrollView
         style={styles.scrollView}
         refreshControl={
-          <RefreshControl refreshing={false} onRefresh={() => {}} />
+          <RefreshControl refreshing={list && loading} onRefresh={handleFetch} />
         }>
-        <List>
-          {data.map(( item ) => {
-            const { title, dosage } = item;
-            const extra = (
-              <View style={styles.extra}>
-                <View style={styles.extraWrap}>
-                  <Text style={styles.extraValue}>{dosage}</Text>
-                  <Text style={styles.extraUnit}>吨</Text>
+        {!list ? (
+          <EmptyList text="正在加载..." />
+        ) : list.length === 0 ? (
+          <EmptyList />
+        ) : (
+          <List>
+            {list.map(( item ) => {
+              const { title, dosage, unit, onLine, isDebug } = item;
+              const extra = (
+                <View style={styles.extra}>
+                  <View style={styles.extraWrap}>
+                    <Text style={styles.extraValue}>{is.Defined( dosage ) ? dosage : '--'}</Text>
+                    <Text style={styles.extraUnit}>{unit}</Text>
+                  </View>
                 </View>
-              </View>
-            );
-            return (
-              <Item key={title} extra={extra} arrow="horizontal" onPress={handleInfo( item )}>
-                <View style={styles.itemTitle}>
-                  <View style={styles.dot} />
-                  <Text style={styles.itemTitleText}>{title}</Text>
-                </View>
-              </Item>
-            );
-          })}
-        </List>
+              );
+              return (
+                <Item key={title} extra={extra} arrow="horizontal" onPress={handleInfo( item )}>
+                  <View style={styles.itemTitle}>
+                    <View style={[ styles.dot, { backgroundColor: isDebug ? '#fadb14' : onLine ? '#00cc00' : '#f5222d' }]} />
+                    <Text style={styles.itemTitleText}>{title}</Text>
+                  </View>
+                </Item>
+              );
+            })}
+          </List>
+        )}
       </ScrollView>
     </View>
   );
@@ -217,4 +191,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect()( Screen );
+export default connect(({ measure }) => {
+  return {
+    loading: measure.loading,
+    count: measure.count,
+    list: measure.list,
+  };
+})( Screen );

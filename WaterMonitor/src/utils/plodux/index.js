@@ -105,6 +105,7 @@ export const connect = ( mapStateToProps ) => ( Component ) => {
           ( key ) => newProps[key] !== prevProps[key]
         ).some( bool => bool );
         if ( needUpdate ) {
+          propsCache.set( this.unique, newProps );
           this.setState( newProps );
         }
       });
@@ -181,6 +182,7 @@ export const connect = ( mapStateToProps ) => ( Component ) => {
       });
       return request( url, config );
     };
+
 
     render() {
       return (

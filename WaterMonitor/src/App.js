@@ -1,9 +1,14 @@
 
+import moment from 'moment';
 import React, { useEffect } from 'react';
 import { LocaleConfig } from 'react-native-calendars';
+import 'moment/locale/zh-cn';
 import { loadModel, connect } from './utils/plodux';
 import Entry from './screens/Entry';
 
+
+// // 全局设置 locale
+moment.locale( 'zh-cn' );
 
 LocaleConfig.locales['zh'] = {
   monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
@@ -23,6 +28,7 @@ import statusBar from './models/statusBar';
 import measure from './models/measure';
 import message from './models/message';
 import login from './models/login';
+import home from './models/home';
 
 
 loadModel( theme );
@@ -31,6 +37,7 @@ loadModel( statusBar );
 loadModel( measure );
 loadModel( message );
 loadModel( login );
+loadModel( home );
 
 const App = ({ dispatch }) => {
 

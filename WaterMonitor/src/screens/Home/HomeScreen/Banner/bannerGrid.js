@@ -1,5 +1,6 @@
 
 import React from 'react';
+import is from 'whatitis';
 import { View, StyleSheet, Text } from 'react-native';
 
 
@@ -8,7 +9,7 @@ function Item({ title, unit, nummber }) {
     <View style={styles.item}>
       <View style={styles.itemMain}>
         <Text style={styles.itemMainNum}>
-          {nummber}
+          {is.Defined( nummber ) ? Math.round( nummber * 10000 ) / 100 : '--'}
         </Text>
         <Text style={styles.itemMainUnit}>
           {unit}
@@ -24,27 +25,27 @@ function Item({ title, unit, nummber }) {
 const datas = [{
   title: '上月非水量',
   unit: '吨',
-  dataKey: 'a'
+  dataKey: 'reuseLastMonthDosage'
 }, {
   title: '上月漏损',
   unit: '吨',
-  dataKey: 'b'
+  dataKey: 'lastMonthLoss'
 }, {
   title: '昨日非水',
   unit: '吨',
-  dataKey: 'c'
+  dataKey: 'reuseYesterdayDosage'
 }, {
   title: '上月日均',
   unit: '吨',
-  dataKey: 'd'
+  dataKey: 'lastMonthAvgDayDosage'
 }, {
   title: '夜间最小流量',
   unit: '吨',
-  dataKey: 'e'
+  dataKey: 'todayMinFlow'
 }, {
   title: '昨日人均',
   unit: '升',
-  dataKey: 'f'
+  dataKey: 'yesterdayAvgPersonDosage'
 }];
 
 function Grid({ data }) {

@@ -10,10 +10,16 @@ export default {
     accessToken: ''
   },
   effects: {
+
     async loaded( _, { put }) {
       const accessToken = await AsyncStorage.getItem( 'accessToken' );
       await put({ type: 'update', payload: { accessToken, authed: true }});
       SplashScreen.hide();
+    },
+
+    async logout( _, { put }) {
+      await AsyncStorage.removeItem( 'accessToken' );
+      await put({ type: 'update', payload: { accessToken: '' }});
     }
   },
   reducers: {

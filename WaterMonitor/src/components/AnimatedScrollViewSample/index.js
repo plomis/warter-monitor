@@ -9,6 +9,8 @@ import { HEADER_HEIGHT, ThemeConstants } from '../constants';
 function Screen({
   style,
   children,
+  refreshing,
+  onRefresh,
   range
 }) {
 
@@ -27,7 +29,7 @@ function Screen({
     <View style={styles.container}>
       <Animated.ScrollView
         refreshControl={
-          <RefreshControl refreshing={false} onRefresh={() => {}} />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         style={[ styles.scrollView, style ]}
         onScroll={Animated.event([{

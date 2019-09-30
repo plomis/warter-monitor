@@ -1,5 +1,6 @@
 
 import React from 'react';
+import is from 'whatitis';
 import { View, StyleSheet, Text } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import SvgUri from 'react-native-svg-uri';
@@ -7,7 +8,7 @@ import water from '../../../../assets/svg/water.svg';
 import Grid from './bannerGrid';
 
 
-function Banner({ statusBarHeight, bannerHeight }) {
+function Banner({ statusBarHeight, bannerHeight, data }) {
 
   return (
     <View style={styles.banner}>
@@ -30,7 +31,7 @@ function Banner({ statusBarHeight, bannerHeight }) {
           <View style={styles.bannerNumberText}>
             <View style={styles.bannerNumberTextMain}>
               <Text style={styles.bannerNumberTextMainNum}>
-                96.33
+                {is.Defined( data.todayDosage ) ? data.todayDosage : '--'}
               </Text>
               <Text style={styles.bannerNumberTextMainUnit}>
                 吨
@@ -45,7 +46,7 @@ function Banner({ statusBarHeight, bannerHeight }) {
           <View style={styles.bannerInfoItem}>
             <View style={styles.bannerInfoItemMain}>
               <Text style={styles.bannerInfoItemMainNum}>
-                1550.66
+                {is.Defined( data.lastMonthDosage ) ? data.lastMonthDosage : '--'}
               </Text>
               <Text style={styles.bannerInfoItemMainUnit}>
                 吨
@@ -58,7 +59,7 @@ function Banner({ statusBarHeight, bannerHeight }) {
           <View style={styles.bannerInfoItem}>
             <View style={styles.bannerInfoItemMain}>
               <Text style={styles.bannerInfoItemMainNum}>
-                48.98
+                {is.Defined( data.yesterdayDosage ) ? data.yesterdayDosage : '--'}
               </Text>
               <Text style={styles.bannerInfoItemMainUnit}>
                 吨
@@ -70,7 +71,7 @@ function Banner({ statusBarHeight, bannerHeight }) {
           </View>
         </View>
         <View style={styles.bannerGrid}>
-          <Grid data={{ 'a': 2990, 'b': 2990, 'c': 2990, 'd': 2990, 'e': 2990, 'f': 2990 }} />
+          <Grid data={data} />
         </View>
       </LinearGradient>
     </View>

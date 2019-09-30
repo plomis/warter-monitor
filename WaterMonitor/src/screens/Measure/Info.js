@@ -1,5 +1,7 @@
 
-import React from 'react';
+import is from 'whatitis';
+import moment from 'moment';
+import React, { useEffect } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { Text, View, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -13,10 +15,10 @@ import History from './History/History';
 import BaseInfo from './History/BaseInfo';
 
 
-function MeasureInfo({ dispatch, navigation }) {
+function MeasureInfo({ dispatch, navigation, loading, info }) {
 
-  // const { state } = navigation;
-  // const { params } = state;
+  const infoData = navigation.getParam( 'data' );
+  const { title, dosage, unit, onLine, isDebug, lastDataTime } = info || infoData;
 
   const handleWillFocus = () => {
     dispatch({
@@ -27,28 +29,44 @@ function MeasureInfo({ dispatch, navigation }) {
     });
   };
 
+  const handleFetch = () => {
+    dispatch({
+      type: 'measure.getInfo',
+      payload: {
+        meterId: infoData.originalData.meterId
+      }
+    });
+  };
+
+  useEffect( handleFetch, []);
+
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
-      <AnimatedScrollView style={styles.scrollView}>
+      <AnimatedScrollView
+        refreshing={info && loading}
+        onRefresh={handleFetch}
+        style={styles.scrollView}>
         <View style={styles.header}>
           <View style={styles.meter}>
             <View style={styles.online}>
-              <View style={styles.dot} />
-              <Text style={styles.onlinetext}>在线</Text>
+              <View style={[ styles.dot, { backgroundColor: isDebug ? '#fadb14' : onLine ? '#00cc00' : '#f5222d' }]} />
+              <Text style={[ styles.onlinetext, { color: isDebug ? '#fadb14' : onLine ? '#00cc00' : '#f5222d' }]}>
+                {isDebug ? '调试' : onLine ? '在线' : '离线'}
+              </Text>
             </View>
             <Text style={styles.name}>
-              阿四大四大
+              {title}
             </Text>
             <LinearGradient style={styles.led} colors={[ '#0074dd', '#1890ff' ]}>
-              <Text style={styles.number}>123123</Text>
-              <Text style={styles.unit}>吨</Text>
+              <Text style={styles.number}>{is.Defined( dosage ) ? dosage : '--'}</Text>
+              <Text style={styles.unit}>{unit}</Text>
             </LinearGradient>
             <Text style={styles.datetime}>
-              2019-09-12 12:23:43
+              {lastDataTime || '从未上线'}
             </Text>
             <Text style={styles.updatetime}>
-              刚刚
+              {lastDataTime ? moment( lastDataTime ).fromNow() : ''}
             </Text>
           </View>
         </View>
@@ -150,7 +168,12 @@ const styles = StyleSheet.create({
 
 const Info = createStackNavigator({
   MeasureInfoHome: {
-    screen: connect()( MeasureInfo )
+    screen: connect(({ measure }) => {
+      return {
+        loading: measure.infoLoading,
+        info: measure.info
+      };
+    })( MeasureInfo )
   },
   Online: {
     screen: Online

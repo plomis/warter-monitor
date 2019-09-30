@@ -1,5 +1,6 @@
 
 import React from 'react';
+import is from 'whatitis';
 import SvgUri from 'react-native-svg-uri';
 import { View, StyleSheet, Text } from 'react-native';
 import icon1 from '../../../../assets/svg/indexblock_1.svg';
@@ -12,27 +13,27 @@ import icon6 from '../../../../assets/svg/indexblock_6.svg';
 
 const datas = [{
   title: '非常规水月替代率',
-  dataKey: 'a',
+  dataKey: 'monthReuseReplaceRate',
   icon: icon1
 }, {
   title: '月漏损率',
-  dataKey: 'b',
+  dataKey: 'monthLossRate',
   icon: icon2
 }, {
   title: '水计量率',
-  dataKey: 'c',
+  dataKey: 'meterRate',
   icon: icon3
 }, {
   title: '表具在线率',
-  dataKey: 'd',
+  dataKey: 'meterOnlineRate',
   icon: icon4
 }, {
   title: '中央空调补水率',
-  dataKey: 'e',
+  dataKey: 'airConditionerSupplyRate',
   icon: icon5
 }, {
   title: '节水器具普及率',
-  dataKey: 'f',
+  dataKey: 'saveWaterDeviceRate',
   icon: icon6
 }];
 
@@ -54,7 +55,9 @@ function IndexBlock({ data, style }) {
                   source={itemData.icon} />
               </View>
               <View style={styles.value}>
-                <Text style={styles.number}>{data[itemData.dataKey]}</Text>
+                <Text style={styles.number}>
+                  {is.Defined( data[itemData.dataKey] ) ? Math.round( data[itemData.dataKey] * 10000 ) / 100 : '--'}
+                </Text>
                 <Text style={styles.percent}>%</Text>
               </View>
             </View>

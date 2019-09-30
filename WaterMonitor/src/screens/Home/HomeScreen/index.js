@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Toast } from '@ant-design/react-native';
 import { NavigationEvents } from 'react-navigation';
@@ -19,7 +19,8 @@ import RuleBlock from './RuleBlock';
 
 const BANNER_HEIGHT = 400;
 
-function Screen({ dispatch, navigation }) {
+function Screen({ dispatch, navigation, loading, data }) {
+
 
   const statusBarHeight = getStatusBarHeight();
   const title = '总览';
@@ -36,34 +37,36 @@ function Screen({ dispatch, navigation }) {
     navigation.navigate( 'Message' );
   };
 
+  const handleFetch = () => {
+    dispatch({ type: 'home.getData' });
+  };
+
+  useEffect( handleFetch, []);
+
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
       <AnimatedScrollView
         title={title}
+        refreshing={data !== null && loading}
+        onRefresh={handleFetch}
         headerLeft={<IconSvg name={scan} color="#fff" size={28} />}
         headerRight={<IconWithBadge component={IconSvg} name={message} color="#fff" size={28} />}
         onLeftPress={() => { Toast.info( '敬请期待！' ) }}
         onRightPress={handleMessage}
         style={styles.scrollView}
         headerHeight={BANNER_HEIGHT}>
-        <Banner statusBarHeight={statusBarHeight} bannerHeight={BANNER_HEIGHT} />
-        <IndexBlock data={{ 'a': 29.90, 'b': 29.90, 'c': 29.90, 'd': 29.90, 'e': 29.90, 'f': 29.90 }} />
-        <ChartBlock />
+        <Banner data={data ? data.useGeneral : {}} statusBarHeight={statusBarHeight} bannerHeight={BANNER_HEIGHT} />
+        <IndexBlock data={data ? data.useGeneral : {}} />
+        <ChartBlock data={data || {}} />
         <MapBlock />
-        <RuleBlock data={[{
-          title: '用水设备巡回检查制度',
-          date: '2019-02-01'
-        }, {
-          title: '用水计量制度',
-          date: '2019-02-01'
-        }, {
-          title: '节水管理岗位责任规划',
-          date: '2019-02-01'
-        }, {
-          title: '节水管理岗位责任规划',
-          date: '2019-02-01'
-        }]} />
+        <RuleBlock data={data ? data.rule.map(({ ruleId, ruleTitle, publishDate }) => {
+          return {
+            key: ruleId,
+            title: ruleTitle,
+            date: publishDate
+          };
+        }) : null} />
       </AnimatedScrollView>
     </View>
   );
@@ -79,4 +82,9 @@ const styles = StyleSheet.create({
 });
 
 
-export default connect()( Screen );
+export default connect(({ home }) => {
+  return {
+    loading: home.loading,
+    data: home.data
+  };
+})( Screen );

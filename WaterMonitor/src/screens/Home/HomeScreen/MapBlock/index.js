@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Tabs } from '@ant-design/react-native';
+import EmptyList from '../../../../components/EmptyList';
 
 
 const tabs = [
@@ -16,10 +17,10 @@ function Block() {
       <Text style={styles.title}>计量图谱</Text>
       <Tabs tabs={tabs}>
         <View style={styles.tabItem}>
-
+          <EmptyList />
         </View>
         <View style={styles.tabItem}>
-
+          <EmptyList />
         </View>
       </Tabs>
     </View>

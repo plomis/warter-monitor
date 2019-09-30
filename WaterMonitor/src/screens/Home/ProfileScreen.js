@@ -2,7 +2,7 @@
 import React from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { SafeAreaView, StyleSheet, View, Text, Image } from 'react-native';
-import { List } from '@ant-design/react-native';
+import { List, Button } from '@ant-design/react-native';
 import { connect } from '../../utils/plodux';
 
 
@@ -17,6 +17,10 @@ function Screen({ dispatch }) {
         barStyle: 'dark-content'
       }
     });
+  };
+
+  const handleLogout = () => {
+    dispatch({ type: 'global.logout' });
   };
 
   return (
@@ -42,11 +46,9 @@ function Screen({ dispatch }) {
           <Item arrow="horizontal" onPress={() => {}}>
             <Text style={styles.listText}>修改密码</Text>
           </Item>
-          <Item arrow="horizontal" onPress={() => {}}>
-            <Text style={styles.listText}>退出登录</Text>
-          </Item>
         </List>
       </View>
+      <Button type="primary" onPress={handleLogout}>退出登录</Button>
     </SafeAreaView>
   );
 }

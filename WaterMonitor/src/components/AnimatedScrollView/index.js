@@ -16,7 +16,9 @@ function Screen({
   headerRight,
   onLeftPress,
   onRightPress,
-  title
+  title,
+  refreshing,
+  onRefresh
 }) {
 
   const { height } = Dimensions.get( 'window' );
@@ -54,7 +56,7 @@ function Screen({
       <View style={styles.container}>
         <Animated.ScrollView
           refreshControl={
-            <RefreshControl tintColor="#fff" style={styles.refreshControl} refreshing={false} onRefresh={() => {}} />
+            <RefreshControl tintColor="#fff" style={styles.refreshControl} refreshing={refreshing} onRefresh={onRefresh} />
           }
           style={[ styles.scrollView, style ]}
           onScroll={Animated.event([{

@@ -1,7 +1,7 @@
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { StatusBar } from 'react-native';
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, SwitchActions } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import { Transition } from 'react-native-reanimated';
@@ -12,7 +12,7 @@ import Message from '../Message';
 import MeasureInfo from '../Measure/Info';
 import NewsInfo from '../News/Info';
 import Login from '../Login';
-import Auth from './Auth';
+import Authing from './Authing';
 
 
 const Stack = createStackNavigator({
@@ -35,37 +35,57 @@ const Stack = createStackNavigator({
 
 const Switcher = createAppContainer(
   createAnimatedSwitchNavigator({
-    Auth,
+    Authing,
     Login,
     Stack
   }, {
-    initialRouteName: 'Auth',
+    initialRouteName: 'Authing',
     backBehavior: 'none',
     transition: (
       <Transition.Together>
         <Transition.Out
           type="slide-left"
           durationMs={200}
-          interpolation="easeIn" />
-        <Transition.In type="fade" durationMs={200} />
+          interpolation="easeOut" />
+        <Transition.In type="slide-right" interpolation="easeOut" durationMs={200} />
       </Transition.Together>
     ),
   })
 );
 
-const App = ({ mode, barStyle, accessToken }) => {
+
+const Auth = connect(({ global }) => {
+  return {
+    authed: global.authed,
+    accessToken: global.accessToken
+  };
+})( function({ authed, accessToken, ...props }) {
+  const ref = useRef( null );
+  useEffect(() => {
+    if ( authed && accessToken ) {
+      ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Stack' }))
+    } else if ( authed ) {
+      ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Login' }))
+    }
+  }, [ authed, accessToken ]);
+  return (
+    <Switcher ref={ref} {...props} />
+  );
+});
+
+
+const App = ({ mode, barStyle }) => {
   return (
     <Provider>
       <StatusBar barStyle={barStyle} />
-      <Switcher theme={mode} />
+      <Auth theme={mode} />
     </Provider>
   );
 };
 
-export default connect(({ global, statusBar, theme }) => {
+export default connect(({ statusBar, theme }) => {
   return {
     mode: theme.mode,
-    barStyle: statusBar.barStyle,
-    accessToken: global.accessToken
+    barStyle: statusBar.barStyle
   };
 })( App );
