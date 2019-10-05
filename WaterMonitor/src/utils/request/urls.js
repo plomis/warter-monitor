@@ -1,6 +1,6 @@
 
 
-const host = 'http://192.168.1.3/'
+const host = 'http://218.90.26.31:8082/'; // 'http://192.168.1.3/'
 const tokens = {
   prefix: 'water/do/monitor/1/app',
   account: 'v1',
@@ -11,12 +11,17 @@ const urls = {
   // 登录
   login: '{admin}/{account}/login/user/login.do',
   phone_login: '{admin}/{account}/login/user/mobile/login.do',
-  vertify_code: '{admin}/public/login/vertify-code/send.do',
+  vertify_code: '{admin}/{account}/public/login/vertify-code/send.do',
+
+  // 用户
+  user_info: '{admin}/{account}/public/user/info.do',
+  head_get: '{admin}/public/head/get.do',
 
   // 页面
   meter_info: '{prefix}/meter/info.do',
   meter_list: '{prefix}/meter/list.do',
   meter_online: '{prefix}/meter/online/list.do',
+  meter_history: '{prefix}/meter/realdata.do',
   warn_list: '{prefix}/warn/list.do',
   homepage_get: '{prefix}/homepage/get.do',
   meter_day: '{prefix}/meter/energy/use/day.do',

@@ -6,7 +6,7 @@ import WebView from 'react-native-webview';
 import { connect } from '../../utils/plodux';
 
 
-const basename = 'http://192.168.1.3/water/monitor/app';
+const basename = 'http://218.90.26.31:8082/water/monitor/app';
 
 function Screen({ navigation, dispatch }) {
 

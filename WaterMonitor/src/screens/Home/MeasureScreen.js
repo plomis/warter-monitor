@@ -37,7 +37,6 @@ function Screen({ dispatch, navigation, loading, list, count }) {
   };
 
   useEffect( handleFetch, []);
-console.log(list);
 
   return (
     <View style={styles.container}>

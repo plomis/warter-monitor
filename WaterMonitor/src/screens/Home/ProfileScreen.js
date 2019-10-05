@@ -1,14 +1,17 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { SafeAreaView, StyleSheet, View, Text, Image } from 'react-native';
 import { List, Button } from '@ant-design/react-native';
 import { connect } from '../../utils/plodux';
+import { getUrl } from '../../utils/request/urls';
 
 
 const Item = List.Item;
 
-function Screen({ dispatch }) {
+function Screen({ dispatch, info }) {
+
+  const headUrl = info ? `${getUrl( 'head_get' )}?fileName=${info.headFileName}` : '';
 
   const handleWillFocus = () => {
     dispatch({
@@ -23,6 +26,16 @@ function Screen({ dispatch }) {
     dispatch({ type: 'global.logout' });
   };
 
+  const userFetch = () => {
+    dispatch({
+      type: 'user.getInfo'
+    });
+  };
+
+  useEffect(() => {
+    userFetch();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
@@ -31,10 +44,10 @@ function Screen({ dispatch }) {
           <View style={styles.pic}>
             <View style={styles.shadow} />
             <View style={styles.backgroundColor} />
-            <Image style={styles.image} resizeMode="cover" source="https://image.shutterstock.com/image-photo/mountains-during-sunset-beautiful-natural-260nw-407021107.jpg" />
+            <Image style={styles.image} resizeMode="cover" source={{ uri: headUrl }} />
           </View>
           <Text style={styles.title}>
-            鱼人爱先
+            {info ? info.userName : '--'}
           </Text>
         </View>
       </View>
@@ -48,7 +61,7 @@ function Screen({ dispatch }) {
           </Item>
         </List>
       </View>
-      <Button type="primary" onPress={handleLogout}>退出登录</Button>
+      <Button type="primary" style={styles.logout} onPress={handleLogout}>退出登录</Button>
     </SafeAreaView>
   );
 }
@@ -88,7 +101,7 @@ const styles = StyleSheet.create({
     height: 80,
     position: 'absolute',
     borderRadius: 48,
-    overflow: 'hidden'
+    zIndex: 1
   },
   title: {
     marginTop: 16,
@@ -97,7 +110,15 @@ const styles = StyleSheet.create({
   },
   listText: {
     color: '#595e6d'
+  },
+  logout: {
+    marginTop: 44,
+    marginHorizontal: 16
   }
 });
 
-export default connect()( Screen );
+export default connect(({ user }) => {
+  return {
+    info: user.info
+  };
+})( Screen );

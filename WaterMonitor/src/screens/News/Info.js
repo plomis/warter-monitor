@@ -1,13 +1,14 @@
 
 import React from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Icon } from '@ant-design/react-native';
 import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
 import WebView from 'react-native-webview';
 import { connect } from '../../utils/plodux';
 
 
-const basename = 'http://192.168.1.3/water/monitor/app';
+const basename = 'http://218.90.26.31:8082/water/monitor/app';
 
 function NewsInfo({ dispatch, navigation }) {
 
@@ -42,7 +43,9 @@ NewsInfo.navigationOptions = ({ navigation }) => {
   const title = navigation.getParam( 'title' );
   return {
     title,
-    headerRight: <Text>分享</Text>,
+    headerRight: <TouchableOpacity onPress={() => {}}>
+      <Icon name="share-alt" size={20} color="#047FFE" style={{ marginRight: 16 }} />
+    </TouchableOpacity>,
     headerLeft: <HeaderBackButton onPress={navigation.goBack} />
   };
 };

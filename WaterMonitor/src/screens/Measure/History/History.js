@@ -1,7 +1,7 @@
 
 import moment from 'moment';
-import React, { useState, useContext } from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Animated, Button,
+import React, { useState, useContext, useEffect } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Animated, Button,
   Easing, TouchableWithoutFeedback } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Icon } from '@ant-design/react-native';
@@ -9,15 +9,18 @@ import { ThemeContext } from 'react-navigation';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { ACTIVE_OPACITY, HEADER_LARGE_HEIGHT, ThemeConstants } from '../../../components/constants';
 import { connect } from '../../../utils/plodux';
+import Table from './Table';
 
 
 const pickerHeight = 230;
 
-function Block() {
+function Block({ dispatch, listLoading, list, vars, pageIndex, pageSize, info }) {
+
 
   const theme = useContext( ThemeContext );
   const statusBarHeight = getStatusBarHeight();
   const [ selected, setSelected ] = useState( moment());
+  const [ dateValue, setDateValue ] = useState( selected );
   const [ show, setShow ] = useState( false );
   const [ state ] = useState({ y: new Animated.Value( 0 ) });
 
@@ -48,7 +51,7 @@ function Block() {
   });
 
   const handleChange = ( _event, date ) => {
-    setSelected( moment( date ));
+    setDateValue( moment( date ));
   };
 
   const handleOpen = () => {
@@ -77,16 +80,64 @@ function Block() {
       }
     ).start(() => {
       setShow( false );
+      setDateValue( selected );
     });
   };
 
-  const renderItem = () => {
-    return (
-      <View>
-        <Text>asdasd</Text>
-      </View>
-    );
+  const handleSubmit = () => {
+    Animated.timing(
+      state.y,
+      {
+        toValue: 0,
+        duration: 300,
+        easing: Easing.inOut( Easing.quad ),
+        useNativeDriver: true
+      }
+    ).start(() => {
+      setShow( false );
+      setSelected( dateValue );
+    });
   };
+
+  const handlePrev = () => {
+    setDateValue( selected.clone().add( -1, 'day' ));
+    setSelected( selected.clone().add( -1, 'day' ));
+  };
+
+  const handleNext = () => {
+    setDateValue( selected.clone().add( 1, 'day' ));
+    setSelected( selected.clone().add( 1, 'day' ));
+  };
+
+  const handleFetch = ( page = 1 ) => async () => {
+    if ( !list || !listLoading ) {
+      dispatch({
+        type: page === 1 ? 'measure.refresHistory' : 'measure.getHistory',
+        payload: {
+          meterId: info.meterId,
+          day: selected.format( 'YYYY-MM-DD' ),
+          pageSize,
+          pageIndex: page
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    handleFetch()();
+  }, [selected]);
+
+  useEffect(() => {
+    return () => dispatch({
+      type: 'measure.update',
+      payload: {
+        pageIndex: 1,
+        pageLimit: pageSize,
+        listLoading: false
+      }
+    });
+  }, []);
+
 
   return (
     <View style={styles.container}>
@@ -109,14 +160,14 @@ function Block() {
               mode="date"
               locale="zh-cn"
               display="default"
-              value={new Date( selected.format( moment.HTML5_FMT.DATE ))}
+              value={new Date( dateValue.format( moment.HTML5_FMT.DATE ))}
               onChange={handleChange} />
             <View style={styles.pickerController}>
               <Button
                 onPress={handleClose}
                 title="取消" />
               <Button
-                onPress={handleClose}
+                onPress={handleSubmit}
                 title="确定" />
             </View>
           </Animated.View>
@@ -139,29 +190,28 @@ function Block() {
             }
           ]}>
             <Button
-              onPress={handleClose}
+              onPress={handlePrev}
               title="前一天" />
             <View style={styles.triggerContentText}>
               <Icon name="calendar" color="#047FFE" size={20}/>
               <Text style={styles.pickerDate}>{selected.format( 'YYYY-MM-DD' )}</Text>
             </View>
             <Button
-              onPress={handleClose}
+              onPress={handleNext}
               title="后一天" />
           </Animated.View>
         </TouchableOpacity>
       </View>
-      <ScrollView style={[
-        styles.scrollview,
-        { marginTop: statusBarHeight + HEADER_LARGE_HEIGHT }
-      ]}>
-        {/* <ListView
-          refreshable={false}
-          onFetch={handleFetch}
-          style={styles.listview}
-          keyExtractor={item => item.month}
-          renderItem={renderItem} /> */}
-      </ScrollView>
+      <Table
+        data={list}
+        headerData={vars}
+        refreshing={pageIndex === 1 && listLoading}
+        onRefresh={handleFetch()}
+        onEndReached={handleFetch( pageIndex + 1 )}
+        style={[
+          styles.scrollview,
+          { marginTop: statusBarHeight + HEADER_LARGE_HEIGHT }
+        ]} />
       {show ? (
         <TouchableWithoutFeedback onPress={handleClose}>
           <Animated.View style={[ styles.mask, { opacity: maskRange }]} />
@@ -246,5 +296,11 @@ Block.navigationOptions = () => {
 
 export default connect(({ measure }) => {
   return {
+    listLoading: measure.listLoading,
+    list: measure.history,
+    vars: measure.historyVar,
+    info: measure.info ? measure.info.originalData : null,
+    pageIndex: measure.pageIndex,
+    pageSize: measure.pageSize
   }
 })( Block );

@@ -59,6 +59,7 @@ const ListFooter = connect(({ message }) => {
     pageLimit: message.pageLimit
   };
 })(({ loading, pageSize, pageLimit }) => {
+
   return (
     <View style={styles.listFooter}>
       <Text style={{ color: 'rgba(0,0,0,0.4)' }}>
@@ -108,7 +109,7 @@ function MessageHome({ dispatch, listLoading, list, pageIndex, pageSize, isClear
         renderItem={({ item }) => renderItem( item )}
         onEndReached={handleFetch( pageIndex + 1 )}
         ListFooterComponent={ListFooter}
-        ListEmptyComponent={!listLoading ? EmptyList : null}
+        ListEmptyComponent={!listLoading && list.length === 0 ? EmptyList : null}
         renderSectionHeader={({ section: { title } }) => (
           <View style={styles.header}>
             <Text style={styles.headerTitle}>{title}</Text>

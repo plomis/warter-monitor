@@ -29,6 +29,7 @@ import measure from './models/measure';
 import message from './models/message';
 import login from './models/login';
 import home from './models/home';
+import user from './models/user';
 
 
 loadModel( theme );
@@ -38,6 +39,7 @@ loadModel( measure );
 loadModel( message );
 loadModel( login );
 loadModel( home );
+loadModel( user );
 
 const App = ({ dispatch }) => {
 
