@@ -2,15 +2,14 @@
 import React, { useRef, useEffect } from 'react';
 import { Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
-import loadLocalResource from 'react-native-local-resource'
 import f2Html from '../../../../assets/pages/f2.html';
-import jstpl from '../../../../assets/pages/chart2.html';
+import jst from '../../../../assets/pages/chart2.jst';
 
 
 function Chart({ data, height }) {
 
   const webViewRef = useRef( null );
-  const source = Platform.OS === 'ios' ? f2Html : 'file:///android_asset/src/assets/pages/f2.html';
+  const source = Platform.OS === 'ios' ? f2Html : { uri: 'file:///android_asset/src/assets/pages/f2.html' };
   const dataString = JSON.stringify( data.map(( itemData ) => ({
     name: itemData.subitemName,
     percent: itemData.percent,
@@ -19,10 +18,8 @@ function Chart({ data, height }) {
   })));
 
   const handleLoad = () => {
-    loadLocalResource( jstpl ).then(( jstpl ) => {
-      webViewRef.current.injectJavaScript( jstpl );
-      webViewRef.current.injectJavaScript( `chartApi.renderChart(${dataString});` );
-    });
+    webViewRef.current.injectJavaScript( jst );
+    webViewRef.current.injectJavaScript( `chartApi.renderChart(${dataString});` );
   };
 
   useEffect(() => {

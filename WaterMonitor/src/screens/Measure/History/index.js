@@ -38,7 +38,7 @@ function Block({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 16
+    marginTop: 44
   },
   itemTitle: {
     color: '#585E6F'

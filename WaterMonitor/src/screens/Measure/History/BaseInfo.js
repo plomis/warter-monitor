@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { List, InputItem } from '@ant-design/react-native';
+import { List, InputItem, Text, View } from '@ant-design/react-native';
 import { connect } from '../../../utils/plodux';
 
 
@@ -10,27 +10,27 @@ const names = {
     name: '计量编号',
     type: 'input'
   },
-  energyType: {
+  energyTypeName: {
     name: '能耗分类',
     type: 'input'
   },
-  rate: {
+  meterRate: {
     name: '外置倍率',
     type: 'input'
   },
-  deviceCode: {
+  deviceModel: {
     name: '设备编号',
     type: 'input'
   },
-  deviceName: {
+  deviceModelName: {
     name: '设备型号',
     type: 'input'
   },
-  onlineRate: {
+  todayOnLineRate: {
     name: '今日在线',
     type: 'input'
   },
-  address: {
+  deviceInstallAddr: {
     name: '安装地址',
     type: 'input'
   }
@@ -38,20 +38,22 @@ const names = {
 
 function Block({ data }) {
   return (
-    <List>
-      {Object.keys( data ).map(( key ) => {
-        const value = data[key];
-        if ( names[key]) {
-          const { name } = names[key];
-          return (
-            <InputItem value={value} editable={false}>
-              {name}
-            </InputItem>
-          );
-        }
-        return null;
-      })}
-    </List>
+    <View style={styles.container}>
+      <List style={styles.list}>
+        {Object.keys( data ).map(( key ) => {
+          const value = data[key];
+          if ( names[key]) {
+            const { name } = names[key];
+            return (
+              <InputItem value={value} editable={false}>
+                <Text style={styles.name}>{name}</Text>
+              </InputItem>
+            );
+          }
+          return null;
+        })}
+      </List>
+    </View>
   );
 }
 
@@ -64,14 +66,21 @@ Block.navigationOptions = () => {
 
 
 const styles = StyleSheet.create({
-  item: {
+  container: {
     flex: 1,
-    justifyContent: 'center'
+    backgroundColor: '#F1F3FD'
+  },
+  list: {
+    marginTop: 44
+  },
+  name: {
+    fontSize: 14,
+    color: 'rgba(0,0,0,0.8)'
   }
 });
 
 export default connect(({ measure }) => {
   return {
-    data: { meterCode: 'asdasd', energyType: 'asdasd', rate: 1, deviceCode: 'asd', deviceName: 'asdasd', onlineRate: 1, address: 'asdads' }
+    data: measure.info && measure.info.originalData // { meterCode: 'asdasd', energyType: 'asdasd', rate: 1, deviceCode: 'asd', deviceName: 'asdasd', onlineRate: 1, address: 'asdads' }
   };
 })( Block );

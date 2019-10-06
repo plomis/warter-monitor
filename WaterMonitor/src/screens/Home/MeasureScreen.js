@@ -82,17 +82,17 @@ function Screen({ dispatch, navigation, loading, list, count }) {
         ) : (
           <List>
             {list.map(( item ) => {
-              const { title, dosage, unit, onLine, isDebug } = item;
+              const { title, dosage, unit_en, onLine, isDebug } = item;
               const extra = (
                 <View style={styles.extra}>
                   <View style={styles.extraWrap}>
                     <Text style={styles.extraValue}>{is.Defined( dosage ) ? dosage : '--'}</Text>
-                    <Text style={styles.extraUnit}>{unit}</Text>
+                    <Text style={styles.extraUnit}>{unit_en}</Text>
                   </View>
                 </View>
               );
               return (
-                <Item key={title} extra={extra} arrow="horizontal" onPress={handleInfo( item )}>
+                <Item key={title} extra={extra} onPress={handleInfo( item )}>
                   <View style={styles.itemTitle}>
                     <View style={[ styles.dot, { backgroundColor: isDebug ? '#fadb14' : onLine ? '#00cc00' : '#f5222d' }]} />
                     <Text style={styles.itemTitleText}>{title}</Text>
@@ -178,7 +178,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   itemTitleText: {
-    color: '#595e6d'
+    color: '#595e6d',
+    fontSize: 14
   },
   dot: {
     flex: 0,

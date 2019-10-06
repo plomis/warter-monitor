@@ -9,7 +9,7 @@ function Item({ title, unit, nummber }) {
     <View style={styles.item}>
       <View style={styles.itemMain}>
         <Text style={styles.itemMainNum}>
-          {is.Defined( nummber ) ? Math.round( nummber * 10000 ) / 100 : '--'}
+          {is.Defined( nummber ) ? Math.round( nummber * 100 ) / 100 : '--'}
         </Text>
         <Text style={styles.itemMainUnit}>
           {unit}

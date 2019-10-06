@@ -20,12 +20,12 @@ function Banner({ statusBarHeight, bannerHeight, data }) {
             <SvgUri
               width="40"
               height="40"
-              source={water}
+              svgXmlData={water}
               style={styles.waterBigImage} />
             <SvgUri
               width="80"
               height="80"
-              source={water}
+              svgXmlData={water}
               style={styles.waterImage} />
           </View>
           <View style={styles.bannerNumberText}>

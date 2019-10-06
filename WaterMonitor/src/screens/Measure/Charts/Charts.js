@@ -3,15 +3,14 @@ import moment from 'moment';
 import React, { useRef, useEffect } from 'react';
 import { Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
-import loadLocalResource from 'react-native-local-resource'
 import f2Html from '../../../assets/pages/f2.html';
-import jstpl from '../../../assets/pages/chart1.html';
+import jst from '../../../assets/pages/chart1.jst';
 
 
 function Chart({ data, type }) {
 
   const webViewRef = useRef( null );
-  const source = Platform.OS === 'ios' ? f2Html : 'file:///android_asset/src/assets/pages/f2.html';
+  const source = Platform.OS === 'ios' ? f2Html : { uri: 'file:///android_asset/src/assets/pages/f2.html' };
   const dataString = JSON.stringify( data.map(( itemData ) => ({
     name: type === 'hour'
       ? `${moment( itemData.dayHour, 'YYYY-MM-DD HH' ).format( 'H' )}时`
@@ -21,10 +20,8 @@ function Chart({ data, type }) {
   })));
 
   const handleLoad = () => {
-    loadLocalResource( jstpl ).then(( jstpl ) => {
-      webViewRef.current.injectJavaScript( jstpl );
-      webViewRef.current.injectJavaScript( `chartApi.renderChart(${dataString});` );
-    });
+    webViewRef.current.injectJavaScript( jst );
+    webViewRef.current.injectJavaScript( `chartApi.renderChart(${dataString});` );
   };
 
   useEffect(() => {

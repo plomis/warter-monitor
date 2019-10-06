@@ -9,7 +9,7 @@ function Icon({ name, color, size, style }) {
       style={style}
       width={size}
       height={size}
-      source={name}
+      svgXmlData={name}
       fill={color}
       fillAll />
   );

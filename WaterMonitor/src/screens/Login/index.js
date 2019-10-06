@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableWithoutFeedback } from 'react-native';
 import { Tabs, Button, Icon, Toast } from '@ant-design/react-native';
+import IconSvg from '../../components/IconSvg';
 import { connect } from '../../utils/plodux';
+import logo from '../../assets/svg/logo.svg';
 
 
 const tabs = [{
@@ -90,9 +92,10 @@ function Screen({ dispatch, navigation, loading, counter, restSeconds, mode }) {
 
   return (
     <SafeAreaView style={styles.login}>
+      <View style={{ flex: 1 }} />
       <View style={styles.container}>
         <View style={styles.logo}>
-          <Text>Logo</Text>
+          <IconSvg name={logo} color="#fff" size={96} />
         </View>
         <View style={styles.form}>
           <Tabs
@@ -179,29 +182,32 @@ function Screen({ dispatch, navigation, loading, counter, restSeconds, mode }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    flex: 0,
+    height: 600,
+    alignItems: 'center'
   },
   login: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center'
   },
   logo: {
     flex: 0,
-    height: 64,
+    height: 100,
+    width: 100,
     marginBottom: 32,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderRadius: 64,
+    backgroundColor: '#0B8EE9'
   },
   tebBarText: {
     fontSize: 18
   },
   form: {
-    height: 300,
+    height: 320,
     marginHorizontal: 24,
-    marginBottom: 32
+    marginBottom: 64,
+    overflow: 'hidden'
   },
   item: {
     marginTop: 24
@@ -222,8 +228,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8
   },
   about: {
-    flex: 0,
-    height: 32
+    flex: 1,
+    justifyContent: 'flex-end'
   },
   aboutText: {
     textAlign: 'center',

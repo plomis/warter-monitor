@@ -11,7 +11,7 @@ const urls = {
   // 登录
   login: '{admin}/{account}/login/user/login.do',
   phone_login: '{admin}/{account}/login/user/mobile/login.do',
-  vertify_code: '{admin}/{account}/public/login/vertify-code/send.do',
+  vertify_code: '{admin}/public/login/vertify-code/send.do',
 
   // 用户
   user_info: '{admin}/{account}/public/user/info.do',

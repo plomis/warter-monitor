@@ -2,11 +2,10 @@
 import moment from 'moment';
 import React, { useState, useContext, useRef } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Animated, Button,
-  Easing, TouchableWithoutFeedback } from 'react-native';
+  Easing, TouchableWithoutFeedback, Picker } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SegmentedControl, Icon } from '@ant-design/react-native';
 import { NavigationEvents, ThemeContext } from 'react-navigation';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import WebView from 'react-native-webview';
 import { ACTIVE_OPACITY, HEADER_HEIGHT, ThemeConstants } from '../../components/constants';
 import { connect } from '../../utils/plodux';
@@ -14,13 +13,21 @@ import { connect } from '../../utils/plodux';
 
 const pickerHeight = 230;
 const basename = 'http://218.90.26.31:8082/water/monitor/app';
+const makePickerItems = ( type, format ) => {
+  const clone = moment().add( -50, type );
+  return Array( 50 ).fill( 1 ).map(( _, index ) => {
+    const date = clone.add( 1, type ).format( format );
+    return <Picker.Item key={date} label={date} value={date} />;
+  });
+}
 
 function Screen({ dispatch }) {
 
   const webViewRef = useRef( null );
   const theme = useContext( ThemeContext );
   const statusBarHeight = getStatusBarHeight();
-  const [ selected, setSelected ] = useState( moment());
+  const [ selected, setSelected ] = useState( moment().add( -1, 'month' ));
+  const [ pickerValue, setPickerValue ] = useState( selected );
   const [ show, setShow ] = useState( false );
   const [ type, setType ] = useState( '月报' );
   const [ state ] = useState({ y: new Animated.Value( 0 ) });
@@ -60,17 +67,8 @@ function Screen({ dispatch }) {
     outputRange: [ 0, 1 ]
   });
 
-  const handleChange = ( _event, date ) => {
-    const selected = moment( date );
-    setSelected( selected );
-    webViewRef.current.injectJavaScript( `(function() {
-      if ( window.refreshPage ) {
-        window.refreshPage(
-          ${type === '月报' ? 'month' : 'year'},
-          ${type === '月报' ? selected.format( 'YYYY-MM' ) : selected.format( 'YYYY' )}
-        );
-      }
-    })();` );
+  const handleChange = ( date ) => {
+    setPickerValue( moment( date, type === '月报' ? 'YYYY年MM月' : 'YYYY年' ));
   };
 
   const handleOpen = () => {
@@ -99,16 +97,47 @@ function Screen({ dispatch }) {
       }
     ).start(() => {
       setShow( false );
+      setPickerValue( selected );
+    });
+  };
+
+  const handleSubmit = () => {
+    Animated.timing(
+      state.y,
+      {
+        toValue: 0,
+        duration: 300,
+        easing: Easing.inOut( Easing.quad ),
+        useNativeDriver: true
+      }
+    ).start(() => {
+      setShow( false );
+      setSelected( pickerValue );
+      webViewRef.current.injectJavaScript( `(function() {
+        if ( window.$changeReportPage ) {
+          window.$changeReportPage(
+            ${type === '月报' ? 'month' : 'year'},
+            ${type === '月报' ? selected.format( 'YYYY-MM' ) : selected.format( 'YYYY' )}
+          );
+        }
+      })();` );
     });
   };
 
   const handleTypeChange = ( value ) => {
     setType( value );
+    if ( value === '月报' ) {
+      setSelected( moment().add( -1, 'month' ));
+      setPickerValue( moment().add( -1, 'month' ));
+    } else {
+      setSelected( moment().add( -1, 'year' ));
+      setPickerValue( moment().add( -1, 'year' ));
+    }
     webViewRef.current.injectJavaScript( `(function() {
-      if ( window.refreshPage ) {
-        window.refreshPage(
+      if ( window.$changeReportPage ) {
+        window.$changeReportPage(
           ${value === '月报' ? 'month' : 'year'},
-          ${value === '月报' ? selected.format( 'YYYY-MM' ) : selected.format( 'YYYY' )}
+          ${value === '月报' ? selected.format( 'YYYY年MM月' ) : selected.format( 'YYYY年' )}
         );
       }
     })();` );
@@ -132,18 +161,18 @@ function Screen({ dispatch }) {
       ]}>
         {show ? (
           <Animated.View style={{ flex: 1, justifyContent: 'flex-end', opacity: pickerOpacityRange }}>
-            <DateTimePicker
-              mode="date"
-              locale="zh-cn"
-              display="default"
-              value={new Date( selected.format( moment.HTML5_FMT.DATE ))}
-              onChange={handleChange} />
+            <Picker
+              selectedValue={pickerValue.format( type === '月报' ? 'YYYY年MM月' : 'YYYY年' )}
+              // style={{height: 50, width: 100}}
+              onValueChange={handleChange}>
+              {makePickerItems( type === '月报' ? 'month' : 'year', type === '月报' ? 'YYYY年MM月' : 'YYYY年' )}
+            </Picker>
             <View style={styles.pickerController}>
               <Button
                 onPress={handleClose}
                 title="取消" />
               <Button
-                onPress={handleClose}
+                onPress={handleSubmit}
                 title="确定" />
             </View>
           </Animated.View>
@@ -184,7 +213,9 @@ function Screen({ dispatch }) {
         ]}
         ref={webViewRef}
         zoomable={false}
-        source={{ uri: basename }}
+        source={{ uri: `${basename}/report?ajaxKeyIndex=${
+          type === '月报' ? `0&yearMonth=${selected.format( 'YYYY-MM' )}` : `1&year=${selected.format( 'YYYY' )}`
+        }`}}
         // scrollEnabled={false}
         dataDetectorTypes="none"
         incognito

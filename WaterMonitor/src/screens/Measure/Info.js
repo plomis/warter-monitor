@@ -18,7 +18,7 @@ import BaseInfo from './History/BaseInfo';
 function MeasureInfo({ dispatch, navigation, loading, info }) {
 
   const infoData = navigation.getParam( 'data' );
-  const { title, dosage, unit, onLine, isDebug, lastDataTime } = info || infoData;
+  const { title, dosage, unit, onLine, unit_en, isDebug, lastDataTime } = info || infoData;
 
   const handleWillFocus = () => {
     dispatch({
@@ -60,7 +60,7 @@ function MeasureInfo({ dispatch, navigation, loading, info }) {
             </Text>
             <LinearGradient style={styles.led} colors={[ '#0074dd', '#1890ff' ]}>
               <Text style={styles.number}>{is.Defined( dosage ) ? dosage : '--'}</Text>
-              <Text style={styles.unit}>{unit}</Text>
+              <Text style={styles.unit}>{unit_en}</Text>
             </LinearGradient>
             <Text style={styles.datetime}>
               {lastDataTime || '从未上线'}
@@ -70,8 +70,8 @@ function MeasureInfo({ dispatch, navigation, loading, info }) {
             </Text>
           </View>
         </View>
-        <HistoryBlcok navigation={navigation} />
         <Charts />
+        <HistoryBlcok navigation={navigation} />
       </AnimatedScrollView>
     </View>
   );

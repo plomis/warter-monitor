@@ -52,7 +52,7 @@ function IndexBlock({ data, style }) {
                   width="40"
                   height="40"
                   style={styles.icon}
-                  source={itemData.icon} />
+                  svgXmlData={itemData.icon} />
               </View>
               <View style={styles.value}>
                 <Text style={styles.number}>
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   },
   bottom: {
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 14,
     lineHeight: 24,
     height: 50,
     width: 85,

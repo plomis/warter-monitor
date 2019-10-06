@@ -8,6 +8,7 @@ function listFormat( item ) {
     title: item.meterName,
     dosage: item.lastMeterValue,
     unit: item.unit_zh,
+    unit_en: item.unit_en,
     isDebug: item.isDebug,
     onLine: item.onLine,
     lastDataTime: item.lastDataTime,
