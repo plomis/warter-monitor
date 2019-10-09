@@ -290,7 +290,8 @@ const styles = StyleSheet.create({
 Block.navigationOptions = () => {
   return {
     title: '历史数据',
-    headerTransparent: true
+    headerTransparent: true,
+    headerStyle: { zIndex: 2 }
   };
 };
 

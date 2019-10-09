@@ -3,7 +3,7 @@ import React from 'react';
 import { ThemeContext } from 'react-navigation';
 import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
 import MeasureScreen from './MeasureScreen';
-import StatisticsScreen from './StatisticsScreen';
+import StatisticsScreen from './StatisticsScreen.adnroid';
 import ProfileScreen from './ProfileScreen';
 import NewsScreen from './NewsScreen';
 import HomeScreen from './HomeScreen';

@@ -1,7 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Toast } from '@ant-design/react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import AnimatedScrollView from '../../../components/AnimatedScrollView';
@@ -52,7 +51,7 @@ function Screen({ dispatch, navigation, loading, data }) {
         onRefresh={handleFetch}
         headerLeft={<IconSvg name={scan} color="#fff" size={28} />}
         headerRight={<IconWithBadge component={IconSvg} name={message} color="#fff" size={28} />}
-        onLeftPress={() => { Toast.info( '敬请期待！' ) }}
+        onLeftPress={() => Alert.alert( '敬请期待！' )}
         onRightPress={handleMessage}
         style={styles.scrollView}
         headerHeight={BANNER_HEIGHT}>

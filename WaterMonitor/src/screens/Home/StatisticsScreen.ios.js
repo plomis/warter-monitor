@@ -7,12 +7,12 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SegmentedControl, Icon } from '@ant-design/react-native';
 import { NavigationEvents, ThemeContext } from 'react-navigation';
 import WebView from 'react-native-webview';
-import { ACTIVE_OPACITY, HEADER_HEIGHT, ThemeConstants } from '../../components/constants';
+import { ACTIVE_OPACITY, HEADER_HEIGHT, ThemeConstants, HOST } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
 
 const pickerHeight = 230;
-const basename = 'http://218.90.26.31:8082/water/monitor/app';
+const basename = `${HOST}/water/monitor/app`;
 const makePickerItems = ( type, format ) => {
   const clone = moment().add( -50, type );
   return Array( 50 ).fill( 1 ).map(( _, index ) => {
@@ -146,6 +146,25 @@ function Screen({ dispatch }) {
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
+      <WebView
+        style={[
+          styles.webview,
+          { marginTop: statusBarHeight + HEADER_HEIGHT }
+        ]}
+        ref={webViewRef}
+        zoomable={false}
+        source={{ uri: `${basename}/report?ajaxKeyIndex=${
+          type === '月报' ? `0&yearMonth=${selected.format( 'YYYY-MM' )}` : `1&year=${selected.format( 'YYYY' )}`
+        }`}}
+        dataDetectorTypes="none"
+        incognito
+        hideKeyboardAccessoryView
+        applicationNameForUserAgent="Thingspower/1.0.0" />
+      {show ? (
+        <TouchableWithoutFeedback onPress={handleClose}>
+          <Animated.View style={[ styles.mask, { opacity: maskRange }]} />
+        </TouchableWithoutFeedback>
+      ) : null}
       <Animated.View style={[
         styles.pickerContainer,
         {
@@ -161,22 +180,21 @@ function Screen({ dispatch }) {
       ]}>
         {show ? (
           <Animated.View style={{ flex: 1, justifyContent: 'flex-end', opacity: pickerOpacityRange }}>
-            <Picker
-              selectedValue={pickerValue.format( type === '月报' ? 'YYYY年MM月' : 'YYYY年' )}
-              // style={{height: 50, width: 100}}
-              onValueChange={handleChange}>
-              {makePickerItems( type === '月报' ? 'month' : 'year', type === '月报' ? 'YYYY年MM月' : 'YYYY年' )}
-            </Picker>
-            <View style={styles.pickerController}>
-              <Button
-                onPress={handleClose}
-                title="取消" />
-              <Button
-                onPress={handleSubmit}
-                title="确定" />
-            </View>
-          </Animated.View>
-        ) : null}
+              <Picker
+                selectedValue={pickerValue.format( type === '月报' ? 'YYYY年MM月' : 'YYYY年' )}
+                onValueChange={handleChange}>
+                {makePickerItems( type === '月报' ? 'month' : 'year', type === '月报' ? 'YYYY年MM月' : 'YYYY年' )}
+              </Picker>
+              <View style={styles.pickerController}>
+                <Button
+                  onPress={handleClose}
+                  title="取消" />
+                <Button
+                  onPress={handleSubmit}
+                  title="确定" />
+              </View>
+            </Animated.View>
+          ) : null}
       </Animated.View>
       <View style={[
         styles.pickerTrigger,
@@ -187,6 +205,7 @@ function Screen({ dispatch }) {
         <Animated.View style={[
           styles.triggerContent,
           {
+            height: HEADER_HEIGHT,
             opacity: triggerOpacityRange,
             transform: [{
               translateY: triggerRange
@@ -206,26 +225,6 @@ function Screen({ dispatch }) {
           </TouchableOpacity>
         </Animated.View>
       </View>
-      <WebView
-        style={[
-          styles.webview,
-          { marginTop: statusBarHeight + HEADER_HEIGHT }
-        ]}
-        ref={webViewRef}
-        zoomable={false}
-        source={{ uri: `${basename}/report?ajaxKeyIndex=${
-          type === '月报' ? `0&yearMonth=${selected.format( 'YYYY-MM' )}` : `1&year=${selected.format( 'YYYY' )}`
-        }`}}
-        // scrollEnabled={false}
-        dataDetectorTypes="none"
-        incognito
-        hideKeyboardAccessoryView
-        applicationNameForUserAgent="Thingspower/1.0.0" />
-      {show ? (
-        <TouchableWithoutFeedback onPress={handleClose}>
-          <Animated.View style={[ styles.mask, { opacity: maskRange }]} />
-        </TouchableWithoutFeedback>
-      ) : null}
     </View>
   );
 }
@@ -244,9 +243,9 @@ const styles = StyleSheet.create({
     zIndex: 2
   },
   pickerTrigger: {
+    flex: 0,
     top: 0,
     left: 0,
-    flex: 0,
     width: '100%',
     position: 'absolute',
     zIndex: 3,
@@ -278,6 +277,7 @@ const styles = StyleSheet.create({
   },
   webview: {
     flex: 1,
+    zIndex: 1,
     backgroundColor: '#F1F3FD'
   },
   mask: {

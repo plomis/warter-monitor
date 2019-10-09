@@ -18,7 +18,7 @@
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* WaterMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaterMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* 长江委节水.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "长江委节水.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = WaterMonitor/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = WaterMonitor/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -95,6 +95,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				913F8AF141B7BF37A298A3DD /* Pods */,
 				015C273398A34D548B221C36 /* Resources */,
+				C627008A234D7110006A5187 /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -104,7 +105,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* WaterMonitor.app */,
+				13B07F961A680F5B00A75B9A /* 长江委节水.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -116,6 +117,13 @@
 				EFF67B355D149C606318357D /* Pods-WaterMonitor.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		C627008A234D7110006A5187 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,7 +147,7 @@
 			);
 			name = WaterMonitor;
 			productName = WaterMonitor;
-			productReference = 13B07F961A680F5B00A75B9A /* WaterMonitor.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* 长江委节水.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -353,13 +361,14 @@
 				INFOPLIST_FILE = WaterMonitor/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = WaterMonitor;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thingspower.changjiangwei.watermonitor;
+				PRODUCT_NAME = "长江委节水";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -397,13 +406,14 @@
 				INFOPLIST_FILE = WaterMonitor/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = WaterMonitor;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thingspower.changjiangwei.watermonitor;
+				PRODUCT_NAME = "长江委节水";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
