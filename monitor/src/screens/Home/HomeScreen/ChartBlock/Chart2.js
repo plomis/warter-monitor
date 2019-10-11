@@ -10,7 +10,7 @@ function Chart({ data, height }) {
 
   const webViewRef = useRef( null );
   const [ loaded, setLoaded ] = useState( false );
-  const source = Platform.OS === 'ios' ? f2Html : { uri: 'file:///android_asset/pages/f2.html' };
+  const source = Platform.OS === 'ios' ? f2Html : { uri: 'file:///android_asset/pages/f2.html?var=' + ( + new Date() ) };
   const dataString = JSON.stringify( data.map(( itemData ) => ({
     name: itemData.subitemName,
     percent: itemData.percent,

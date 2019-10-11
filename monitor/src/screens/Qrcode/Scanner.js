@@ -27,7 +27,7 @@ function Scanner({ dispatch, navigation }) {
   };
 
   const handleScan = ( event ) => {
-    navigation.navigate( 'RepairReport', {
+    navigation.navigate( 'QrcodePage', {
       url: event.data
     });
   };

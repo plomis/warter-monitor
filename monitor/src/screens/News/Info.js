@@ -44,35 +44,6 @@ NewsInfo.navigationOptions = ({ navigation }) => {
   const title = navigation.getParam( 'title' );
 
   const handleShowShareActionSheet = async () => {
-
-    // const result = await Share.share({
-    //   message:
-    //     'React Native | A framework for building native apps using React',
-    // });
-
-    // console.log(result);
-
-
-    // const opts = {
-    //   message: 'Message to go with the shared url',
-    //   title: 'Share Actionsheet',
-    // };
-    // if ( Platform.OS === 'ios' ) {
-    //   opts.url = 'https://www.alipay.com/';
-    //   opts.tintColor = '#ff0000';
-    //   opts.excludedActivityTypes = ['com.apple.UIKit.activity.PostToTwitter'];
-    // }
-    // ActionSheet.showShareActionSheetWithOptions(
-    //   opts,
-    //   error => alert( error ),
-    //   ( success, method ) => {
-    //     if ( success ) {
-    //       text = `Shared with ${method}`;
-    //     } else {
-    //       text = 'Did not share';
-    //     }
-    //   }
-    // );
   };
 
   return {

@@ -58,13 +58,11 @@ function Contect({ dispatch, navigation, loading, restSeconds }) {
       <ScrollView style={styles.scrollview}>
         <List style={styles.list}>
           <InputItem
-            clear
             type="phone"
             value={number}
             onChange={setNumber}
             placeholder="手机号码" />
           <InputItem
-            clear
             value={valiCode}
             onChange={setValiCode}
             extra={(
@@ -74,8 +72,8 @@ function Contect({ dispatch, navigation, loading, restSeconds }) {
             )}
             placeholder="验证码" />
         </List>
-        <Button style={styles.submit} onPress={handleUpdate} type="primary">
-          保存
+        <Button disabled={!number || !valiCode} style={styles.submit} onPress={handleUpdate} type="primary">
+          绑定手机号码
         </Button>
       </ScrollView>
       {loading ? <ActivityIndicator toast text="正在保存" /> : null}
@@ -103,6 +101,7 @@ const styles = StyleSheet.create({
     marginTop: 40
   },
   valiCodeText: {
+    zIndex: 1,
     fontSize: 16,
     color: '#0B8EE9'
   },

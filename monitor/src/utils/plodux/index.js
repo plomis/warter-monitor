@@ -30,11 +30,14 @@ const getFuncs = memoize( function( namespace ) {
       const model = modelCache[namespace];
       if ( model.effects[action.type]) {
         return model.effects[action.type]( action, getFuncs( namespace ));
-      }
-      const newState = model.reducers[action.type]( state[namespace], action );
-      if ( state[namespace] !== newState ) {
-        state[namespace] = newState;
-        bridge.dispense( 'rerender' );
+      } else if ( model.reducers[action.type] ) {
+        const newState = model.reducers[action.type]( state[namespace], action );
+        if ( state[namespace] !== newState ) {
+          state[namespace] = newState;
+          bridge.dispense( 'rerender' );
+        }
+      } else {
+        bridge.dispatch( action );
       }
       return action;
     },
@@ -77,6 +80,9 @@ export function loadModel( model ) {
   });
 }
 
+export const dispatch = ( action ) => {
+  bridge.dispatch( action );
+};
 
 export const connect = ( mapStateToProps ) => ( Component ) => {
 

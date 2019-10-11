@@ -1,6 +1,6 @@
 
-import React, { useRef, useContext } from 'react';
-import { Icon, ActionSheet } from '@ant-design/react-native';
+import React, { useRef, useContext, useState } from 'react';
+import { Icon, ActionSheet, ActivityIndicator } from '@ant-design/react-native';
 import { NavigationEvents, ThemeContext } from 'react-navigation';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
@@ -14,6 +14,7 @@ const basename = `${HOST}/water/monitor/app`;
 function Screen({ navigation, dispatch }) {
 
   const theme = useContext( ThemeContext );
+  const [ loading, setLoading ] = useState( true );
   const statusBarHeight = getStatusBarHeight();
   const webviewRef = useRef( null );
 
@@ -48,6 +49,10 @@ function Screen({ navigation, dispatch }) {
     });
   };
 
+  const handleLoad = () => {
+    setLoading( false );
+  };
+
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
@@ -70,10 +75,11 @@ function Screen({ navigation, dispatch }) {
         source={{ uri: basename }}
         onMessage={handleMessage}
         dataDetectorTypes="none"
-        incognito
+        onLoad={handleLoad}
         hideKeyboardAccessoryView
         applicationNameForUserAgent="Thingspower/1.0.0"
         style={styles.webview} />
+      {loading ? <ActivityIndicator toast text="正在加载" /> : null}
     </View>
   );
 }

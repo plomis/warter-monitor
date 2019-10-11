@@ -16,10 +16,11 @@ export default {
   },
   effects: {
 
-    async loaded( _, { put }) {
+    async loaded({ request }, { put }) {
 
       const accessToken = await AsyncStorage.getItem( 'accessToken' );
       await put({ type: 'update', payload: { accessToken, authed: true }});
+      await put({ type: 'user.getInfo', request });
       SplashScreen.hide();
 
       await Sleep( 2000 );

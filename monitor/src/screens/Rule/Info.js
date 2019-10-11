@@ -70,17 +70,14 @@ const styles = StyleSheet.create({
 });
 
 
-const Info = createStackNavigator({
-  InfoHome: {
+export default createStackNavigator({
+  RuleInfoHome: {
     screen: connect()( InfoComponent )
   }
 }, {
-  initialRouteName: 'InfoHome',
+  initialRouteName: 'RuleInfoHome',
   headerLayoutPreset: 'center',
   defaultNavigationOptions: Platform.OS === 'ios' ? {} : {
     headerForceInset: { top: getStatusBarHeight() }
   }
 });
-
-
-export default Info;

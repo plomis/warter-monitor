@@ -10,7 +10,8 @@ import jst from '../../../assets/pages/chart1.jst';
 function Chart({ data, type }) {
 
   const webViewRef = useRef( null );
-  const source = Platform.OS === 'ios' ? f2Html : { uri: 'file:///android_asset/pages/f2.html' };
+  const [ loaded, setLoaded ] = useState( false );
+  const source = Platform.OS === 'ios' ? f2Html : { uri: 'file:///android_asset/pages/f2.html?var=' + ( + new Date() ) };
   const dataString = JSON.stringify( data.map(( itemData ) => ({
     name: type === 'hour'
       ? `${moment( itemData.dayHour, 'YYYY-MM-DD HH' ).format( 'H' )}时`
@@ -19,16 +20,29 @@ function Chart({ data, type }) {
     value: itemData.dosage
   })));
 
+  // const handleLoad = () => {
+  //   webViewRef.current.injectJavaScript( jst );
+  //   webViewRef.current.injectJavaScript( `chartApi.renderChart(${dataString});` );
+  // };
+
   const handleLoad = () => {
-    webViewRef.current.injectJavaScript( jst );
-    webViewRef.current.injectJavaScript( `chartApi.renderChart(${dataString});` );
+    setLoaded( true );
+    webViewRef.current.injectJavaScript( `try{
+      if ( chartApi ) {
+        ${jst}
+        chartApi.renderChart(${dataString});
+      }
+    } catch(e) {
+      alert(e);
+    }` );
   };
 
   useEffect(() => {
-    webViewRef.current.injectJavaScript( `chartApi.changeData(${dataString});` );
+    if ( loaded ) {
+      webViewRef.current.injectJavaScript( `chartApi.changeData(${dataString});` );
+    }
   }, [data]);
 
-  // RNFS.readDir( RNFS.MainBundlePath )
   return (
     <WebView
       ref={webViewRef}
@@ -36,7 +50,6 @@ function Chart({ data, type }) {
       allowFileAccess
       scalesPageToFit
       javaScriptEnabled
-      // startInLoadingState
       saveFormDataDisabled
       hideKeyboardAccessoryView
       startInLoadingState={false}
@@ -51,8 +64,6 @@ function Chart({ data, type }) {
       overScrollMode="never"
       dataDetectorTypes="none"
       originWhitelist={['*']}
-      // renderLoading={() => <Loading />}
-      // injectedJavaScript={injectedJavascript}
       style={{ flex: 1, height: 220 }}
       source={source}
       onLoad={handleLoad} />

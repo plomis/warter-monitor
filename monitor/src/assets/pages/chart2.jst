@@ -48,19 +48,19 @@
     chart.render();
 
     // 绘制内阴影
-    var frontPlot = chart.get( 'frontPlot' );
-    var coord = chart.get( 'coord' ); // 获取坐标系对象
-    frontPlot.addShape( 'sector', {
-      attrs: {
-        x: coord.center.x,
-        y: coord.center.y,
-        r: coord.circleRadius * coord.innerRadius * 1.2, // 全半径
-        r0: coord.circleRadius * coord.innerRadius,
-        fill: '#000',
-        opacity: 0.15
-      }
-    });
-    chart.get( 'canvas' ).draw();
+    // var frontPlot = chart.get( 'frontPlot' );
+    // var coord = chart.get( 'coord' ); // 获取坐标系对象
+    // frontPlot.addShape( 'sector', {
+    //   attrs: {
+    //     x: coord.center.x,
+    //     y: coord.center.y,
+    //     r: coord.innerRadius * 1.2, // 全半径
+    //     r0: coord.innerRadius,
+    //     fill: '#000',
+    //     opacity: 0.15
+    //   }
+    // });
+    // chart.get( 'canvas' ).draw();
 
   }
 

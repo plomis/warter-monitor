@@ -11,7 +11,7 @@ function Chart({ data, type }) {
 
   const webViewRef = useRef( null );
   const [ loaded, setLoaded ] = useState( false );
-  const source = Platform.OS === 'ios' ? f2Html : { uri: 'file:///android_asset/pages/f2.html' };
+  const source = Platform.OS === 'ios' ? f2Html : { uri: 'file:///android_asset/pages/f2.html?var=' + ( + new Date() ) };
   const dataString = JSON.stringify( data.map(( itemData ) => ({
     name: type === 'hour'
       ? `${moment( itemData.dayHour, 'YYYY-MM-DD HH' ).format( 'H' )}时`
@@ -38,7 +38,7 @@ function Chart({ data, type }) {
     }
   }, [data]);
 
-  // RNFS.readDir( RNFS.MainBundlePath )
+
   return (
     <WebView
       ref={webViewRef}

@@ -1,8 +1,8 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { View, StyleSheet, TouchableOpacity, Platform } from 'react-native';
-import { Icon } from '@ant-design/react-native';
+import { Icon, ActivityIndicator, ActionSheet } from '@ant-design/react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
 import WebView from 'react-native-webview';
@@ -12,9 +12,11 @@ import { connect } from '../../utils/plodux';
 
 const basename = `${HOST}/water/monitor/app`;
 
-function ReportHome({ dispatch, navigation, accessToken }) {
+function WebPagetHome({ dispatch, navigation }) {
 
-  const url = navigation.getParam( 'url' );
+  const url = navigation.getParam( 'url' )
+
+  const [ loading, setLoading ] = useState( true );
 
   const handleWillFocus = () => {
     dispatch({
@@ -25,22 +27,30 @@ function ReportHome({ dispatch, navigation, accessToken }) {
     });
   };
 
+  const handleLoad = () => {
+    setLoading( false );
+  };
 
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
       <WebView
         zoomable={false}
-        source={{ uri: basename + url + `&token=${encodeURIComponent( accessToken )}` }}
+        onLoad={handleLoad}
+        source={{ uri: basename + url }}
         style={styles.webview}
         dataDetectorTypes="none"
         hideKeyboardAccessoryView
         applicationNameForUserAgent="Thingspower/1.0.0" />
+      {loading ? <ActivityIndicator toast text="正在加载" /> : null}
     </View>
   );
 }
 
-ReportHome.navigationOptions = ({ navigation }) => {
+WebPagetHome.navigationOptions = ({ navigation }) => {
+
+  const title = navigation.getParam( 'title' );
+  const back = navigation.getParam( 'back' );
 
   const handleShowActionSheet = () => {
     ActionSheet.showActionSheetWithOptions({
@@ -54,13 +64,13 @@ ReportHome.navigationOptions = ({ navigation }) => {
   };
 
   return {
-    title: '报修',
+    title,
     headerRight: (
       <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleShowActionSheet}>
-        <Icon name="share-alt" size={20} color="#047FFE" style={{ marginRight: 16 }} />
+        <Icon name="ellipsis" size={20} color="#047FFE" style={{ marginRight: 16 }} />
       </TouchableOpacity>
     ),
-    headerLeft: <HeaderBackButton onPress={() => navigation.navigate( 'Home' )} />
+    headerLeft: <HeaderBackButton onPress={() => navigation.navigate( back )} />
   };
 };
 
@@ -75,21 +85,14 @@ const styles = StyleSheet.create({
 });
 
 
-const Report = createStackNavigator({
-  ReportHome: {
-    screen: connect(({ global }) => {
-      return {
-        accessToken: global.accessToken
-      }
-    })( ReportHome )
+export default createStackNavigator({
+  WebPagetHome: {
+    screen: connect()( WebPagetHome )
   }
 }, {
-  initialRouteName: 'ReportHome',
+  initialRouteName: 'WebPagetHome',
   headerLayoutPreset: 'center',
   defaultNavigationOptions: Platform.OS === 'ios' ? {} : {
     headerForceInset: { top: getStatusBarHeight() }
   }
 });
-
-
-export default Report;

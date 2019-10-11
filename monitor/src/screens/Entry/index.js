@@ -12,7 +12,8 @@ import Message from '../Message';
 import MeasureInfo from '../Measure/Info';
 import NewsInfo from '../News/Info';
 import RuleInfo from '../Rule/Info';
-import RepairReport from '../Repair/Report';
+import QrcodePage from '../Qrcode/Page';
+import WebPage from '../WebPage';
 import Scanner from '../Qrcode/Scanner';
 import Password from '../Profile/Password';
 import Contact from '../Profile/Contact';
@@ -45,8 +46,11 @@ const Stack = createStackNavigator({
   Scanner: {
     screen: Scanner
   },
-  RepairReport: {
-    screen: RepairReport
+  QrcodePage: {
+    screen: QrcodePage
+  },
+  WebPage: {
+    screen: WebPage
   }
 }, {
   initialRouteName: 'Home',

@@ -55,15 +55,15 @@ function Password({ dispatch, navigation, loading }) {
   };
 
   const handleUpdate = () => {
-    if ( !oldPwd || !newPwd || !valiPwd ) {
+    if ( !oldPwd || !newPwd || !commitPwd ) {
       Toast.fail( '请填写完整！' );
-    } else if ( newPwd !== valiPwd ) {
-      Toast.fail( '新密码输入不一致！' );
+    } else if ( newPwd !== commitPwd ) {
+      Toast.fail( '新密码两次输入不一致！' );
     } else if ( oldPwd === newPwd ) {
       Toast.fail( '新密码不能与旧密码相同！' );
     } else if ( strength > 2 ) {
       Toast.fail( '新密码的强度必须达到“好”！' );
-    } else if ( restSeconds === 0 ) {
+    } else {
       dispatch({
         type: 'user.updatePassword',
         callback: () => navigation.navigate( 'Profile' ),
@@ -99,7 +99,7 @@ function Password({ dispatch, navigation, loading }) {
             onChange={setCommitPwd}
             placeholder="再输一次" />
         </List>
-        <Button style={styles.submit} onPress={handleUpdate} type="primary">
+        <Button disabled={!oldPwd || !newPwd || !commitPwd}  style={styles.submit} onPress={handleUpdate} type="primary">
           保存
         </Button>
       </ScrollView>
