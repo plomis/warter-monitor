@@ -3,7 +3,7 @@ import React from 'react';
 import is from 'whatitis';
 import { View, StyleSheet, Text } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import SvgUri from 'react-native-svg-uri';
+import SvgUri from '../../../../components/SvgUri';
 import water from '../../../../assets/svg/water.svg';
 import Grid from './bannerGrid';
 

@@ -1,8 +1,8 @@
 
 import React from 'react';
 import is from 'whatitis';
-import SvgUri from 'react-native-svg-uri';
 import { View, StyleSheet, Text } from 'react-native';
+import SvgUri from '../../../../components/SvgUri';
 import icon1 from '../../../../assets/svg/indexblock_1.svg';
 import icon2 from '../../../../assets/svg/indexblock_2.svg';
 import icon3 from '../../../../assets/svg/indexblock_3.svg';

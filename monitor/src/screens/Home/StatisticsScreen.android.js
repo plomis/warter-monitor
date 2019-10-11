@@ -1,16 +1,16 @@
 
 import moment from 'moment';
 import React, { useState, useContext, useRef } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Picker } from 'react-native';
+import { StyleSheet, View, Picker } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SegmentedControl, Icon } from '@ant-design/react-native';
 import { NavigationEvents, ThemeContext } from 'react-navigation';
 import WebView from 'react-native-webview';
-import { ACTIVE_OPACITY, HEADER_HEIGHT, ThemeConstants } from '../../components/constants';
+import { HOST, HEADER_HEIGHT, ThemeConstants } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
 
-const basename = 'http://218.90.26.31:8082/water/monitor/app';
+const basename = `${HOST}/water/monitor/app`;
 const makePickerItems = ( type, format ) => {
   const clone = moment().add( -50, type );
   return Array( 50 ).fill( 1 ).map(( _, index ) => {
@@ -19,13 +19,29 @@ const makePickerItems = ( type, format ) => {
   });
 }
 
-function Screen({ dispatch }) {
+function Screen({ dispatch, accessToken }) {
 
   const webViewRef = useRef( null );
   const theme = useContext( ThemeContext );
   const statusBarHeight = getStatusBarHeight();
   const [ selected, setSelected ] = useState( moment().add( -1, 'month' ));
   const [ type, setType ] = useState( '月报' );
+  const [ uri ] = useState( `${basename}/report?ajaxKeyIndex=${
+    type === '月报' ? `0&yearMonth=${selected.format( 'YYYY-MM' )}` : `1&year=${selected.format( 'YYYY' )}`
+  }&token=${encodeURIComponent( accessToken )}` );
+
+  const injectedJavaScript = ( type, selected ) => `(function() {
+    try{
+      if ( window.$changeReportParams ) {
+        window.$changeReportParams({
+          ajaxKeyIndex: ${type === '月报' ? '0' : '1'},
+          ${type === '月报' ? 'yearMonth' : 'year'}: '${type === '月报' ? selected.format( 'YYYY-MM' ) : selected.format( 'YYYY' )}'
+        });
+      }
+    } catch( e ) {
+      alert( e )
+    }
+  })();`;
 
   const handleWillFocus = () => {
     dispatch({
@@ -37,32 +53,16 @@ function Screen({ dispatch }) {
   };
 
   const handleChange = ( date ) => {
-    setSelected( moment( date, type === '月报' ? 'YYYY年MM月' : 'YYYY年' ));
-    webViewRef.current.injectJavaScript( `(function() {
-      if ( window.$changeReportPage ) {
-        window.$changeReportPage(
-          ${type === '月报' ? 'month' : 'year'},
-          ${type === '月报' ? selected.format( 'YYYY-MM' ) : selected.format( 'YYYY' )}
-        );
-      }
-    })();` );
+    const dateObj = moment( date, type === '月报' ? 'YYYY年MM月' : 'YYYY年' );
+    setSelected( dateObj );
+    webViewRef.current.injectJavaScript( injectedJavaScript( type, dateObj ));
   };
 
   const handleTypeChange = ( value ) => {
+    const date = moment().add( -1, value === '月报' ? 'month' : 'year' );
     setType( value );
-    if ( value === '月报' ) {
-      setSelected( moment().add( -1, 'month' ));
-    } else {
-      setSelected( moment().add( -1, 'year' ));
-    }
-    webViewRef.current.injectJavaScript( `(function() {
-      if ( window.$changeReportPage ) {
-        window.$changeReportPage(
-          ${value === '月报' ? 'month' : 'year'},
-          ${value === '月报' ? selected.format( 'YYYY年MM月' ) : selected.format( 'YYYY年' )}
-        );
-      }
-    })();` );
+    setSelected( date );
+    webViewRef.current.injectJavaScript( injectedJavaScript( value, date ));
   };
 
   return (
@@ -105,9 +105,7 @@ function Screen({ dispatch }) {
         style={styles.webview}
         ref={webViewRef}
         zoomable={false}
-        source={{ uri: `${basename}/report?ajaxKeyIndex=${
-          type === '月报' ? `0&yearMonth=${selected.format( 'YYYY-MM' )}` : `1&year=${selected.format( 'YYYY' )}`
-        }`}}
+        source={{ uri }}
         dataDetectorTypes="none"
         incognito
         hideKeyboardAccessoryView
@@ -154,4 +152,8 @@ const styles = StyleSheet.create({
 });
 
 
-export default connect()( Screen );
+export default connect(({ global }) => {
+  return {
+    accessToken: global.accessToken
+  };
+})( Screen );

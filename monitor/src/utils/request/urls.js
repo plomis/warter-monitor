@@ -14,8 +14,11 @@ const urls = {
   vertify_code: '{admin}/public/login/vertify-code/send.do',
 
   // 用户
-  user_info: '{admin}/{account}/public/user/info.do',
   head_get: '{admin}/public/head/get.do',
+  user_info: '{admin}/{account}/public/user/info.do',
+  mobile_update: '{admin}/{account}/public/mobile/update.do',
+  mobile_vertify_code: '{admin}/{account}/public/update/vertify-code/send.do',
+  changepwd_update: '{admin}/{account}/public/changepwd.do',
 
   // 页面
   meter_info: '{prefix}/meter/info.do',

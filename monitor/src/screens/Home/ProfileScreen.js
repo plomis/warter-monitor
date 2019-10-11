@@ -9,7 +9,7 @@ import { getUrl } from '../../utils/request/urls';
 
 const Item = List.Item;
 
-function Screen({ dispatch, info }) {
+function Screen({ navigation, dispatch, info }) {
 
   const headUrl = info ? `${getUrl( 'head_get' )}?fileName=${info.headFileName}` : '';
 
@@ -53,10 +53,18 @@ function Screen({ dispatch, info }) {
       </View>
       <View style={styles.menu}>
         <List>
-          <Item arrow="horizontal" onPress={() => {}}>
+          <Item arrow="horizontal" onPress={() => {
+            navigation.navigate( 'Contact', {
+              title: '手机号码'
+            });
+          }}>
             <Text style={styles.listText}>手机号码</Text>
           </Item>
-          <Item arrow="horizontal" onPress={() => {}}>
+          <Item arrow="horizontal" onPress={() => {
+            navigation.navigate( 'Password', {
+              title: '修改密码'
+            });
+          }}>
             <Text style={styles.listText}>修改密码</Text>
           </Item>
         </List>

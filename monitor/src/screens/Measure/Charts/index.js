@@ -2,7 +2,7 @@
 import React from 'react';
 import moment from 'moment';
 import { View, StyleSheet, Text } from 'react-native';
-import { Tabs } from '@ant-design/react-native';
+import Tabs from '../../../components/Tabs';
 import { connect } from '../../../utils/plodux';
 import Charts from './Charts';
 

@@ -1,10 +1,11 @@
 
-import React, { useContext } from 'react';
+import React, { useRef, useContext } from 'react';
+import { Icon, ActionSheet } from '@ant-design/react-native';
 import { NavigationEvents, ThemeContext } from 'react-navigation';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import WebView from 'react-native-webview';
-import { HEADER_HEIGHT, ThemeConstants, HOST } from '../../components/constants';
+import { HEADER_HEIGHT, ThemeConstants, HOST, ACTIVE_OPACITY } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
 
@@ -14,6 +15,7 @@ function Screen({ navigation, dispatch }) {
 
   const theme = useContext( ThemeContext );
   const statusBarHeight = getStatusBarHeight();
+  const webviewRef = useRef( null );
 
   const handleWillFocus = () => {
     dispatch({
@@ -35,6 +37,17 @@ function Screen({ navigation, dispatch }) {
     }
   };
 
+  const handleShowActionSheet = () => {
+    ActionSheet.showActionSheetWithOptions({
+      options: [ '刷新', '取消' ],
+      cancelButtonIndex: 1
+    }, ( buttonIndex ) => {
+      if ( buttonIndex === 0 ) {
+        webviewRef.current.reload();
+      }
+    });
+  };
+
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
@@ -45,9 +58,14 @@ function Screen({ navigation, dispatch }) {
         borderBottomColor: ThemeConstants[theme].borderTopColor,
         borderBottomWidth: 1
       }]}>
+        <View style={{ width: 40, marginLeft: 16 }} />
         <Text style={styles.titleText}>文化宣传</Text>
+        <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleShowActionSheet}>
+          <Icon name="ellipsis" size={32} color="#047FFE" style={{ marginRight: 16, textAlign: 'right', width: 40 }} />
+        </TouchableOpacity>
       </View>
       <WebView
+        ref={webviewRef}
         zoomable={false}
         source={{ uri: basename }}
         onMessage={handleMessage}
@@ -69,11 +87,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#F1F3FD'
   },
   title: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'space-between'
   },
   titleText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold'
   }
 });

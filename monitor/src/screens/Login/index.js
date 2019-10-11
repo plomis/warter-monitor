@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableWithoutFeedback } from 'react-native';
-import { Tabs, Button, Icon, Toast } from '@ant-design/react-native';
+import { Button, Icon, Toast } from '@ant-design/react-native';
+import Tabs from '../../components/Tabs';
 import IconSvg from '../../components/IconSvg';
 import { connect } from '../../utils/plodux';
 import logo from '../../assets/svg/logo.svg';

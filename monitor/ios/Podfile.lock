@@ -198,6 +198,8 @@ PODS:
     - React
   - react-native-splash-screen (3.2.0):
     - React
+  - react-native-viewpager (2.0.0):
+    - React
   - react-native-webview (7.4.1):
     - React
   - React-RCTActionSheet (0.61.2):
@@ -279,6 +281,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
+  - "react-native-viewpager (from `../node_modules/@react-native-community/viewpager`)"
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -346,6 +349,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
+  react-native-viewpager:
+    :path: "../node_modules/@react-native-community/viewpager"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
@@ -412,6 +417,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
   react-native-camera: 00b9703c71fd000f5238850a2557d1f4e5c0a5c0
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
+  react-native-viewpager: 5e8a269867a4f63d9f918903bb287843950c6281
   react-native-webview: 4dbc1d2a4a6b9c5e9e723c62651917aa2b5e579e
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
   React-RCTAnimation: e3cefa93c38c004c318f7ec04b883eb14b8b8235

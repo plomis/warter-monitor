@@ -15,18 +15,20 @@ export default {
 
     async getVertifyCode({ request, payload }, { put }) {
 
-      await put({
-        type: 'update',
-        payload: {
-          restSeconds: 60,
-          counter: setInterval(() => {
-            put({ type: 'decrease' });
-          }, 1000 )
-        }
-      });
-
       try {
+
         await request( 'vertify_code', { data: payload });
+
+        await put({
+          type: 'update',
+          payload: {
+            restSeconds: 60,
+            counter: setInterval(() => {
+              put({ type: 'decrease' });
+            }, 1000 )
+          }
+        });
+
       } catch( err ) {
         handleError( err );
       }

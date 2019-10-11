@@ -1,10 +1,10 @@
 
 import React from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Alert, Platform } from 'react-native';
 import { Icon, ActionSheet } from '@ant-design/react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
-// import WebView from 'react-native-webview';
 import PDFView from 'react-native-view-pdf';
 import { ACTIVE_OPACITY } from '../../components/constants';
 import { connect } from '../../utils/plodux';
@@ -76,7 +76,10 @@ const Info = createStackNavigator({
   }
 }, {
   initialRouteName: 'InfoHome',
-  headerLayoutPreset: 'center'
+  headerLayoutPreset: 'center',
+  defaultNavigationOptions: Platform.OS === 'ios' ? {} : {
+    headerForceInset: { top: getStatusBarHeight() }
+  }
 });
 
 

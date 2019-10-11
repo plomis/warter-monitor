@@ -2,7 +2,7 @@
 import { Platform } from 'react-native';
 import { ThemeColors } from 'react-navigation';
 
-export const HEADER_HEIGHT = Platform.os === 'ios' ? 44 : 56;
+export const HEADER_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 export const HEADER_LARGE_HEIGHT = 88;
 export const ACTIVE_OPACITY = 0.5;
 export const HOST = 'https://water.thingspower.com.cn';

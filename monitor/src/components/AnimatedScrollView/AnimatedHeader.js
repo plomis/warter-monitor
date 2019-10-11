@@ -1,6 +1,6 @@
 
 import React, { useContext } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Platform } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { ACTIVE_OPACITY } from '../constants';
 import AnimatedContainer from './AnimatedContainer';
@@ -41,14 +41,14 @@ const AnimatedHeader = ({ headerRange, left, right, onRightPress, onLeftPress, t
         </AnimatedText>
       </View>
       <AnimatedView
-        style={[ styles.headerLeft, { top: statusBarHeight + 14 }]}
+        style={[ styles.headerLeft, { top: statusBarHeight + ( Platform.OS === 'ios' ? 8 : 14 )}]}
         getAnimationRange={getAnimationRange}>
         <HeaderButton onPress={onLeftPress}>
           {left}
         </HeaderButton>
       </AnimatedView>
       <AnimatedView
-        style={[ styles.headerRight, { top: statusBarHeight + 14 }]}
+        style={[ styles.headerRight, { top: statusBarHeight + ( Platform.OS === 'ios' ? 8 : 14 )}]}
         getAnimationRange={getAnimationRange}>
         <HeaderButton onPress={onRightPress}>
           {right}

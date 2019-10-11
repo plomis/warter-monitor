@@ -12,7 +12,7 @@ import { connect } from '../../utils/plodux';
 
 const basename = `${HOST}/water/monitor/app`;
 
-function NewsInfo({ dispatch, navigation }) {
+function ReportHome({ dispatch, navigation, accessToken }) {
 
   const url = navigation.getParam( 'url' );
 
@@ -31,7 +31,7 @@ function NewsInfo({ dispatch, navigation }) {
       <NavigationEvents onWillFocus={handleWillFocus} />
       <WebView
         zoomable={false}
-        source={{ uri: basename + url }}
+        source={{ uri: basename + url + `&token=${encodeURIComponent( accessToken )}` }}
         style={styles.webview}
         dataDetectorTypes="none"
         hideKeyboardAccessoryView
@@ -40,49 +40,27 @@ function NewsInfo({ dispatch, navigation }) {
   );
 }
 
-NewsInfo.navigationOptions = ({ navigation }) => {
-  const title = navigation.getParam( 'title' );
+ReportHome.navigationOptions = ({ navigation }) => {
 
-  const handleShowShareActionSheet = async () => {
-
-    // const result = await Share.share({
-    //   message:
-    //     'React Native | A framework for building native apps using React',
-    // });
-
-    // console.log(result);
-
-
-    // const opts = {
-    //   message: 'Message to go with the shared url',
-    //   title: 'Share Actionsheet',
-    // };
-    // if ( Platform.OS === 'ios' ) {
-    //   opts.url = 'https://www.alipay.com/';
-    //   opts.tintColor = '#ff0000';
-    //   opts.excludedActivityTypes = ['com.apple.UIKit.activity.PostToTwitter'];
-    // }
-    // ActionSheet.showShareActionSheetWithOptions(
-    //   opts,
-    //   error => alert( error ),
-    //   ( success, method ) => {
-    //     if ( success ) {
-    //       text = `Shared with ${method}`;
-    //     } else {
-    //       text = 'Did not share';
-    //     }
-    //   }
-    // );
+  const handleShowActionSheet = () => {
+    ActionSheet.showActionSheetWithOptions({
+      options: [ '刷新', '取消' ],
+      cancelButtonIndex: 1
+    }, ( buttonIndex ) => {
+      if ( buttonIndex === 0 ) {
+        // webviewRef.current.reload();
+      }
+    });
   };
 
   return {
-    title,
+    title: '报修',
     headerRight: (
-      <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleShowShareActionSheet}>
+      <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleShowActionSheet}>
         <Icon name="share-alt" size={20} color="#047FFE" style={{ marginRight: 16 }} />
       </TouchableOpacity>
     ),
-    headerLeft: <HeaderBackButton onPress={() => navigation.navigate( 'News' )} />
+    headerLeft: <HeaderBackButton onPress={() => navigation.navigate( 'Home' )} />
   };
 };
 
@@ -97,12 +75,16 @@ const styles = StyleSheet.create({
 });
 
 
-const Info = createStackNavigator({
-  NewsInfoHome: {
-    screen: connect()( NewsInfo )
+const Report = createStackNavigator({
+  ReportHome: {
+    screen: connect(({ global }) => {
+      return {
+        accessToken: global.accessToken
+      }
+    })( ReportHome )
   }
 }, {
-  initialRouteName: 'NewsInfoHome',
+  initialRouteName: 'ReportHome',
   headerLayoutPreset: 'center',
   defaultNavigationOptions: Platform.OS === 'ios' ? {} : {
     headerForceInset: { top: getStatusBarHeight() }
@@ -110,4 +92,4 @@ const Info = createStackNavigator({
 });
 
 
-export default Info;
+export default Report;

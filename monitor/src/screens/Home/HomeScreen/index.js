@@ -38,7 +38,7 @@ function Screen({ dispatch, navigation, loading, data }) {
   };
 
   const handleCamera = () => {
-    Alert.alert( '敬请期待！' );
+    navigation.navigate( 'Scanner' );
   };
 
   const handleQrcode = async () => {
@@ -49,6 +49,8 @@ function Screen({ dispatch, navigation, loading, data }) {
         if ( rs === RESULTS.GRANTED ) {
           handleCamera();
         }
+      } else if ( result === RESULTS.GRANTED ) {
+        handleCamera();
       }
     }
     if ( Platform.OS === 'android' ) {

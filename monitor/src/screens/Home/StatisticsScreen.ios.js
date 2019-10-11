@@ -21,7 +21,7 @@ const makePickerItems = ( type, format ) => {
   });
 }
 
-function Screen({ dispatch }) {
+function Screen({ dispatch, accessToken }) {
 
   const webViewRef = useRef( null );
   const theme = useContext( ThemeContext );
@@ -31,6 +31,22 @@ function Screen({ dispatch }) {
   const [ show, setShow ] = useState( false );
   const [ type, setType ] = useState( '月报' );
   const [ state ] = useState({ y: new Animated.Value( 0 ) });
+  const [ uri ] = useState( `${basename}/report?ajaxKeyIndex=${
+    type === '月报' ? `0&yearMonth=${selected.format( 'YYYY-MM' )}` : `1&year=${selected.format( 'YYYY' )}`
+  }&token=${encodeURIComponent( accessToken )}` );
+
+  const injectedJavaScript = ( type, selected ) => `(function() {
+    try{
+      if ( window.$changeReportParams ) {
+        window.$changeReportParams({
+          ajaxKeyIndex: ${type === '月报' ? '0' : '1'},
+          ${type === '月报' ? 'yearMonth' : 'year'}: '${type === '月报' ? selected.format( 'YYYY-MM' ) : selected.format( 'YYYY' )}'
+        });
+      }
+    } catch( e ) {
+      alert( e )
+    }
+  })();`;
 
   const handleWillFocus = () => {
     dispatch({
@@ -113,34 +129,16 @@ function Screen({ dispatch }) {
     ).start(() => {
       setShow( false );
       setSelected( pickerValue );
-      webViewRef.current.injectJavaScript( `(function() {
-        if ( window.$changeReportPage ) {
-          window.$changeReportPage(
-            ${type === '月报' ? 'month' : 'year'},
-            ${type === '月报' ? selected.format( 'YYYY-MM' ) : selected.format( 'YYYY' )}
-          );
-        }
-      })();` );
+      webViewRef.current.injectJavaScript( injectedJavaScript( type, pickerValue ));
     });
   };
 
   const handleTypeChange = ( value ) => {
+    const date = moment().add( -1, value === '月报' ? 'month' : 'year' );
     setType( value );
-    if ( value === '月报' ) {
-      setSelected( moment().add( -1, 'month' ));
-      setPickerValue( moment().add( -1, 'month' ));
-    } else {
-      setSelected( moment().add( -1, 'year' ));
-      setPickerValue( moment().add( -1, 'year' ));
-    }
-    webViewRef.current.injectJavaScript( `(function() {
-      if ( window.$changeReportPage ) {
-        window.$changeReportPage(
-          ${value === '月报' ? 'month' : 'year'},
-          ${value === '月报' ? selected.format( 'YYYY年MM月' ) : selected.format( 'YYYY年' )}
-        );
-      }
-    })();` );
+    setSelected( date );
+    setPickerValue( date );
+    webViewRef.current.injectJavaScript( injectedJavaScript( value, date ));
   };
 
   return (
@@ -153,11 +151,8 @@ function Screen({ dispatch }) {
         ]}
         ref={webViewRef}
         zoomable={false}
-        source={{ uri: `${basename}/report?ajaxKeyIndex=${
-          type === '月报' ? `0&yearMonth=${selected.format( 'YYYY-MM' )}` : `1&year=${selected.format( 'YYYY' )}`
-        }`}}
+        source={{ uri }}
         dataDetectorTypes="none"
-        incognito
         hideKeyboardAccessoryView
         applicationNameForUserAgent="Thingspower/1.0.0" />
       {show ? (
@@ -300,4 +295,8 @@ const styles = StyleSheet.create({
 });
 
 
-export default connect()( Screen );
+export default connect(({ global }) => {
+  return {
+    accessToken: global.accessToken
+  };
+})( Screen );

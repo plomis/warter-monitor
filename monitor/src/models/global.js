@@ -24,14 +24,6 @@ export default {
 
       await Sleep( 2000 );
 
-      // if ( Platform.OS === 'ios' ) {
-      //   const result = await check( PERMISSIONS.IOS.CAMERA );
-      //   if ( result === RESULTS.DENIED ) {
-      //     await request( PERMISSIONS.IOS.CAMERA );
-      //   }
-      //   // check( PERMISSIONS.IOS.FACE_ID )
-      // }
-
       if ( Platform.OS === 'android' ) {
         const result = await check( PERMISSIONS.ANDROID.CAMERA );
         if ( result === RESULTS.DENIED ) {

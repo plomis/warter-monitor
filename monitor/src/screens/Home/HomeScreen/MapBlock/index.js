@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { Tabs } from '@ant-design/react-native';
+import Tabs from '../../../../components/Tabs';
 import EmptyList from '../../../../components/EmptyList';
 
 
