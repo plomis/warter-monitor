@@ -1,6 +1,6 @@
 
 import moment from 'moment';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 import f2Html from '../../../assets/pages/f2.html';
@@ -10,8 +10,9 @@ import jst from '../../../assets/pages/chart1.jst';
 function Chart({ data, type }) {
 
   const webViewRef = useRef( null );
+  const [ timestemp ] = useState( + new Date());
   const [ loaded, setLoaded ] = useState( false );
-  const source = Platform.OS === 'ios' ? f2Html : { uri: 'file:///android_asset/pages/f2.html?var=' + ( + new Date() ) };
+  const source = Platform.OS === 'ios' ? f2Html : { uri: 'file:///android_asset/pages/f2.html?var=' + timestemp };
   const dataString = JSON.stringify( data.map(( itemData ) => ({
     name: type === 'hour'
       ? `${moment( itemData.dayHour, 'YYYY-MM-DD HH' ).format( 'H' )}时`
@@ -20,15 +21,14 @@ function Chart({ data, type }) {
     value: itemData.dosage
   })));
 
-  // const handleLoad = () => {
-  //   webViewRef.current.injectJavaScript( jst );
-  //   webViewRef.current.injectJavaScript( `chartApi.renderChart(${dataString});` );
+  // const handleAppStateChange = ( nextAppState ) => {
+  //   console.log('1',nextAppState);
   // };
 
   const handleLoad = () => {
     setLoaded( true );
     webViewRef.current.injectJavaScript( `try{
-      if ( chartApi ) {
+      if ( window.chartApi ) {
         ${jst}
         chartApi.renderChart(${dataString});
       }
@@ -43,22 +43,28 @@ function Chart({ data, type }) {
     }
   }, [data]);
 
+  // useEffect(() => {
+  //   AppState.addEventListener( 'change', handleAppStateChange );
+  //   return () => {
+  //     AppState.removeEventListener('change', handleAppStateChange );
+  //   };
+  // }, []);
+
   return (
     <WebView
       ref={webViewRef}
-      incognito
       allowFileAccess
       scalesPageToFit
       javaScriptEnabled
       saveFormDataDisabled
       hideKeyboardAccessoryView
+      allowsBackForwardNavigationGestures
       startInLoadingState={false}
       cacheEnabled={false}
       domStorageEnabled={false}
       allowsLinkPreview={false}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
-      allowsBackForwardNavigationGestures={false}
       scrollEnabled={false}
       thirdPartyCookiesEnabled={false}
       overScrollMode="never"

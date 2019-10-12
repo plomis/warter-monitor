@@ -41,6 +41,8 @@ function WebPagetHome({ dispatch, navigation }) {
         style={styles.webview}
         dataDetectorTypes="none"
         hideKeyboardAccessoryView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
         applicationNameForUserAgent="Thingspower/1.0.0" />
       {loading ? <ActivityIndicator toast text="正在加载" /> : null}
     </View>

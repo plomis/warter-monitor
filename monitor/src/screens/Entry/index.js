@@ -87,9 +87,9 @@ const Auth = connect(({ global }) => {
   const ref = useRef( null );
   useEffect(() => {
     if ( authed && accessToken ) {
-      ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Stack' }))
+      ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Stack' }));
     } else if ( authed ) {
-      ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Login' }))
+      ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Login' }));
     }
   }, [ authed, accessToken ]);
   return (
@@ -101,7 +101,7 @@ const Auth = connect(({ global }) => {
 const App = ({ mode, barStyle }) => {
   return (
     <Provider>
-      <StatusBar translucent barStyle={barStyle} backgroundColor="rgba(0, 0, 0, 0)"/>
+      <StatusBar translucent animated barStyle={barStyle} backgroundColor="rgba(255,255,255,0)" />
       <Auth theme={mode} />
     </Provider>
   );

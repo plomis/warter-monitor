@@ -29,13 +29,17 @@ function NewsInfo({ dispatch, navigation }) {
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
-      <WebView
-        zoomable={false}
-        source={{ uri: basename + url }}
-        style={styles.webview}
-        dataDetectorTypes="none"
-        hideKeyboardAccessoryView
-        applicationNameForUserAgent="Thingspower/1.0.0" />
+      {url ? (
+        <WebView
+          zoomable={false}
+          source={{ uri: basename + url }}
+          style={styles.webview}
+          dataDetectorTypes="none"
+          hideKeyboardAccessoryView
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          applicationNameForUserAgent="Thingspower/1.0.0" />
+      ) : null}
     </View>
   );
 }

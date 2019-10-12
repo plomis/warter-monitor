@@ -25,7 +25,7 @@ function Contect({ dispatch, navigation, loading, restSeconds }) {
   const handleValiCode = () => {
     if ( !number ) {
       Toast.fail( '必须填写手机号码！' );
-    } else if ( restSeconds === 0 ) {
+    } else {
       dispatch({
         type: 'user.getVertifyCode',
         payload: {
@@ -40,7 +40,7 @@ function Contect({ dispatch, navigation, loading, restSeconds }) {
       Toast.fail( '必须填写手机号码！' );
     } else if ( !valiCode ) {
       Toast.fail( '必须填验证码！' );
-    } else if ( restSeconds === 0 ) {
+    } else {
       dispatch({
         type: 'user.updateMobile',
         callback: () => navigation.navigate( 'Profile' ),

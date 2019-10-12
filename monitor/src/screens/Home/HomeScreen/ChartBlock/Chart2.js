@@ -9,8 +9,9 @@ import jst from '../../../../assets/pages/chart2.jst';
 function Chart({ data, height }) {
 
   const webViewRef = useRef( null );
+  const [ timestemp ] = useState( + new Date());
   const [ loaded, setLoaded ] = useState( false );
-  const source = Platform.OS === 'ios' ? f2Html : { uri: 'file:///android_asset/pages/f2.html?var=' + ( + new Date() ) };
+  const source = Platform.OS === 'ios' ? f2Html : { uri: 'file:///android_asset/pages/f2.html?var=' + timestemp };
   const dataString = JSON.stringify( data.map(( itemData ) => ({
     name: itemData.subitemName,
     percent: itemData.percent,
@@ -21,7 +22,7 @@ function Chart({ data, height }) {
   const handleLoad = () => {
     setLoaded( true );
     webViewRef.current.injectJavaScript( `try{
-      if ( chartApi ) {
+      if ( window.chartApi ) {
         ${jst}
         chartApi.renderChart(${dataString});
       }
@@ -36,23 +37,21 @@ function Chart({ data, height }) {
     }
   }, [data]);
 
-  // RNFS.readDir( RNFS.MainBundlePath )
   return (
     <WebView
       ref={webViewRef}
-      incognito
       allowFileAccess
       scalesPageToFit
       javaScriptEnabled
       saveFormDataDisabled
       hideKeyboardAccessoryView
+      allowsBackForwardNavigationGestures
       startInLoadingState={false}
       cacheEnabled={false}
       domStorageEnabled={false}
       allowsLinkPreview={false}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
-      allowsBackForwardNavigationGestures={false}
       scrollEnabled={false}
       thirdPartyCookiesEnabled={false}
       overScrollMode="never"

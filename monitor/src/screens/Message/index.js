@@ -137,14 +137,14 @@ MessageHome.navigationOptions = ({ navigation }) => {
   return {
     headerTitle: <Segment />,
     headerLeft: <HeaderBackButton onPress={() => navigation.navigate( 'Home' )} />,
-    headerRight: (
-      <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={() => {
-        // navigation.navigate( 'search' );
-        Alert.alert( '敬请期待！' );
-      }}>
-        <Icon name="search" color="#047FFE" size={24} />
-      </TouchableOpacity>
-    ),
+    // headerRight: (
+    //   <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={() => {
+    //     // navigation.navigate( 'search' );
+    //     Alert.alert( '敬请期待！' );
+    //   }}>
+    //     <Icon name="search" color="#047FFE" size={24} />
+    //   </TouchableOpacity>
+    // ),
     headerRightContainerStyle: { paddingRight: 16 }
   };
 };

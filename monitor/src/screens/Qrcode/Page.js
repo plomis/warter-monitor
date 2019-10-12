@@ -58,6 +58,8 @@ function ReportHome({ dispatch, navigation, accessToken, info, userLoading }) {
           onMessage={handleMessage}
           dataDetectorTypes="none"
           hideKeyboardAccessoryView
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
           applicationNameForUserAgent="Thingspower/1.0.0" />
       ) : <View style={styles.webview} />}
       {userLoading || loading ? <ActivityIndicator toast text="正在加载" /> : null}

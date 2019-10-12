@@ -2,6 +2,7 @@
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { LocaleConfig } from 'react-native-calendars';
+import Orientation from 'react-native-orientation-locker';
 import 'moment/locale/zh-cn';
 import { loadModel, connect } from './utils/plodux';
 import Entry from './screens/Entry';
@@ -44,6 +45,7 @@ loadModel( user );
 const App = ({ dispatch }) => {
 
   useEffect(() => {
+    Orientation.lockToPortrait();
     dispatch({ type: 'global.loaded' });
   }, []);
 

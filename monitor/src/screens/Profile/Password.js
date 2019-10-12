@@ -9,7 +9,7 @@ import getPasswordStrength from '../../utils/strength';
 import { connect } from '../../utils/plodux';
 
 
-function Password({ dispatch, navigation, loading }) {
+function Password({ dispatch, loading }) {
 
   const [ oldPwd, setOldPwd ] = useState( '' );
   const [ newPwd, setNewPwd ] = useState( '' );
@@ -61,12 +61,21 @@ function Password({ dispatch, navigation, loading }) {
       Toast.fail( '新密码两次输入不一致！' );
     } else if ( oldPwd === newPwd ) {
       Toast.fail( '新密码不能与旧密码相同！' );
-    } else if ( strength > 2 ) {
+    } else if ( strength <= 2 ) {
       Toast.fail( '新密码的强度必须达到“好”！' );
     } else {
       dispatch({
         type: 'user.updatePassword',
-        callback: () => navigation.navigate( 'Profile' ),
+        callback: () => {
+          Alert.alert(
+            '提示',
+            '用户会话过期，请重新登陆！',
+            [{ text: '知道了', onPress: () => {
+              dispatch({ type: 'global.logout' });
+            }}],
+            { cancelable: false }
+          );
+        },
         payload: {
           oldPwd, newPwd, commitPwd
         }
@@ -80,20 +89,17 @@ function Password({ dispatch, navigation, loading }) {
       <ScrollView style={styles.scrollview}>
         <List style={styles.list}>
           <InputItem
-            clear
             type="password"
             value={oldPwd}
             onChange={setOldPwd}
             placeholder="旧密码" />
           <InputItem
-            clear
             type="password"
             value={newPwd}
             onChange={handleChange}
             placeholder="新密码"
             extra={<Text style={strengthStyle}>{strengthText}</Text>} />
           <InputItem
-            clear
             type="password"
             value={commitPwd}
             onChange={setCommitPwd}

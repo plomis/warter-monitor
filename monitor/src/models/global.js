@@ -6,8 +6,6 @@ import { check, request, checkNotifications, requestNotifications, RESULTS, PERM
 import Sleep from '../utils/request/sleep';
 
 
-const OS = PERMISSIONS[Platform.OS === 'ios' ? 'IOS' : 'ANDROID'];
-
 export default {
   namespace: 'global',
   state: {
@@ -16,32 +14,38 @@ export default {
   },
   effects: {
 
-    async loaded({ request }, { put }) {
+    async loaded( action, { put }) {
 
-      const accessToken = await AsyncStorage.getItem( 'accessToken' );
-      await put({ type: 'update', payload: { accessToken, authed: true }});
-      await put({ type: 'user.getInfo', request });
-      SplashScreen.hide();
-
-      await Sleep( 2000 );
-
-      if ( Platform.OS === 'android' ) {
-        const result = await check( PERMISSIONS.ANDROID.CAMERA );
-        if ( result === RESULTS.DENIED ) {
-          await request( PERMISSIONS.ANDROID.CAMERA );
+      try {
+        const accessToken = await AsyncStorage.getItem( 'accessToken' );
+        await put({ type: 'update', payload: { accessToken, authed: true }});
+        if ( accessToken ) {
+          await put({ type: 'user.getInfo', request: action.request });
         }
-      }
+        SplashScreen.hide();
 
-      const notificationsResult = await checkNotifications();
-      if ( notificationsResult.status === RESULTS.DENIED ) {
-        await requestNotifications([ 'alert', 'badge', 'sound', 'criticalAlert', 'provisional' ]);
-      }
+        await Sleep( 2000 );
 
+        if ( Platform.OS === 'android' ) {
+          const result = await check( PERMISSIONS.ANDROID.CAMERA );
+          if ( result === RESULTS.DENIED ) {
+            await request( PERMISSIONS.ANDROID.CAMERA );
+          }
+        }
+
+        const notificationsResult = await checkNotifications();
+        if ( notificationsResult.status === RESULTS.DENIED ) {
+          await requestNotifications([ 'alert', 'badge', 'sound', 'criticalAlert', 'provisional' ]);
+        }
+
+      } catch( err ) {
+        console.log( err );
+      }
     },
 
-    async logout( _, { put }) {
-      await AsyncStorage.removeItem( 'accessToken' );
-      await put({ type: 'update', payload: { accessToken: '' }});
+    logout( _, { put }) {
+      AsyncStorage.removeItem( 'accessToken' );
+      put({ type: 'update', payload: { accessToken: '' }});
     }
   },
   reducers: {

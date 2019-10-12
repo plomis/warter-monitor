@@ -5,7 +5,7 @@ import { QRScannerView } from 'react-native-qrcode-scanner-view';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from '@ant-design/react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { ACTIVE_OPACITY, HEADER_HEIGHT } from '../../components/constants';
+import { ACTIVE_OPACITY, HEADER_HEIGHT, HOST } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
 
@@ -27,9 +27,11 @@ function Scanner({ dispatch, navigation }) {
   };
 
   const handleScan = ( event ) => {
-    navigation.navigate( 'QrcodePage', {
-      url: event.data
-    });
+    if ( event.data.indexOf( `${HOST}` ) !== -1 ) {
+      navigation.navigate( 'QrcodePage', {
+        url: event.data
+      });
+    }
   };
 
   const renderHeader = () => {

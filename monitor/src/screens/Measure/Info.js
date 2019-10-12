@@ -19,7 +19,7 @@ import BaseInfo from './History/BaseInfo';
 function MeasureInfo({ dispatch, navigation, loading, info }) {
 
   const infoData = navigation.getParam( 'data' );
-  const { title, dosage, unit, onLine, unit_en, isDebug, lastDataTime } = info || infoData;
+  const { title, dosage, onLine, unit_en, isDebug, lastDataTime } = info || infoData;
 
   const handleWillFocus = () => {
     dispatch({
