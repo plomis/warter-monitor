@@ -5,6 +5,7 @@ import { QRScannerView } from 'react-native-qrcode-scanner-view';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from '@ant-design/react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { RNCamera } from 'react-native-camera';
 import { ACTIVE_OPACITY, HEADER_HEIGHT, HOST } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
@@ -54,6 +55,23 @@ function Scanner({ dispatch, navigation }) {
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
+      {/* <RNCamera
+        style={styles.scaner}
+        type={RNCamera.Constants.Type.back}
+        // flashMode={RNCamera.Constants.FlashMode.on}
+          // androidCameraPermissionOptions={{
+          //   title: 'Permission to use camera',
+          //   message: 'We need your permission to use your camera',
+          //   buttonPositive: 'Ok',
+          //   buttonNegative: 'Cancel',
+          // }}
+          // androidRecordAudioPermissionOptions={{
+          //   title: 'Permission to use audio recording',
+          //   message: 'We need your permission to use your audio',
+          //   buttonPositive: 'Ok',
+          //   buttonNegative: 'Cancel',
+          // }}
+        /> */}
       <QRScannerView
         onScanResult={handleScan}
         rectStyle={styles.rectStyle}

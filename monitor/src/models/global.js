@@ -1,5 +1,6 @@
 
 import { Platform } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-community/async-storage';
 import { check, request, checkNotifications, requestNotifications, RESULTS, PERMISSIONS } from 'react-native-permissions';
@@ -10,15 +11,17 @@ export default {
   namespace: 'global',
   state: {
     authed: false,
-    accessToken: ''
+    accessToken: '',
+    version: ''
   },
   effects: {
 
     async loaded( action, { put }) {
 
       try {
+        const version = await DeviceInfo.getVersion();
         const accessToken = await AsyncStorage.getItem( 'accessToken' );
-        await put({ type: 'update', payload: { accessToken, authed: true }});
+        await put({ type: 'update', payload: { accessToken, version, authed: true }});
         if ( accessToken ) {
           await put({ type: 'user.getInfo', request: action.request });
         }

@@ -7,7 +7,7 @@ import { Icon, ActivityIndicator, ActionSheet } from '@ant-design/react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
 import WebView from 'react-native-webview';
-import { ACTIVE_OPACITY } from '../../components/constants';
+// import { ACTIVE_OPACITY } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
 
@@ -71,24 +71,24 @@ ReportHome.navigationOptions = ({ navigation }) => {
 
   const title = navigation.getParam( 'title' );
 
-  const handleShowActionSheet = () => {
-    ActionSheet.showActionSheetWithOptions({
-      options: [ '刷新', '取消' ],
-      cancelButtonIndex: 1
-    }, ( buttonIndex ) => {
-      if ( buttonIndex === 0 ) {
-        // webviewRef.current.reload();
-      }
-    });
-  };
+  // const handleShowActionSheet = () => {
+  //   ActionSheet.showActionSheetWithOptions({
+  //     options: [ '刷新', '取消' ],
+  //     cancelButtonIndex: 1
+  //   }, ( buttonIndex ) => {
+  //     if ( buttonIndex === 0 ) {
+  //       // webviewRef.current.reload();
+  //     }
+  //   });
+  // };
 
   return {
     title,
-    headerRight: (
-      <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleShowActionSheet}>
-        <Icon name="ellipsis" size={20} color="#047FFE" style={{ marginRight: 16 }} />
-      </TouchableOpacity>
-    ),
+    // headerRight: (
+    //   <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleShowActionSheet}>
+    //     <Icon name="ellipsis" size={20} color="#047FFE" style={{ marginRight: 16 }} />
+    //   </TouchableOpacity>
+    // ),
     headerLeft: <HeaderBackButton onPress={() => navigation.navigate( 'Home' )} />
   };
 };

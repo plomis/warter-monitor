@@ -1,9 +1,9 @@
 
-import React, { Fragment } from 'react';
+import React from 'react';
+import codePush from 'react-native-code-push';
 import DeviceInfo from 'react-native-device-info';
-import { Platform, Linking, Alert } from 'react-native';
+import { Platform, Linking, Alert, NativeModules } from 'react-native';
 import { getAppstoreAppVersion } from 'react-native-appstore-version-checker';
-import { ActivityIndicator } from '@ant-design/react-native';
 import { UPDATE_URL } from '../components/constants';
 import compare from './compareVersion';
 
@@ -12,17 +12,17 @@ function withUpdate( Component ) {
 
   class Wrapped extends React.Component {
 
-    state = {
-      loading: false
-    };
+    componentDidMount() {
+      this.handleUpdate();
+      this.syncImmediate();
+    }
 
     handleUpdate = () => {
       if ( Platform.OS === 'ios' ) {
         const appId = '1481037525';
-        this.setState({ loading: true });
         getAppstoreAppVersion( appId ).then( async ( latest ) => {
           const version = await DeviceInfo.getVersion();
-          if ( compare( latest, version, 3 ) > 0 ) {
+          if ( compare( latest, version, 2 ) > 0 ) {
             Alert.alert( '', '应用有新的更新', [{
               text: 'OK', style: 'cancel', onPress: () => {
                 Linking
@@ -36,22 +36,11 @@ function withUpdate( Component ) {
                   });
               }
             }]);
-          } else {
-            Alert.alert(
-              '',
-              '当前为最新版本',
-              [
-                { text: '知道了', style: 'cancel' }
-              ]
-            );
           }
         }).catch(() => {
           // do nothings
-        }).finally(() => {
-          this.setState({ loading: false });
         });
       } else if ( Platform.OS === 'android' ) {
-        this.setState({ loading: true });
         fetch( `${UPDATE_URL}?v=${+ new Date()}` ).then( res => res.json()).then( async ({ latest, downloadUrl }) => {
           const version = await DeviceInfo.getVersion();
           if ( compare( latest, version, 3 ) > 0 ) {
@@ -72,37 +61,37 @@ function withUpdate( Component ) {
                 }
               ]
             );
-          } else {
-            Alert.alert(
-              '',
-              '当前为最新版本',
-              [
-                { text: '知道了', style: 'cancel' }
-              ]
-            );
           }
         }).catch(() => {
           // do nothings
-        }).finally(() => {
-          this.setState({ loading: false });
         });
       }
     };
 
+    syncImmediate() {
+      codePush.disallowRestart();
+      codePush.sync({ installMode: codePush.InstallMode.ON_NEXT_RESUME }, this.codePushStatusDidChange );
+    }
+
+    codePushStatusDidChange = ( syncStatus ) => {
+      switch( syncStatus ) {
+        case codePush.SyncStatus.UPDATE_INSTALLED:
+        case codePush.SyncStatus.UP_TO_DATE:
+        case codePush.SyncStatus.UPDATE_IGNORED:
+        case codePush.SyncStatus.UNKNOWN_ERROR:
+          codePush.allowRestart();
+          break;
+      }
+    };
+
     render() {
-
-      const { loading } = this.state;
-
       return (
-        <Fragment>
-          <Component {...this.props} checkUpdate={this.handleUpdate} />
-          {loading ? <ActivityIndicator toast text="正在加载" /> : null}
-        </Fragment>
+        <Component {...this.props} />
       );
     }
   }
 
-  return Wrapped;
+  return codePush({ checkFrequency: codePush.CheckFrequency.ON_APP_RESUME })( Wrapped );
 }
 
 export default withUpdate;

@@ -1,6 +1,6 @@
 
 import React, { useRef, useState, useEffect } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import f2Html from '../../../../assets/pages/f2.html';
 import jst from '../../../../assets/pages/chart2.jst';
@@ -8,6 +8,7 @@ import jst from '../../../../assets/pages/chart2.jst';
 
 function Chart({ data, height }) {
 
+  const viewRef = useRef( null );
   const webViewRef = useRef( null );
   const [ timestemp ] = useState( + new Date());
   const [ loaded, setLoaded ] = useState( false );
@@ -20,15 +21,18 @@ function Chart({ data, height }) {
   })));
 
   const handleLoad = () => {
-    setLoaded( true );
-    webViewRef.current.injectJavaScript( `try{
-      if ( window.chartApi ) {
-        ${jst}
-        chartApi.renderChart(${dataString});
-      }
-    } catch(e) {
-      alert(e);
-    }` );
+    viewRef.current.measure(( x_, y_, widht, height, left_, top_ ) => {
+      setLoaded( true );
+      webViewRef.current.injectJavaScript( `try{
+        if ( window.chartApi ) {
+          ${jst}
+          chartApi.renderChart(${dataString});
+          chartApi.changeSize(${widht}, ${height});
+        }
+      } catch(e) {
+        alert(e);
+      }` );
+    });
   };
 
   useEffect(() => {
@@ -38,28 +42,30 @@ function Chart({ data, height }) {
   }, [data]);
 
   return (
-    <WebView
-      ref={webViewRef}
-      allowFileAccess
-      scalesPageToFit
-      javaScriptEnabled
-      saveFormDataDisabled
-      hideKeyboardAccessoryView
-      allowsBackForwardNavigationGestures
-      startInLoadingState={false}
-      cacheEnabled={false}
-      domStorageEnabled={false}
-      allowsLinkPreview={false}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-      scrollEnabled={false}
-      thirdPartyCookiesEnabled={false}
-      overScrollMode="never"
-      dataDetectorTypes="none"
-      originWhitelist={['*']}
-      style={{ flex: 0, height }}
-      source={source}
-      onLoad={handleLoad} />
+    <View ref={viewRef} style={{ borderWidth: 1, borderColor: 'transparent' }}>
+      <WebView
+        ref={webViewRef}
+        allowFileAccess
+        scalesPageToFit
+        javaScriptEnabled
+        saveFormDataDisabled
+        hideKeyboardAccessoryView
+        allowsBackForwardNavigationGestures
+        startInLoadingState={false}
+        cacheEnabled={false}
+        domStorageEnabled={false}
+        allowsLinkPreview={false}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        scrollEnabled={false}
+        thirdPartyCookiesEnabled={false}
+        overScrollMode="never"
+        dataDetectorTypes="none"
+        originWhitelist={['*']}
+        style={{ flex: 0, height }}
+        source={source}
+        onLoad={handleLoad} />
+    </View>
   );
 }
 

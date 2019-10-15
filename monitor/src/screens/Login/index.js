@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableWithoutFeedback, Image } from 'react-native';
 import { Button, Icon, Toast } from '@ant-design/react-native';
+import { NavigationEvents } from 'react-navigation';
 import Tabs from '../../components/Tabs';
 import { connect } from '../../utils/plodux';
 import logo from '../../assets/svg/logo.png';
@@ -16,13 +17,22 @@ const tabs = [{
 }];
 
 
-function Screen({ dispatch, navigation, loading, counter, restSeconds, mode }) {
+function Screen({ dispatch, navigation, loading, counter, restSeconds, mode, version }) {
 
   const [ userName, handleUsernameChange ] = useState( '' );
   const [ password, handlePasswordChange ] = useState( '' );
   const [ phoneNumber, handlePhoneNumberChange ] = useState( '' );
   const [ valiCode, handleValiCodeChange ] = useState( '' );
   const [ passwordVisible, handlePasswordVisibleChange ] = useState( false );
+
+  const handleWillFocus = () => {
+    dispatch({
+      type: 'statusBar.update',
+      payload: {
+        barStyle: 'dark-content'
+      }
+    });
+  };
 
   const handlePwdVisibleChange = () => {
     handlePasswordVisibleChange( !passwordVisible );
@@ -92,6 +102,7 @@ function Screen({ dispatch, navigation, loading, counter, restSeconds, mode }) {
 
   return (
     <SafeAreaView style={styles.login}>
+      <NavigationEvents onWillFocus={handleWillFocus} />
       <View style={{ flex: 1 }} />
       <View style={styles.container}>
         <View style={styles.logo}>
@@ -109,7 +120,6 @@ function Screen({ dispatch, navigation, loading, counter, restSeconds, mode }) {
               <View style={styles.inputItem}>
                 <TextInput
                   editable
-                  autoFocus
                   value={userName}
                   style={styles.input}
                   textContentType="username"
@@ -138,7 +148,6 @@ function Screen({ dispatch, navigation, loading, counter, restSeconds, mode }) {
               <View style={styles.inputItem}>
                 <TextInput
                   editable
-                  autoFocus
                   value={phoneNumber}
                   style={styles.input}
                   textContentType="telephoneNumber"
@@ -177,7 +186,7 @@ function Screen({ dispatch, navigation, loading, counter, restSeconds, mode }) {
       </View>
       <View style={styles.about}>
         <View><Text style={styles.aboutText}>Thingspower</Text></View>
-        <View><Text style={styles.aboutText}>ver 1.0.7</Text></View>
+        <View><Text style={styles.aboutText}>ver {version}</Text></View>
       </View>
     </SafeAreaView>
   );
@@ -257,11 +266,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(({ login }) => {
+export default connect(({ login, global }) => {
   return {
     loading: login.loading,
     counter: login.counter,
     restSeconds: login.restSeconds,
-    mode: login.mode
+    mode: login.mode,
+    version: global.version
   };
 })( Screen );

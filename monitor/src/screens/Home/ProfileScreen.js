@@ -3,13 +3,15 @@ import React, { useEffect } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { SafeAreaView, StyleSheet, View, Text, Image } from 'react-native';
 import { List, Button } from '@ant-design/react-native';
+import withUpdate from '../../utils/withUpdate';
 import { connect } from '../../utils/plodux';
 import { getUrl } from '../../utils/request/urls';
 
 
 const Item = List.Item;
+const Brief = Item.Brief;
 
-function Screen({ navigation, dispatch, info }) {
+function Screen({ navigation, dispatch, info, checkUpdate, version }) {
 
   const headUrl = info ? `${getUrl( 'head_get' )}?fileName=${info.headFileName}` : '';
 
@@ -66,6 +68,11 @@ function Screen({ navigation, dispatch, info }) {
             });
           }}>
             <Text style={styles.listText}>修改密码</Text>
+          </Item>
+        </List>
+        <List renderHeader={' '}>
+          <Item arrow="horizontal" onPress={checkUpdate}>
+            <Text style={styles.listText}>检查更新</Text><Brief style={{ fontSize: 12 }}>当前版本：{version}</Brief>
           </Item>
         </List>
       </View>
@@ -125,8 +132,9 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(({ user }) => {
+export default withUpdate( connect(({ user, global }) => {
   return {
-    info: user.info
+    info: user.info,
+    version: global.version
   };
-})( Screen );
+})( Screen ));

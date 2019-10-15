@@ -52,11 +52,11 @@ NewsInfo.navigationOptions = ({ navigation }) => {
 
   return {
     title,
-    headerRight: (
-      <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleShowShareActionSheet}>
-        <Icon name="share-alt" size={20} color="#047FFE" style={{ marginRight: 16 }} />
-      </TouchableOpacity>
-    ),
+    // headerRight: (
+    //   <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleShowShareActionSheet}>
+    //     <Icon name="share-alt" size={20} color="#047FFE" style={{ marginRight: 16 }} />
+    //   </TouchableOpacity>
+    // ),
     headerLeft: <HeaderBackButton onPress={() => navigation.navigate( 'News' )} />
   };
 };

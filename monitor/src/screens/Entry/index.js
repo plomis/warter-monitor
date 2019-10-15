@@ -1,12 +1,12 @@
 
-import React, { useRef, useEffect } from 'react';
-import { StatusBar } from 'react-native';
+import React, { useRef, useEffect, useState } from 'react';
+import { StatusBar, AppState } from 'react-native';
 import { createAppContainer, SwitchActions } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import { Transition } from 'react-native-reanimated';
 import { Provider } from '@ant-design/react-native';
-import withUpdate from '../../utils/withUpdate';
+import autoUpdate from '../../utils/autoUpdate';
 import { connect, subscribe } from '../../utils/plodux';
 import Home from '../Home';
 import Message from '../Message';
@@ -88,16 +88,17 @@ const Auth = connect(({ global }) => {
   const ref = useRef( null );
 
   useEffect(() => {
+    StatusBar.setHidden( false );
     subscribe( 'global.logout', () => {
-      ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Login' }));
+      ref.current && ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Login' }));
     });
   }, []);
 
   useEffect(() => {
     if ( authed && accessToken ) {
-      ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Stack' }));
+      ref.current && ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Stack' }));
     } else if ( authed ) {
-      ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Login' }));
+      ref.current && ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Login' }));
     }
   }, [ authed, accessToken ]);
 
@@ -108,15 +109,36 @@ const Auth = connect(({ global }) => {
 
 
 const App = ({ mode, barStyle }) => {
+
+  const [ state, setState ] = useState( 'active' );
+
+  const handleState = ( nextAppState ) => {
+    if (
+      state.match(/inactive|background/) &&
+      nextAppState === 'active'
+    ) {
+      StatusBar.setTranslucent( true );
+    }
+    setState( nextAppState );
+  };
+
+  useEffect(() => {
+    AppState.addEventListener( 'change', handleState );
+    return () => {
+      AppState.removeEventListener( 'change', handleState );
+    };
+  }, []);
+
   return (
     <Provider>
-      <StatusBar translucent animated barStyle={barStyle} backgroundColor="rgba(255,255,255,0)" />
+      {/* <StatusBar translucent animated barStyle={barStyle} backgroundColor="rgba(255,255,255,0)" /> */}
+      <StatusBar translucent animated barStyle={barStyle} backgroundColor="transparent" />
       <Auth theme={mode} />
     </Provider>
   );
 };
 
-export default withUpdate( connect(({ statusBar, theme }) => {
+export default autoUpdate( connect(({ statusBar, theme }) => {
   return {
     mode: theme.mode,
     barStyle: statusBar.barStyle
