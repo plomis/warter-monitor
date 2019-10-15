@@ -53,6 +53,13 @@ export default {
         await AsyncStorage.setItem( 'userCode', json.data.userCode );
         await AsyncStorage.setItem( 'userName', json.data.userName );
 
+        await put({
+          type: 'global.update',
+          payload: {
+            accessToken: json.data.accessToken
+          }
+        });
+
         callback();
 
       } catch( err ) {

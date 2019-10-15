@@ -6,7 +6,8 @@ import { createStackNavigator } from 'react-navigation-stack';
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import { Transition } from 'react-native-reanimated';
 import { Provider } from '@ant-design/react-native';
-import { connect } from '../../utils/plodux';
+import withUpdate from '../../utils/withUpdate';
+import { connect, subscribe } from '../../utils/plodux';
 import Home from '../Home';
 import Message from '../Message';
 import MeasureInfo from '../Measure/Info';
@@ -85,6 +86,13 @@ const Auth = connect(({ global }) => {
   };
 })( function({ authed, accessToken, ...props }) {
   const ref = useRef( null );
+
+  useEffect(() => {
+    subscribe( 'global.logout', () => {
+      ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Login' }));
+    });
+  }, []);
+
   useEffect(() => {
     if ( authed && accessToken ) {
       ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Stack' }));
@@ -92,6 +100,7 @@ const Auth = connect(({ global }) => {
       ref.current.dispatch( SwitchActions.jumpTo({ routeName: 'Login' }));
     }
   }, [ authed, accessToken ]);
+
   return (
     <Switcher ref={ref} {...props} />
   );
@@ -107,9 +116,9 @@ const App = ({ mode, barStyle }) => {
   );
 };
 
-export default connect(({ statusBar, theme }) => {
+export default withUpdate( connect(({ statusBar, theme }) => {
   return {
     mode: theme.mode,
     barStyle: statusBar.barStyle
   };
-})( App );
+})( App ));

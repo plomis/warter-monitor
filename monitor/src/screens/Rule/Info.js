@@ -50,11 +50,11 @@ InfoComponent.navigationOptions = ({ navigation }) => {
 
   return {
     title,
-    headerRight: (
-      <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleShowActionSheet}>
-        <Icon name="ellipsis" size={32} color="#047FFE" style={{ marginRight: 16 }} />
-      </TouchableOpacity>
-    ),
+    // headerRight: (
+    //   <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleShowActionSheet}>
+    //     <Icon name="ellipsis" size={32} color="#047FFE" style={{ marginRight: 16 }} />
+    //   </TouchableOpacity>
+    // ),
     headerLeft: <HeaderBackButton onPress={() => navigation.navigate( 'Home' )} />
   };
 };

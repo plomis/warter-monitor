@@ -84,6 +84,10 @@ export const dispatch = ( action ) => {
   bridge.dispatch( action );
 };
 
+export const subscribe = ( ...arg ) => {
+  return bridge.watch( ...arg );
+};
+
 export const connect = ( mapStateToProps ) => ( Component ) => {
 
   class Connector extends React.Component {

@@ -1,7 +1,37 @@
 PODS:
+  - appcenter (2.4.0):
+    - AppCenterReactNativeShared
+    - React
+  - appcenter-analytics (2.4.0):
+    - AppCenter/Analytics
+    - AppCenterReactNativeShared
+    - React
+  - appcenter-crashes (2.4.0):
+    - AppCenter/Crashes
+    - AppCenterReactNativeShared
+    - React
+  - appcenter-push (2.4.0):
+    - AppCenter/Push
+    - AppCenterReactNativeShared
+    - React
+  - AppCenter/Analytics (2.3.0):
+    - AppCenter/Core
+  - AppCenter/Core (2.3.0)
+  - AppCenter/Crashes (2.3.0):
+    - AppCenter/Core
+  - AppCenter/Push (2.3.0):
+    - AppCenter/Core
+  - AppCenterReactNativeShared (2.3.0):
+    - AppCenter/Core (= 2.3.0)
+  - Base64 (1.1.2)
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.6):
     - React
+  - CodePush (5.7.0):
+    - Base64 (~> 1.1)
+    - JWT (~> 3.0.0-beta.7)
+    - React
+    - SSZipArchive (~> 2.1)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.61.2)
   - FBReactNativeSpec (0.61.2):
@@ -21,6 +51,8 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - JWT (3.0.0-beta.11):
+    - Base64 (~> 1.1.2)
   - Permission-Camera (2.0.2):
     - RNPermissions
   - Permission-Notifications (2.0.2):
@@ -196,6 +228,8 @@ PODS:
     - React
   - react-native-camera/RN (3.7.0):
     - React
+  - react-native-orientation-locker (1.1.6):
+    - React
   - react-native-splash-screen (3.2.0):
     - React
   - react-native-viewpager (2.0.0):
@@ -251,16 +285,22 @@ PODS:
     - React
   - RNReanimated (1.3.0):
     - React
-  - RNScreens (2.0.0-alpha.3):
+  - RNScreens (2.0.0-alpha.4):
     - React
   - RNSVG (9.11.1):
     - React
   - RNVectorIcons (6.6.0):
     - React
+  - SSZipArchive (2.2.2)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
+  - appcenter (from `../node_modules/appcenter/ios`)
+  - appcenter-analytics (from `../node_modules/appcenter-analytics/ios`)
+  - appcenter-crashes (from `../node_modules/appcenter-crashes/ios`)
+  - appcenter-push (from `../node_modules/appcenter-push/ios`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
+  - CodePush (from `../node_modules/react-native-code-push`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
@@ -280,6 +320,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-camera (from `../node_modules/react-native-camera`)
+  - react-native-orientation-locker (from `../node_modules/react-native-orientation-locker`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - "react-native-viewpager (from `../node_modules/@react-native-community/viewpager`)"
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -308,11 +349,26 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - AppCenter
+    - AppCenterReactNativeShared
+    - Base64
     - boost-for-react-native
+    - JWT
+    - SSZipArchive
 
 EXTERNAL SOURCES:
+  appcenter:
+    :path: "../node_modules/appcenter/ios"
+  appcenter-analytics:
+    :path: "../node_modules/appcenter-analytics/ios"
+  appcenter-crashes:
+    :path: "../node_modules/appcenter-crashes/ios"
+  appcenter-push:
+    :path: "../node_modules/appcenter-push/ios"
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
+  CodePush:
+    :path: "../node_modules/react-native-code-push"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -347,6 +403,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  react-native-orientation-locker:
+    :path: "../node_modules/react-native-orientation-locker"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   react-native-viewpager:
@@ -397,13 +455,22 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AppCenter: 9784d2fc998c9bd0b8fbaf4fb9ed69526d12ce1a
+  appcenter: 4072e79b8d037d99056e6fc6556224b4525b5829
+  appcenter-analytics: 94be52eca805d586207d710aac95e0ddca8b3ddb
+  appcenter-crashes: 30caece47856aee7c4c7449d4f4dae2d69795bd6
+  appcenter-push: f6c62e8e55cf09f53076674c185df72f68ea9dd7
+  AppCenterReactNativeShared: 7ac481cba7f926848a7be76dca4dcb2692df3b06
+  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
+  CodePush: fe25db2e24ff1a2fab8b280a9633d9ba520867be
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: 68b6a76960fbd8ecd9fb7ce0aadd3329c3340a99
   FBReactNativeSpec: 5a764c60abdc3336a213e5310c40b74741f32839
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
+  JWT: 05028b9624591bba9681bb57df2c5f95fa258bad
   Permission-Camera: c483d4636407d7e6c13c2dad5bc83c6b258e0df6
   Permission-Notifications: 239d88f23915b360b596da931dfdb91f0b3b6d8f
   RCTRequired: c639d59ed389cfb1f1203f65c2ea946d8ec586e2
@@ -416,6 +483,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 8909917ff7d8f21a57e443a866fd8d4560e50c65
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
   react-native-camera: 00b9703c71fd000f5238850a2557d1f4e5c0a5c0
+  react-native-orientation-locker: 23918c400376a7043e752c639c122fcf6bce8f1c
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-viewpager: 5e8a269867a4f63d9f918903bb287843950c6281
   react-native-webview: 4dbc1d2a4a6b9c5e9e723c62651917aa2b5e579e
@@ -436,9 +504,10 @@ SPEC CHECKSUMS:
   RNPDF: 8a40fafbed2714e7e8fe4e7c9f6f9815f52a939c
   RNPermissions: 76d6d5a65496b33378afe4b90ae5b30629ddd900
   RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
-  RNScreens: 402a99b0a27c0c32f079cec12d3ccbd35e20cd7f
+  RNScreens: 84be1a2369a580beb2fea0755cc62ef16b83fffe
   RNSVG: be27aa7c58819f97399388ae53d7fa0572f32c7f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
+  SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
 PODFILE CHECKSUM: e00f31c7674d62b51b4295e93605cb87eface011

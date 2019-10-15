@@ -1,7 +1,7 @@
 
 import moment from 'moment';
 import React, { useState, useContext, useRef } from 'react';
-import { StyleSheet, View, Picker } from 'react-native';
+import { StyleSheet, View, Picker, Text } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SegmentedControl, Icon } from '@ant-design/react-native';
 import { NavigationEvents, ThemeContext } from 'react-navigation';

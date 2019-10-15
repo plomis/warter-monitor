@@ -45,7 +45,7 @@ function Scanner({ dispatch, navigation }) {
           <Icon name="left" size={20} color="rgba(255,255,255,0.85)" style={{ marginLeft: 16 }} />
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleBack}>
-          <Icon name="ellipsis" size={32} color="rgba(255,255,255,0.85)" style={{ marginRight: 16 }} />
+          {/* <Icon name="ellipsis" size={32} color="rgba(255,255,255,0.85)" style={{ marginRight: 16 }} /> */}
         </TouchableOpacity>
       </View>
     );

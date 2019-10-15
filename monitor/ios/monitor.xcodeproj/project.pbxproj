@@ -14,12 +14,11 @@
 		15F0FB639862453EA801F226 /* antfill.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E0740807902F45CCAC2241E5 /* antfill.ttf */; };
 		2EFB5127B91E413EA5EE0EF6 /* libPods-monitor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B72763656ACA2C18ADFEF33 /* libPods-monitor.a */; };
 		3CB64E3E8DE949FD9642C964 /* antoutline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D4B00F622434FE9A08BF6EF /* antoutline.ttf */; };
+		C669E14F2351D30F00F5F7A5 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = C669E14E2351D30E00F5F7A5 /* AppCenter-Config.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* monitorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = monitorTests.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* 长江委节水.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "长江委节水.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = monitor/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = monitor/AppDelegate.m; sourceTree = "<group>"; };
@@ -27,9 +26,11 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = monitor/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = monitor/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = monitor/main.m; sourceTree = "<group>"; };
+		246766253DD0E4C43190C673 /* Pods-monitor.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monitor.staging.xcconfig"; path = "Target Support Files/Pods-monitor/Pods-monitor.staging.xcconfig"; sourceTree = "<group>"; };
 		5E04CC99785AEA39AAB15AA9 /* Pods-monitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monitor.release.xcconfig"; path = "Target Support Files/Pods-monitor/Pods-monitor.release.xcconfig"; sourceTree = "<group>"; };
 		7B72763656ACA2C18ADFEF33 /* libPods-monitor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-monitor.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D4B00F622434FE9A08BF6EF /* antoutline.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = antoutline.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; };
+		C669E14E2351D30E00F5F7A5 /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "../AppCenter-Config.plist"; sourceTree = "<group>"; };
 		E0740807902F45CCAC2241E5 /* antfill.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = antfill.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; };
 		E6FA248BE7AD24FD2F04F654 /* Pods-monitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monitor.debug.xcconfig"; path = "Target Support Files/Pods-monitor/Pods-monitor.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -48,26 +49,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* monitorTests */ = {
-			isa = PBXGroup;
-			children = (
-				00E356F21AD99517003FC87E /* monitorTests.m */,
-				00E356F01AD99517003FC87E /* Supporting Files */,
-			);
-			path = monitorTests;
-			sourceTree = "<group>";
-		};
-		00E356F01AD99517003FC87E /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				00E356F11AD99517003FC87E /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		13B07FAE1A68108700A75B9A /* monitor */ = {
 			isa = PBXGroup;
 			children = (
+				C669E14E2351D30E00F5F7A5 /* AppCenter-Config.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -103,6 +88,7 @@
 			children = (
 				E6FA248BE7AD24FD2F04F654 /* Pods-monitor.debug.xcconfig */,
 				5E04CC99785AEA39AAB15AA9 /* Pods-monitor.release.xcconfig */,
+				246766253DD0E4C43190C673 /* Pods-monitor.staging.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -119,7 +105,6 @@
 			children = (
 				13B07FAE1A68108700A75B9A /* monitor */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* monitorTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				3C985EFDE55AFCE30BDE8B4A /* Pods */,
@@ -201,6 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				C669E14F2351D30F00F5F7A5 /* AppCenter-Config.plist in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				15F0FB639862453EA801F226 /* antfill.ttf in Resources */,
 				3CB64E3E8DE949FD9642C964 /* antoutline.ttf in Resources */,
@@ -345,11 +331,13 @@
 			baseConfigurationReference = E6FA248BE7AD24FD2F04F654 /* Pods-monitor.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODEPUSH_KEY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LFAN7975JB;
 				INFOPLIST_FILE = monitor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -366,10 +354,12 @@
 			baseConfigurationReference = 5E04CC99785AEA39AAB15AA9 /* Pods-monitor.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODEPUSH_KEY = 8xQvr5Dk8y58IeXnc7m5cskK7JW4MrlH9aFn3;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LFAN7975JB;
 				INFOPLIST_FILE = monitor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

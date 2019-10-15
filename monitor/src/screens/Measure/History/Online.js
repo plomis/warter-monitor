@@ -115,7 +115,6 @@ function Block({ dispatch, listLoading, list, pageIndex, pageSize, info }) {
       data={list}
       refreshing={pageIndex !== 1 && listLoading}
       onRefresh={handleFetch()}
-      // stickySectionHeadersEnabled={false}
       style={styles.scrollview}
       keyExtractor={( item ) => item.month}
       renderItem={({ item }) => renderItem( item )}

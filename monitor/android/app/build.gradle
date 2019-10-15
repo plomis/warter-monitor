@@ -128,6 +128,7 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.monitor"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -154,13 +155,22 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            // buildConfigField "String", "CODEPUSH_KEY", '""'
         }
+        // releaseStaging {
+        //     buildConfigField "String", "CODEPUSH_KEY", '"' + CODE_PUSH_KEY_STAGING + '"'
+
+        //     // Note: It is a good idea to provide matchingFallbacks for the new buildType you create to prevent build issues
+        //     // Add the following line if not already there
+        //     matchingFallbacks = ['release']
+        // }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            // buildConfigField "String", "CODEPUSH_KEY", '"' + CODE_PUSH_KEY_PRODUCTION + '"'
         }
     }
     // applicationVariants are e.g. debug, release

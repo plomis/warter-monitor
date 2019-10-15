@@ -175,7 +175,10 @@ function Screen({ dispatch, navigation, loading, counter, restSeconds, mode }) {
           </Button>
         </View>
       </View>
-      <View style={styles.about}><Text style={styles.aboutText}>Thingspower</Text></View>
+      <View style={styles.about}>
+        <View><Text style={styles.aboutText}>Thingspower</Text></View>
+        <View><Text style={styles.aboutText}>ver 1.0.7</Text></View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -231,6 +234,7 @@ const styles = StyleSheet.create({
   },
   about: {
     flex: 1,
+    marginBottom: 16,
     justifyContent: 'flex-end'
   },
   aboutText: {
