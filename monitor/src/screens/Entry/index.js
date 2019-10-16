@@ -131,7 +131,6 @@ const App = ({ mode, barStyle }) => {
 
   return (
     <Provider>
-      {/* <StatusBar translucent animated barStyle={barStyle} backgroundColor="rgba(255,255,255,0)" /> */}
       <StatusBar translucent animated barStyle={barStyle} backgroundColor="transparent" />
       <Auth theme={mode} />
     </Provider>

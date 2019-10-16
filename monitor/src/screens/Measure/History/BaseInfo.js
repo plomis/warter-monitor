@@ -1,5 +1,6 @@
 
 import React from 'react';
+import is from 'whatitis';
 import { StyleSheet } from 'react-native';
 import { List, InputItem, Text, View } from '@ant-design/react-native';
 import { connect } from '../../../utils/plodux';
@@ -16,7 +17,10 @@ const names = {
   },
   meterRate: {
     name: '外置倍率',
-    type: 'input'
+    type: 'input',
+    formater( value ) {
+      return is.Number( value ) ? `${value}` : '--'
+    }
   },
   deviceModel: {
     name: '设备编号',
@@ -28,7 +32,10 @@ const names = {
   },
   todayOnLineRate: {
     name: '今日在线',
-    type: 'input'
+    type: 'input',
+    formater( value ) {
+      return is.Number( value ) ? `${Math.round( value * 10000 ) / 100}%` : '--'
+    }
   },
   deviceInstallAddr: {
     name: '安装地址',
@@ -43,9 +50,9 @@ function Block({ data }) {
         {Object.keys( data ).map(( key ) => {
           const value = data[key];
           if ( names[key]) {
-            const { name } = names[key];
+            const { name, formater } = names[key];
             return (
-              <InputItem value={value} editable={false}>
+              <InputItem key={key} value={formater ? formater( value ) : value} editable={false}>
                 <Text style={styles.name}>{name}</Text>
               </InputItem>
             );

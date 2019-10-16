@@ -4,7 +4,7 @@ import React, { useEffect, useContext } from 'react';
 import { NavigationEvents, ThemeContext } from 'react-navigation';
 import { Text, ScrollView, StyleSheet, View, RefreshControl } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { List } from '@ant-design/react-native';
+import { List, ActivityIndicator } from '@ant-design/react-native';
 import { HEADER_LARGE_HEIGHT, ThemeConstants } from '../../components/constants';
 import EmptyList from '../../components/EmptyList';
 import { connect } from '../../utils/plodux';
@@ -75,11 +75,9 @@ function Screen({ dispatch, navigation, loading, list, count }) {
         refreshControl={
           <RefreshControl refreshing={list && loading} onRefresh={handleFetch} />
         }>
-        {!list ? (
-          <EmptyList text="正在加载..." />
-        ) : list.length === 0 ? (
+        {list && list.length === 0 ? (
           <EmptyList />
-        ) : (
+        ) : list ? (
           <List>
             {list.map(( item ) => {
               const { title, dosage, unit_en, onLine, isDebug } = item;
@@ -101,8 +99,9 @@ function Screen({ dispatch, navigation, loading, list, count }) {
               );
             })}
           </List>
-        )}
+        ) : null}
       </ScrollView>
+      {!list && loading ? <ActivityIndicator toast text="正在加载" /> : null}
     </View>
   );
 }

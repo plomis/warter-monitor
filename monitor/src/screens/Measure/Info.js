@@ -3,6 +3,7 @@ import is from 'whatitis';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { NavigationEvents } from 'react-navigation';
+import { ActivityIndicator } from '@ant-design/react-native';
 import { Text, View, StyleSheet, Platform } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
@@ -12,7 +13,7 @@ import { connect } from '../../utils/plodux';
 import Charts from './Charts';
 import HistoryBlcok from './History';
 import Online from './History/Online';
-import History from './History/History.ios';
+import History from './History/History';
 import BaseInfo from './History/BaseInfo';
 
 
@@ -39,14 +40,21 @@ function MeasureInfo({ dispatch, navigation, loading, info }) {
     });
   };
 
-  useEffect( handleFetch, []);
+  useEffect(() => {
+    handleFetch();
+    return () => {
+      dispatch({
+        type: 'measure.infoDestroy'
+      });
+    };
+  }, []);
 
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
       <AnimatedScrollView
-        refreshing={info && loading}
-        onRefresh={handleFetch}
+        // refreshing={info && loading}
+        // onRefresh={handleFetch}
         style={styles.scrollView}>
         <View style={styles.header}>
           <View style={styles.meter}>
@@ -74,6 +82,7 @@ function MeasureInfo({ dispatch, navigation, loading, info }) {
         <Charts />
         <HistoryBlcok navigation={navigation} />
       </AnimatedScrollView>
+      {loading ? <ActivityIndicator toast text="正在加载" /> : null}
     </View>
   );
 }
@@ -175,7 +184,11 @@ const Info = createStackNavigator({
         loading: measure.infoLoading,
         info: measure.info
       };
-    })( MeasureInfo )
+    })( MeasureInfo ),
+    navigationOptions: {
+      headerBackTitle: '',
+      headerTruncatedBackTitle: ''
+    }
   },
   Online: {
     screen: Online

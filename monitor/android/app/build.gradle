@@ -133,7 +133,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2
-        versionName "1.0.3"
+        versionName "1.0.4"
         missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
@@ -151,6 +151,14 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            if ( project.hasProperty( 'RELEASE_STORE_FILE' )) {
+                storeFile file( RELEASE_STORE_FILE )
+                storePassword RELEASE_STORE_PASSWORD
+                keyAlias RELEASE_KEY_ALIAS
+                keyPassword RELEASE_KEY_PASSWORD
+            }
+        }
     }
     buildTypes {
         debug {
@@ -158,7 +166,8 @@ android {
             // buildConfigField "String", "CODEPUSH_KEY", '""'
         }
         // releaseStaging {
-        //     buildConfigField "String", "CODEPUSH_KEY", '"' + CODE_PUSH_KEY_STAGING + '"'
+        //     signingConfig signingConfigs.release
+        //     // buildConfigField "String", "CODEPUSH_KEY", '"YQHs41oSd6ku2y4gGGcGeHUooOr04yC0YWyuo"'
 
         //     // Note: It is a good idea to provide matchingFallbacks for the new buildType you create to prevent build issues
         //     // Add the following line if not already there
@@ -167,10 +176,10 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            // buildConfigField "String", "CODEPUSH_KEY", '"' + CODE_PUSH_KEY_PRODUCTION + '"'
+            // buildConfigField "String", "CODEPUSH_KEY", '"0qsiGE7J_s5Yj_2OJ2GkS6igSDENkD4f5YSqs"'
         }
     }
     // applicationVariants are e.g. debug, release

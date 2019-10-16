@@ -16,6 +16,26 @@ function listFormat( item ) {
   };
 }
 
+const state = () => {
+  return {
+    count: null,
+    list: null,
+    loading: false,
+    infoLoading: false,
+    listLoading: false,
+    pageIndex: 1,
+    pageSize: 30,
+    pageLimit: 30,
+    online: null,
+    history: null,
+    historyVar: null,
+    info: null,
+    'today': null,
+    '30day': null,
+    '12month': null
+  };
+}
+
 export default {
   namespace: 'measure',
   state: {
@@ -36,6 +56,27 @@ export default {
     '12month': null
   },
   effects: {
+
+    async infoDestroy( _, { put }) {
+      await put({
+        type: 'update',
+        payload: {
+          loading: false,
+          infoLoading: false,
+          listLoading: false,
+          pageIndex: 1,
+          pageSize: 30,
+          pageLimit: 30,
+          online: null,
+          history: null,
+          historyVar: null,
+          info: null,
+          'today': null,
+          '30day': null,
+          '12month': null
+        }
+      });
+    },
 
     async getData({ request }, { put }) {
 

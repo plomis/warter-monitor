@@ -1,9 +1,9 @@
 
 import moment from 'moment';
 import React, { useState, useContext, useRef } from 'react';
-import { StyleSheet, View, Picker, Text } from 'react-native';
+import { StyleSheet, View, Picker } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { SegmentedControl, Icon } from '@ant-design/react-native';
+import { SegmentedControl, Icon, ActivityIndicator } from '@ant-design/react-native';
 import { NavigationEvents, ThemeContext } from 'react-navigation';
 import WebView from 'react-native-webview';
 import { HOST, HEADER_HEIGHT, ThemeConstants } from '../../components/constants';
@@ -23,6 +23,7 @@ function Screen({ dispatch, accessToken }) {
 
   const webViewRef = useRef( null );
   const theme = useContext( ThemeContext );
+  const [ loading, setLoading ] = useState( true );
   const statusBarHeight = getStatusBarHeight();
   const [ selected, setSelected ] = useState( moment().add( -1, 'month' ));
   const [ type, setType ] = useState( '月报' );
@@ -50,6 +51,10 @@ function Screen({ dispatch, accessToken }) {
         barStyle: 'dark-content'
       }
     });
+  };
+
+  handleLoad = () => {
+    setLoading( false );
   };
 
   const handleChange = ( date ) => {
@@ -107,9 +112,10 @@ function Screen({ dispatch, accessToken }) {
         zoomable={false}
         source={{ uri }}
         dataDetectorTypes="none"
-        incognito
+        onLoad={handleLoad}
         hideKeyboardAccessoryView
         applicationNameForUserAgent="Thingspower/1.0.0" />
+      {loading ? <ActivityIndicator toast text="正在加载" /> : null}
     </View>
   );
 }

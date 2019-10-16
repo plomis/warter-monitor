@@ -45,7 +45,6 @@ const ListFooter = connect(({ measure }) => {
 
 function Block({ dispatch, listLoading, list, pageIndex, pageSize, info }) {
 
-
   const handleFetch = ( page = 1 ) => async () => {
     const startDay = moment().add( pageSize * ( 0 - page ), 'month' ).startOf( 'month' );
     const endDay = moment().add( pageSize * ( 1 - page ), 'month' ).endOf( 'month' );
@@ -73,6 +72,7 @@ function Block({ dispatch, listLoading, list, pageIndex, pageSize, info }) {
   }, []);
 
   const renderItem = ({ monthData, month }) => {
+
     const minDate = moment( month, 'YYYY-MM' ).startOf( 'month' ).format( 'YYYY-MM-DD' );
     const maxDate = moment( month, 'YYYY-MM' ).endOf( 'month' ).format( 'YYYY-MM-DD' );
     return (

@@ -54,24 +54,24 @@ WebPagetHome.navigationOptions = ({ navigation }) => {
   const title = navigation.getParam( 'title' );
   const back = navigation.getParam( 'back' );
 
-  const handleShowActionSheet = () => {
-    ActionSheet.showActionSheetWithOptions({
-      options: [ '刷新', '取消' ],
-      cancelButtonIndex: 1
-    }, ( buttonIndex ) => {
-      if ( buttonIndex === 0 ) {
-        // webviewRef.current.reload();
-      }
-    });
-  };
+  // const handleShowActionSheet = () => {
+  //   ActionSheet.showActionSheetWithOptions({
+  //     options: [ '刷新', '取消' ],
+  //     cancelButtonIndex: 1
+  //   }, ( buttonIndex ) => {
+  //     if ( buttonIndex === 0 ) {
+  //       // webviewRef.current.reload();
+  //     }
+  //   });
+  // };
 
   return {
     title,
-    headerRight: (
-      <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleShowActionSheet}>
-        <Icon name="ellipsis" size={20} color="#047FFE" style={{ marginRight: 16 }} />
-      </TouchableOpacity>
-    ),
+    // headerRight: (
+    //   <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleShowActionSheet}>
+    //     <Icon name="ellipsis" size={20} color="#047FFE" style={{ marginRight: 16 }} />
+    //   </TouchableOpacity>
+    // ),
     headerLeft: <HeaderBackButton onPress={() => navigation.navigate( back )} />
   };
 };

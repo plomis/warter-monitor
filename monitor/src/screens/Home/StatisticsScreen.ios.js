@@ -4,7 +4,7 @@ import React, { useState, useContext, useRef } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Animated, Button,
   Easing, TouchableWithoutFeedback, Picker } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { SegmentedControl, Icon } from '@ant-design/react-native';
+import { SegmentedControl, Icon, ActivityIndicator } from '@ant-design/react-native';
 import { NavigationEvents, ThemeContext } from 'react-navigation';
 import WebView from 'react-native-webview';
 import { ACTIVE_OPACITY, HEADER_HEIGHT, ThemeConstants, HOST } from '../../components/constants';
@@ -24,6 +24,7 @@ const makePickerItems = ( type, format ) => {
 function Screen({ dispatch, accessToken }) {
 
   const webViewRef = useRef( null );
+  const [ loading, setLoading ] = useState( true );
   const theme = useContext( ThemeContext );
   const statusBarHeight = getStatusBarHeight();
   const [ selected, setSelected ] = useState( moment().add( -1, 'month' ));
@@ -102,6 +103,10 @@ function Screen({ dispatch, accessToken }) {
     }
   };
 
+  handleLoad = () => {
+    setLoading( false );
+  };
+
   const handleClose = () => {
     Animated.timing(
       state.y,
@@ -152,6 +157,7 @@ function Screen({ dispatch, accessToken }) {
         ref={webViewRef}
         zoomable={false}
         source={{ uri }}
+        onLoad={handleLoad}
         dataDetectorTypes="none"
         hideKeyboardAccessoryView
         applicationNameForUserAgent="Thingspower/1.0.0" />
@@ -220,6 +226,7 @@ function Screen({ dispatch, accessToken }) {
           </TouchableOpacity>
         </Animated.View>
       </View>
+      {loading ? <ActivityIndicator toast text="正在加载" /> : null}
     </View>
   );
 }

@@ -46,7 +46,11 @@ function withUpdate( Component ) {
             );
           }
         }).catch(() => {
-          // do nothings
+          Alert.alert(
+            '',
+            '网络请求失败！',
+            [{ text: '知道了', style: 'cancel' }]
+          );
         }).finally(() => {
           this.setState({ loading: false });
         });
@@ -82,7 +86,11 @@ function withUpdate( Component ) {
             );
           }
         }).catch(() => {
-          // do nothings
+          Alert.alert(
+            '',
+            '网络请求失败！',
+            [{ text: '知道了', style: 'cancel' }]
+          );
         }).finally(() => {
           this.setState({ loading: false });
         });
