@@ -2,5 +2,5 @@
     <string name="app_name">长江委节水</string>
     <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
     <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
-    <string name="reactNativeCodePush_androidDeploymentKey" moduleConfig="true" translatable="false">0qsiGE7J_s5Yj_2OJ2GkS6igSDENkD4f5YSqs</string>
+    <string name="reactNativeCodePush_androidDeploymentKey" moduleConfig="true" translatable="false">YQHs41oSd6ku2y4gGGcGeHUooOr04yC0YWyuo</string>
 </resources>

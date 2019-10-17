@@ -41,9 +41,9 @@ function withUpdate( Component ) {
           // do nothings
         });
       } else if ( Platform.OS === 'android' ) {
-        fetch( `${UPDATE_URL}?v=${+ new Date()}` ).then( res => res.json()).then( async ({ latest, downloadUrl }) => {
+        fetch( `${UPDATE_URL}?v=${+ new Date()}` ).then( res => res.json()).then( async ({ androidLatest, android }) => {
           const version = await DeviceInfo.getVersion();
-          if ( compare( latest, version, 3 ) > 0 ) {
+          if ( compare( androidLatest, version, 3 ) > 0 ) {
             Alert.alert(
               '',
               '发现新版本，是否立即更新？',
@@ -53,9 +53,9 @@ function withUpdate( Component ) {
                   text: '立即下载',
                   onPress() {
                     NativeModules.DownloadApk.downloading(
-                      downloadUrl,
+                      android,
                       '长江委节水',
-                      `water-monitor-${latest}.apk`
+                      `water-monitor-${androidLatest}.apk`
                     );
                   }
                 }
