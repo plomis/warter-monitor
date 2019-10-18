@@ -1,11 +1,10 @@
 
 import React, { useEffect } from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { Text, View, StyleSheet, SectionList, TouchableOpacity, Platform, Alert } from 'react-native';
+import { Text, View, StyleSheet, SectionList, Platform } from 'react-native';
 import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
-import { SegmentedControl, Icon, Toast } from '@ant-design/react-native';
+import { SegmentedControl, ActivityIndicator } from '@ant-design/react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { ACTIVE_OPACITY } from '../../components/constants';
 import EmptyList from '../../components/EmptyList';
 import { connect } from '../../utils/plodux';
 
@@ -28,26 +27,26 @@ function renderItem({ warnTypeName, isClear, warnDateTime, warnContent }) {
 
 const Segment = connect(({ message }) => {
   return {
-    pageSize: message.pageSize,
+    loading: message.loading,
     isClear: message.isClear
   };
-})(({ isClear, pageSize, dispatch }) => {
+})(({ isClear, loading, dispatch }) => {
   return (
     <SegmentedControl
+      underlayColor="transparent"
       style={styles.segment}
       selectedIndex={isClear === '' ? 2 : isClear}
       values={[ '未消警', '已消警', '全部' ]} // 0 , 1, ''
       tintColor="#047FFE"
       onChange={( e ) => {
-        dispatch({
-          type: 'message.getList',
-          payload: {
-            filter: '',
-            isClear: e.nativeEvent.selectedSegmentIndex === 2 ? '' : e.nativeEvent.selectedSegmentIndex,
-            pageIndex: 1,
-            pageSize
-          }
-        });
+        if ( !loading ) {
+          dispatch({
+            type: 'message.update',
+            payload: {
+              isClear: e.nativeEvent.selectedSegmentIndex === 2 ? '' : e.nativeEvent.selectedSegmentIndex
+            }
+          });
+        }
       }} />
   );
 });
@@ -55,21 +54,20 @@ const Segment = connect(({ message }) => {
 
 const ListFooter = connect(({ message }) => {
   return {
-    loading: message.listLoading,
     pageSize: message.pageSize,
     pageLimit: message.pageLimit
   };
-})(({ loading, pageSize, pageLimit }) => {
+})(({ pageSize, pageLimit }) => {
   return (
     <View style={styles.listFooter}>
       <Text style={{ color: 'rgba(0,0,0,0.4)' }}>
-        {pageSize > pageLimit ? '没有更多数据' : loading ? '加载数据...' : ''}
+        {pageSize > pageLimit ? '没有更多数据' : ''}
       </Text>
     </View>
   );
 })
 
-function MessageHome({ dispatch, listLoading, loading, list, pageIndex, pageSize, isClear }) {
+function MessageHome({ dispatch, loading, list, pageIndex, pageSize, isClear }) {
 
   const handleWillFocus = () => {
     dispatch({
@@ -94,6 +92,19 @@ function MessageHome({ dispatch, listLoading, loading, list, pageIndex, pageSize
     }
   };
 
+  const handleClearChange = async () => {
+    dispatch({
+      type: 'message.getList',
+      isFirstLoad: true,
+      payload: {
+        filter: '',
+        isClear,
+        pageIndex: 1,
+        pageSize
+      }
+    });
+  };
+
   const handleRefresh = async () => {
     dispatch({
       type: 'message.refresh',
@@ -107,7 +118,7 @@ function MessageHome({ dispatch, listLoading, loading, list, pageIndex, pageSize
   };
 
   useEffect(() => {
-    handleFetch()();
+    handleClearChange();
   }, [isClear]);
 
   return (
@@ -115,7 +126,7 @@ function MessageHome({ dispatch, listLoading, loading, list, pageIndex, pageSize
       <NavigationEvents onWillFocus={handleWillFocus} />
       <SectionList
         sections={list}
-        refreshing={listLoading}
+        refreshing={loading && !!list}
         onRefresh={handleRefresh}
         stickySectionHeadersEnabled={false}
         style={styles.scrollview}
@@ -129,6 +140,7 @@ function MessageHome({ dispatch, listLoading, loading, list, pageIndex, pageSize
             <Text style={styles.headerTitle}>{title}</Text>
           </View>
         )} />
+      {loading && list === null ? <ActivityIndicator toast text="正在加载" /> : null}
     </View>
   );
 }
@@ -137,14 +149,6 @@ MessageHome.navigationOptions = ({ navigation }) => {
   return {
     headerTitle: <Segment />,
     headerLeft: <HeaderBackButton onPress={() => navigation.navigate( 'Home' )} />,
-    // headerRight: (
-    //   <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={() => {
-    //     // navigation.navigate( 'search' );
-    //     Alert.alert( '敬请期待！' );
-    //   }}>
-    //     <Icon name="search" color="#047FFE" size={24} />
-    //   </TouchableOpacity>
-    // ),
     headerRightContainerStyle: { paddingRight: 16 }
   };
 };
@@ -222,11 +226,11 @@ const Message = createStackNavigator({
       return {
         list: message.list,
         loading: message.loading,
-        listLoading: message.listLoading,
         pageIndex: message.pageIndex,
         pageLimit: message.pageLimit,
         pageSize: message.pageSize,
-        isClear: message.isClear
+        isClear: message.isClear,
+        firstLoad: message.firstLoad
       };
     })( MessageHome )
   }

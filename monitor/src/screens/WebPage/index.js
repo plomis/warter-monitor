@@ -1,12 +1,12 @@
 
 import React, { useState } from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { View, StyleSheet, TouchableOpacity, Platform } from 'react-native';
-import { Icon, ActivityIndicator, ActionSheet } from '@ant-design/react-native';
+import { View, StyleSheet, Platform } from 'react-native';
+import { ActivityIndicator } from '@ant-design/react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
 import WebView from 'react-native-webview';
-import { ACTIVE_OPACITY, HOST } from '../../components/constants';
+import { HOST } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
 
@@ -15,7 +15,6 @@ const basename = `${HOST}/water/monitor/app`;
 function WebPagetHome({ dispatch, navigation }) {
 
   const url = navigation.getParam( 'url' )
-
   const [ loading, setLoading ] = useState( true );
 
   const handleWillFocus = () => {
@@ -53,25 +52,8 @@ WebPagetHome.navigationOptions = ({ navigation }) => {
 
   const title = navigation.getParam( 'title' );
   const back = navigation.getParam( 'back' );
-
-  // const handleShowActionSheet = () => {
-  //   ActionSheet.showActionSheetWithOptions({
-  //     options: [ '刷新', '取消' ],
-  //     cancelButtonIndex: 1
-  //   }, ( buttonIndex ) => {
-  //     if ( buttonIndex === 0 ) {
-  //       // webviewRef.current.reload();
-  //     }
-  //   });
-  // };
-
   return {
     title,
-    // headerRight: (
-    //   <TouchableOpacity activeOpacity={ACTIVE_OPACITY} onPress={handleShowActionSheet}>
-    //     <Icon name="ellipsis" size={20} color="#047FFE" style={{ marginRight: 16 }} />
-    //   </TouchableOpacity>
-    // ),
     headerLeft: <HeaderBackButton onPress={() => navigation.navigate( back )} />
   };
 };

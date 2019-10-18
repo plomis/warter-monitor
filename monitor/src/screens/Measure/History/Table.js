@@ -11,22 +11,29 @@ function pick( row, colName ) {
   });
 }
 
-function renderItem( item, widthArr, headerData ) {
-  return (
-    <View style={styles.rowWrap}>
-      <TableWrapper borderStyle={{ borderWidth: 1, borderColor: '#e8e8e8' }}>
-        <Row
-          data={pick( item, headerData )}
-          widthArr={widthArr}
-          style={styles.row}
-          textStyle={styles.text} />
-      </TableWrapper>
-    </View>
-  );
+class Item extends React.Component {
+
+  shouldComponentUpdate() {
+    return false;
+  }
+
+  render() {
+    const { item, widthArr, headerData } = this.props;
+    return (
+      <View style={styles.rowWrap}>
+        <TableWrapper borderStyle={{ borderWidth: 1, borderColor: '#e8e8e8' }}>
+          <Row
+            data={pick( item, headerData )}
+            widthArr={widthArr}
+            style={styles.row}
+            textStyle={styles.text} />
+        </TableWrapper>
+      </View>
+    );
+  }
 }
 
-
-function TableComponent({ style, refreshing, onRefresh, onEndReached, data, headerData }) {
+function TableComponent({ style, onEndReached, data, headerData }) {
 
   const tableHead = headerData && ['时间'].concat( headerData.map(({ varName }) => varName ));
   const widthArr = headerData && [200].concat( Array( headerData.length ).fill( 100 ));
@@ -41,11 +48,9 @@ function TableComponent({ style, refreshing, onRefresh, onEndReached, data, head
             </Table>
             <FlatList
               data={data}
-              // refreshing={false}
-              // onRefresh={onRefresh}
               style={styles.dataWrapper}
               keyExtractor={( item ) => item.realDateTime}
-              renderItem={({ item }) => renderItem( item, widthArr, headerData )}
+              renderItem={({ item }) => <Item item={item} widthArr={widthArr} headerData={headerData} />}
               onEndReached={onEndReached} />
           </View>
         </ScrollView>

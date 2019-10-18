@@ -8,16 +8,16 @@ function append( list, newList ) {
     const today = moment().format( 'YYYY-MM-DD' );
     const yestoday = moment().add( -1, 'day' ).format( 'YYYY-MM-DD' );
     const sectionKey = moment( data.warnDateTime ).format( 'YYYY-MM-DD' );
-    const section = list.find(({ key }) => key === sectionKey );
-    if ( section ) {
-      section.data.push( data );
-    } else {
-      list.push({
+    let section = list.find(({ key }) => key === sectionKey );
+    if ( !section ) {
+      section = {
         key: sectionKey,
         title: today === sectionKey ? '今天' : yestoday === sectionKey ? '昨天' : sectionKey,
-        data: [ data ]
-      });
+        data: []
+      };
+      list.push( section );
     }
+    section.data.push( data );
   });
   return list;
 }
@@ -31,7 +31,8 @@ export default {
     isClear: 0,
     pageIndex: 1,
     pageSize: 30,
-    pageLimit: 30
+    pageLimit: 30,
+    firstLoad: true
   },
   effects: {
 
@@ -43,8 +44,9 @@ export default {
       });
     },
 
-    async getList({ request, payload, isRefresh }, { put, select }) {
+    async getList({ request, payload, isFirstLoad, isRefresh }, { put, select }) {
 
+      let nextPayload = {};
       const { pageSize, pageLimit, list } = await select(({ message }) => message );
       if ( !isRefresh && pageSize > pageLimit ) {
         return;
@@ -54,7 +56,7 @@ export default {
         type: 'update',
         payload: {
           loading: true,
-          listLoading: !!list && !!isRefresh && true
+          list: isFirstLoad ? null : list
         }
       });
 
@@ -64,15 +66,11 @@ export default {
           data: payload
         });
 
-        await put({
-          type: 'update',
-          payload: {
-            list: append( isRefresh ? [] : list ? [...list] : [], json.data.list ),
-            pageIndex: json.data.pageInfo.pageIndex,
-            pageLimit: json.data.list.length
-          }
-        });
-
+        nextPayload = {
+          list: append( isFirstLoad || isRefresh || !list ? [] : [...list], json.data.list ),
+          pageIndex: json.data.pageInfo.pageIndex,
+          pageLimit: json.data.list.length
+        };
       } catch( err ) {
         handleError( err );
       } finally {
@@ -80,8 +78,8 @@ export default {
         await put({
           type: 'update',
           payload: {
-            loading: false,
-            listLoading: false
+            ...nextPayload,
+            loading: false
           }
         });
       }

@@ -1,7 +1,7 @@
 
 import moment from 'moment';
 import React, { useState, useContext, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Animated, Button } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Icon } from '@ant-design/react-native';
 import { ThemeContext } from 'react-navigation';
