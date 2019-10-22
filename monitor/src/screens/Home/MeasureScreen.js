@@ -146,8 +146,7 @@ const styles = StyleSheet.create({
   },
   unit: {
     fontSize: 12,
-    color: '#595e6d',
-    marginTop: 2
+    color: '#595e6d'
   },
   extra: {
     flex: 1,

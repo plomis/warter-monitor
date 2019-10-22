@@ -2,10 +2,9 @@
 import React from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { QRScannerView } from 'react-native-qrcode-scanner-view';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Icon } from '@ant-design/react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { RNCamera } from 'react-native-camera';
 import { ACTIVE_OPACITY, HEADER_HEIGHT, HOST } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
@@ -32,6 +31,17 @@ function Scanner({ dispatch, navigation }) {
       navigation.navigate( 'QrcodePage', {
         url: event.data
       });
+    } else {
+      Alert.alert(
+        '',
+        '您扫描的二维码不正确！',
+        [
+          {
+            text: '知道了',
+            style: 'cancel'
+          },
+        ]
+      );
     }
   };
 

@@ -47,20 +47,21 @@ export default {
     async getList({ request, payload, isFirstLoad, isRefresh }, { put, select }) {
 
       let nextPayload = {};
-      const { pageSize, pageLimit, list } = await select(({ message }) => message );
-      if ( !isRefresh && pageSize > pageLimit ) {
-        return;
-      }
-
-      await put({
-        type: 'update',
-        payload: {
-          loading: true,
-          list: isFirstLoad ? null : list
-        }
-      });
 
       try {
+
+        const { pageSize, pageLimit, list } = await select(({ message }) => message );
+        if ( !isRefresh && !isFirstLoad && pageSize > pageLimit ) {
+          return;
+        }
+
+        await put({
+          type: 'update',
+          payload: {
+            loading: true,
+            list: isFirstLoad ? null : list
+          }
+        });
 
         const json = await request( 'warn_list', {
           data: payload
@@ -71,6 +72,7 @@ export default {
           pageIndex: json.data.pageInfo.pageIndex,
           pageLimit: json.data.list.length
         };
+
       } catch( err ) {
         handleError( err );
       } finally {

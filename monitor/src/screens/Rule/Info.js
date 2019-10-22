@@ -1,18 +1,18 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { View, StyleSheet, TouchableOpacity, Alert, Platform } from 'react-native';
-import { Icon, ActionSheet } from '@ant-design/react-native';
+import { View, StyleSheet, Platform } from 'react-native';
+import { ActivityIndicator } from '@ant-design/react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
 import PDFView from 'react-native-view-pdf';
-import { ACTIVE_OPACITY } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
 
 function InfoComponent({ dispatch, navigation }) {
 
   const url = navigation.getParam( 'url' );
+  const [ loading, setLoading ] = useState( true );
 
   const handleWillFocus = () => {
     dispatch({
@@ -23,13 +23,19 @@ function InfoComponent({ dispatch, navigation }) {
     });
   };
 
+  const handleLoad = () => {
+    setLoading( false );
+  };
+
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
       <PDFView
         resource={url}
         resourceType="url"
+        onLoad={handleLoad}
         style={styles.webview} />
+      {loading ? <ActivityIndicator toast text="正在加载" /> : null}
     </View>
   );
 }
@@ -37,16 +43,16 @@ function InfoComponent({ dispatch, navigation }) {
 InfoComponent.navigationOptions = ({ navigation }) => {
   const title = navigation.getParam( 'title' );
 
-  const handleShowActionSheet = () => {
-    ActionSheet.showActionSheetWithOptions({
-      options: [ '下载', '取消' ],
-      cancelButtonIndex: 1
-    }, ( buttonIndex ) => {
-      if ( buttonIndex === 0 ) {
-        Alert.alert('敬请期待！');
-      }
-    });
-  };
+  // const handleShowActionSheet = () => {
+  //   ActionSheet.showActionSheetWithOptions({
+  //     options: [ '下载', '取消' ],
+  //     cancelButtonIndex: 1
+  //   }, ( buttonIndex ) => {
+  //     if ( buttonIndex === 0 ) {
+  //       Alert.alert('敬请期待！');
+  //     }
+  //   });
+  // };
 
   return {
     title,

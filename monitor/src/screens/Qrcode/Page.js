@@ -2,12 +2,11 @@
 import qs from 'qs';
 import React, { useState } from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { View, StyleSheet, TouchableOpacity, Platform } from 'react-native';
-import { Icon, ActivityIndicator, ActionSheet } from '@ant-design/react-native';
+import { View, StyleSheet, Platform } from 'react-native';
+import { ActivityIndicator } from '@ant-design/react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
 import WebView from 'react-native-webview';
-// import { ACTIVE_OPACITY } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
 

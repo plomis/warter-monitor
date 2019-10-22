@@ -54,14 +54,15 @@ const Segment = connect(({ message }) => {
 
 const ListFooter = connect(({ message }) => {
   return {
+    loading: message.loading,
     pageSize: message.pageSize,
     pageLimit: message.pageLimit
   };
-})(({ pageSize, pageLimit }) => {
+})(({ loading, pageSize, pageLimit }) => {
   return (
     <View style={styles.listFooter}>
       <Text style={{ color: 'rgba(0,0,0,0.4)' }}>
-        {pageSize > pageLimit ? '没有更多数据' : ''}
+        {!loading && pageSize > pageLimit ? '没有更多数据' : ''}
       </Text>
     </View>
   );
@@ -78,7 +79,7 @@ function MessageHome({ dispatch, loading, list, pageIndex, pageSize, isClear }) 
     });
   };
 
-  const handleFetch = ( page = 1 ) => async () => {
+  const handleFetch = ( page = 1 ) => () => {
     if ( !loading ) {
       dispatch({
         type: 'message.getList',
@@ -92,7 +93,7 @@ function MessageHome({ dispatch, loading, list, pageIndex, pageSize, isClear }) 
     }
   };
 
-  const handleClearChange = async () => {
+  const handleClearChange = () => {
     dispatch({
       type: 'message.getList',
       isFirstLoad: true,
@@ -105,7 +106,7 @@ function MessageHome({ dispatch, loading, list, pageIndex, pageSize, isClear }) 
     });
   };
 
-  const handleRefresh = async () => {
+  const handleRefresh = () => {
     dispatch({
       type: 'message.refresh',
       payload: {
