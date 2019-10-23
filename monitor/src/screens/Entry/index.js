@@ -13,6 +13,7 @@ import Message from '../Message';
 import MeasureInfo from '../Measure/Info';
 import NewsInfo from '../News/Info';
 import RuleInfo from '../Rule/Info';
+import BalanceInfo from '../Balance/Info';
 import QrcodePage from '../Qrcode/Page';
 import WebPage from '../WebPage';
 import Scanner from '../Qrcode/Scanner';
@@ -52,6 +53,9 @@ const Stack = createStackNavigator({
   },
   WebPage: {
     screen: WebPage
+  },
+  BalanceInfo: {
+    screen: BalanceInfo
   }
 }, {
   initialRouteName: 'Home',

@@ -13,7 +13,7 @@ import { connect } from '../../../utils/plodux';
 import Banner from './Banner';
 import IndexBlock from './IndexBlock';
 import ChartBlock from './ChartBlock';
-// import MapBlock from './MapBlock';
+import MapBlock from './MapBlock';
 import RuleBlock from './RuleBlock';
 
 
@@ -80,7 +80,7 @@ function Screen({ dispatch, navigation, loading, data }) {
         <Banner data={data ? data.useGeneral : {}} statusBarHeight={statusBarHeight} bannerHeight={BANNER_HEIGHT} />
         <IndexBlock data={data ? data.useGeneral : {}} />
         <ChartBlock data={data || {}} />
-        {/* <MapBlock /> */}
+        <MapBlock navigation={navigation} data={data ? data.balance : null} />
         <RuleBlock data={data ? data.rule.map(({ ruleId, ruleTitle, publishDate }) => {
           return {
             key: ruleId,

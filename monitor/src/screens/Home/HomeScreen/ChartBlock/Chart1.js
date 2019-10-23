@@ -47,6 +47,7 @@ function Chart({ data, type }) {
     <View ref={viewRef} style={{ borderWidth: 1, borderColor: 'transparent' }}>
       <WebView
         ref={webViewRef}
+        zoomable={false}
         allowFileAccess
         scalesPageToFit
         javaScriptEnabled
