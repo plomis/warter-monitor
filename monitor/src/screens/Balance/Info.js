@@ -1,4 +1,5 @@
 
+import moment from 'moment';
 import React, { useState } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { View, StyleSheet, Platform } from 'react-native';
@@ -10,26 +11,32 @@ import { HOST } from '../../components/constants';
 import { connect } from '../../utils/plodux';
 
 
-const basename = `${HOST}/water/monitor`;
+const basename = `${HOST}/water/monitor/app`;
 
-const Segment = () => {
+const Segment = connect()(({ dispatch }) => {
   return (
     <SegmentedControl
       underlayColor="transparent"
       style={styles.segment}
-      // selectedIndex={isClear === '' ? 2 : isClear}
       values={[ '近一月', '近一年' ]}
       tintColor="#047FFE"
       onChange={( e ) => {
-
+        dispatch({
+          type: 'balance.update',
+          payload: {
+            beginDate: e.nativeEvent.selectedSegmentIndex === 0 ? moment().add( -29, 'day' ).format( 'YYYY-MM-DD' ) : moment().add( -11, 'month' ).format( 'YYYY-MM-DD' ),
+            endDate: moment().format( 'YYYY-MM-DD' )
+          }
+        });
       }} />
   );
-};
+});
 
-function BalanceInfo({ dispatch, navigation }) {
+function BalanceInfo({ dispatch, navigation, accessToken, beginDate, endDate }) {
 
-  const url = navigation.getParam( 'url' );
+  const balanceId = navigation.getParam( 'id' );
   const [ loading, setLoading ] = useState( true );
+  const url = `/balance?balanceId=${balanceId}&beginDate=${beginDate}&endDate=${endDate}&token=${accessToken}`;
 
   const handleWillFocus = () => {
     dispatch({
@@ -98,7 +105,13 @@ const styles = StyleSheet.create({
 
 const Info = createStackNavigator({
   BalanceInfoHome: {
-    screen: connect()( BalanceInfo )
+    screen: connect(({ global, balance }) => {
+      return {
+        beginDate: balance.beginDate,
+        endDate: balance.endDate,
+        accessToken: global.accessToken
+      }
+    })( BalanceInfo )
   }
 }, {
   initialRouteName: 'BalanceInfoHome',

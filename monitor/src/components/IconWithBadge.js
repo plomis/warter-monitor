@@ -4,16 +4,18 @@ import { Text, View, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-function IconWithBadge({ component, name, badgeCount, color, size, style }) {
+function IconWithBadge({ component, name, badgeCount, dot, color, size, style }) {
   const IconComponent = component || Ionicons;
   return (
     <View style={style ? [ style, styles.wrap ] : styles.wrap}>
       <IconComponent name={name} size={size} color={color} />
       {badgeCount > 0 && (
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>
-            {badgeCount}
-          </Text>
+        <View style={dot ? styles.dot : styles.badge}>
+          {dot ? null : (
+            <Text style={styles.badgeText}>
+              {badgeCount}
+            </Text>
+          )}
         </View>
       )}
     </View>
@@ -37,6 +39,15 @@ const styles = StyleSheet.create({
     height: 17,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    backgroundColor: 'red',
+    position: 'absolute',
+    left: 18,
+    top: -1,
+    borderRadius: 3
   },
   badgeText: {
     color: 'white',

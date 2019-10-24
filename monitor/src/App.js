@@ -30,6 +30,7 @@ import message from './models/message';
 import login from './models/login';
 import home from './models/home';
 import user from './models/user';
+import balance from './models/balance';
 
 
 loadModel( theme );
@@ -40,6 +41,7 @@ loadModel( message );
 loadModel( login );
 loadModel( home );
 loadModel( user );
+loadModel( balance );
 
 
 const App = ({ dispatch }) => {

@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { View, Animated, StyleSheet, RefreshControl, Dimensions } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
+// import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { HEADER_HEIGHT, HEADER_LARGE_HEIGHT } from '../constants';
 import AnimatedHeader from './AnimatedHeader';
 import AnimatedBackground from './AnimatedBackground';
@@ -18,7 +18,8 @@ function Screen({
   onRightPress,
   title,
   refreshing,
-  onRefresh
+  onRefresh,
+  statusBarHeight
 }) {
 
   const { height } = Dimensions.get( 'window' );
@@ -45,7 +46,7 @@ function Screen({
   }
 
   // safe area
-  const statusBarHeight = getStatusBarHeight();
+  // const statusBarHeight = getStatusBarHeight();
 
   return (
     <Context.Provider value={{

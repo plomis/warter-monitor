@@ -24,6 +24,11 @@ function Screen({ dispatch, navigation, loading, data }) {
 
   const statusBarHeight = getStatusBarHeight();
   const title = '总览';
+
+  const handleFetch = () => {
+    dispatch({ type: 'home.getData' });
+  };
+
   const handleWillFocus = () => {
     dispatch({
       type: 'statusBar.update',
@@ -31,6 +36,7 @@ function Screen({ dispatch, navigation, loading, data }) {
         barStyle: 'light-content'
       }
     });
+    handleFetch();
   };
 
   const handleMessage = () => {
@@ -58,26 +64,24 @@ function Screen({ dispatch, navigation, loading, data }) {
     }
   };
 
-  const handleFetch = () => {
-    dispatch({ type: 'home.getData' });
-  };
-
   useEffect( handleFetch, []);
 
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={handleWillFocus} />
+      <View style={[ styles.statusBarBackground, { height: statusBarHeight }]} />
       <AnimatedScrollView
         title={title}
         refreshing={data !== null && loading}
         onRefresh={handleFetch}
+        statusBarHeight={0}
         headerLeft={<IconSvg name={scan} color="#fff" size={28} />}
-        headerRight={<IconWithBadge component={IconSvg} name={message} color="#fff" size={28} />}
+        headerRight={<IconWithBadge dot component={IconSvg} name={message} color="#fff" size={28} badgeCount={data && data.warn ? data.warn.count : 0} />}
         onLeftPress={handleQrcode}
         onRightPress={handleMessage}
         style={styles.scrollView}
         headerHeight={BANNER_HEIGHT}>
-        <Banner data={data ? data.useGeneral : {}} statusBarHeight={statusBarHeight} bannerHeight={BANNER_HEIGHT} />
+        <Banner data={data ? data.useGeneral : {}} bannerHeight={BANNER_HEIGHT} />
         <IndexBlock data={data ? data.useGeneral : {}} />
         <ChartBlock data={data || {}} />
         <MapBlock navigation={navigation} data={data ? data.balance : null} />
@@ -99,6 +103,9 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1
+  },
+  statusBarBackground: {
+    backgroundColor: '#6582FF'
   }
 });
 

@@ -34,7 +34,7 @@ function Block({ data, navigation }) {
                 key={key}
                 arrow="horizontal"
                 onPress={handlePress({ key, title })}
-                thumb={<Icon name="file-text" color="#5058f7" size={14} style={{ marginRight: 4 }} />}
+                thumb={<Icon name="file-text" color="#5058f7" size={24} style={{ marginRight: 4 }} />}
                 extra={extra}>
                 <Text style={styles.itemTitle}>{title}</Text>
               </Item>

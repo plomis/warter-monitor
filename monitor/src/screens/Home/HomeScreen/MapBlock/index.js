@@ -1,66 +1,36 @@
 
 import React from 'react';
-import moment from 'moment';
-import { WebView } from 'react-native-webview';
-import { View, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
-import { HOST } from '../../../../components/constants';
-import Tabs from '../../../../components/Tabs';
+import { List } from '@ant-design/react-native';
+import { View, StyleSheet, Text } from 'react-native';
+import tuopu from '../../../../assets/svg/tuopu.svg';
+import IconSvg from '../../../../components/IconSvg';
 
 
-const basename = `${HOST}/water/monitor`;
-const beginDate = moment().format( 'YYYY-MM-DD' );
-const endDate = moment().format( 'YYYY-MM-DD' );
+const Item = List.Item;
 
 function Block({ data, navigation }) {
 
-  const tabs = data ? data.map(({ balanceName }) => {
-    return {
-      title: balanceName
-    };
-  }) : []
-
-  const handleInfo = ( url ) => () => {
-    navigation.navigate( 'BalanceInfo', { url });
+  const handleInfo = ( id ) => () => {
+    navigation.navigate( 'BalanceInfo', { id });
   };
 
   return (
     <View>
       <Text style={styles.title}>计量图谱</Text>
       {data ? (
-        <Tabs tabs={tabs}>
-          {data.map(({ balanceId }) => {
-            const url = `/?balanceId=${balanceId}&beginDate=${beginDate}&endDate=${endDate}`;
+        <List>
+          {data.map(({ balanceId, balanceName }) => {
             return (
-              <View key={`${balanceId}`} style={styles.tabItem}>
-                <WebView
-                  zoomable={false}
-                  allowFileAccess
-                  scalesPageToFit
-                  javaScriptEnabled
-                  saveFormDataDisabled
-                  hideKeyboardAccessoryView
-                  allowsBackForwardNavigationGestures
-                  scrollEnabled={false}
-                  thirdPartyCookiesEnabled={false}
-                  overScrollMode="never"
-                  dataDetectorTypes="none"
-                  startInLoadingState={false}
-                  cacheEnabled={false}
-                  domStorageEnabled={false}
-                  allowsLinkPreview={false}
-                  showsVerticalScrollIndicator={false}
-                  showsHorizontalScrollIndicator={false}
-                  applicationNameForUserAgent="Thingspower/1.0.0"
-                  source={{ uri: basename + url }}
-                  style={styles.webview}
-                  originWhitelist={['*']} />
-                <TouchableWithoutFeedback onPress={handleInfo( url )}>
-                  <View style={styles.mask} />
-                </TouchableWithoutFeedback>
-              </View>
+              <Item
+                key={`${balanceId}`}
+                arrow="horizontal"
+                onPress={handleInfo( balanceId )}
+                thumb={<IconSvg name={tuopu} color="#5058f7" size={24} style={{ marginRight: 4 }} />}>
+                <Text style={styles.itemTitle}>{balanceName}</Text>
+              </Item>
             );
           })}
-        </Tabs>
+        </List>
       ) : (
         <View style={styles.empty}>
           <Text style={styles.emptyText}>暂无数据</Text>
@@ -71,10 +41,6 @@ function Block({ data, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  tabItem: {
-    padding: 8,
-    backgroundColor: '#fff'
-  },
   empty: {
     height: 200,
     alignItems: 'center',
@@ -92,14 +58,8 @@ const styles = StyleSheet.create({
     color: '#585E6F',
     fontSize: 20
   },
-  webview: {
-    height: 200
-  },
-  mask: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    zIndex: 1
+  itemTitle: {
+    color: '#585E6F'
   }
 });
 

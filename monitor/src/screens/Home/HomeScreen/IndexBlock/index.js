@@ -12,7 +12,7 @@ import icon6 from '../../../../assets/svg/indexblock_6.svg';
 
 
 const datas = [{
-  title: '非常规水月替代率',
+  title: '非常规水利用率',
   dataKey: 'monthReuseReplaceRate',
   icon: icon1
 }, {

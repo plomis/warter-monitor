@@ -23,7 +23,7 @@ function Item({ title, unit, nummber }) {
 }
 
 const datas = [{
-  title: '上月非水量',
+  title: '上月节水量',
   unit: '吨',
   dataKey: 'reuseLastMonthDosage'
 }, {
@@ -31,7 +31,7 @@ const datas = [{
   unit: '吨',
   dataKey: 'lastMonthLoss'
 }, {
-  title: '昨日非水',
+  title: '昨日节水量',
   unit: '吨',
   dataKey: 'reuseYesterdayDosage'
 }, {

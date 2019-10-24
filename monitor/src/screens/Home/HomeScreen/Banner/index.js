@@ -8,13 +8,13 @@ import water from '../../../../assets/svg/water.svg';
 import Grid from './bannerGrid';
 
 
-function Banner({ statusBarHeight, bannerHeight, data }) {
+function Banner({ bannerHeight, data }) {
 
   return (
     <View style={styles.banner}>
       <LinearGradient
         colors={[ '#667eff', '#6697ff', '#6667ff' ]}
-        style={[ styles.bannerBackground, { height: statusBarHeight + bannerHeight, paddingTop: statusBarHeight }]}>
+        style={[ styles.bannerBackground, { height: bannerHeight }]}>
         <View style={styles.bannerNumber}>
           <View style={styles.water}>
             <SvgUri

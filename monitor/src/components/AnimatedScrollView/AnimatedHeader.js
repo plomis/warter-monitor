@@ -25,7 +25,7 @@ const AnimatedHeader = ({ headerRange, left, right, onRightPress, onLeftPress, t
   const { statusBarHeight, HEADER_LARGE_HEIGHT, HEADER_HEIGHT, getAnimationRange } = useContext( Context );
   const containerStyle = {
     height: HEADER_LARGE_HEIGHT,
-    top: getStatusBarHeight()
+    top: statusBarHeight
   };
 
   return (
