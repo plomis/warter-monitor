@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { QRScannerView } from 'react-native-qrcode-scanner-view';
 import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
@@ -11,9 +11,15 @@ import { connect } from '../../utils/plodux';
 
 function Scanner({ dispatch, navigation }) {
 
+  const [ blur, setBlur ] = useState( false );
   const statusBarHeight = getStatusBarHeight();
 
+  handleDidBlur = () => {
+    setBlur( true );
+  };
+
   const handleWillFocus = () => {
+    setBlur( false );
     dispatch({
       type: 'statusBar.update',
       payload: {
@@ -64,7 +70,7 @@ function Scanner({ dispatch, navigation }) {
 
   return (
     <View style={styles.container}>
-      <NavigationEvents onWillFocus={handleWillFocus} />
+      <NavigationEvents onWillFocus={handleWillFocus} onDidBlur={handleDidBlur} />
       {/* <RNCamera
         style={styles.scaner}
         type={RNCamera.Constants.Type.back}
@@ -82,13 +88,15 @@ function Scanner({ dispatch, navigation }) {
           //   buttonNegative: 'Cancel',
           // }}
         /> */}
-      <QRScannerView
-        onScanResult={handleScan}
-        rectStyle={styles.rectStyle}
-        cornerStyle={styles.cornerStyle}
-        scanBarStyle={styles.scanBarStyle}
-        renderHeaderView={renderHeader}
-        style={styles.scaner} />
+      {!blur ? (
+        <QRScannerView
+          onScanResult={handleScan}
+          rectStyle={styles.rectStyle}
+          cornerStyle={styles.cornerStyle}
+          scanBarStyle={styles.scanBarStyle}
+          renderHeaderView={renderHeader}
+          style={styles.scaner} />
+      ) : null}
     </View>
   );
 }

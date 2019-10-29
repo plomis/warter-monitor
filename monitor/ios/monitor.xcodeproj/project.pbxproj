@@ -19,7 +19,7 @@
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* 长江委节水.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "长江委节水.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* 长江委节水平台.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "长江委节水平台.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = monitor/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = monitor/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -118,7 +118,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* 长江委节水.app */,
+				13B07F961A680F5B00A75B9A /* 长江委节水平台.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -144,7 +144,7 @@
 			);
 			name = monitor;
 			productName = monitor;
-			productReference = 13B07F961A680F5B00A75B9A /* 长江委节水.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* 长江委节水平台.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -343,8 +343,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.thingspower.monitor;
-				PRODUCT_NAME = "长江委节水";
+				PRODUCT_BUNDLE_IDENTIFIER = com.thingspower.changjiangwei.watermonitor;
+				PRODUCT_NAME = "长江委节水平台";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -365,8 +365,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.thingspower.monitor;
-				PRODUCT_NAME = "长江委节水";
+				PRODUCT_BUNDLE_IDENTIFIER = com.thingspower.changjiangwei.watermonitor;
+				PRODUCT_NAME = "长江委节水平台";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

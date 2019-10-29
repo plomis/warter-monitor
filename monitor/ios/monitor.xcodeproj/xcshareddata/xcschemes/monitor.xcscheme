@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "&#x957f;&#x6c5f;&#x59d4;&#x8282;&#x6c34;.app"
+               BuildableName = "&#x957f;&#x6c5f;&#x59d4;&#x8282;&#x6c34;&#x5e73;&#x53f0;.app"
                BlueprintName = "monitor"
                ReferencedContainer = "container:monitor.xcodeproj">
             </BuildableReference>
@@ -59,7 +59,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "&#x957f;&#x6c5f;&#x59d4;&#x8282;&#x6c34;.app"
+            BuildableName = "&#x957f;&#x6c5f;&#x59d4;&#x8282;&#x6c34;&#x5e73;&#x53f0;.app"
             BlueprintName = "monitor"
             ReferencedContainer = "container:monitor.xcodeproj">
          </BuildableReference>
@@ -92,7 +92,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "&#x957f;&#x6c5f;&#x59d4;&#x8282;&#x6c34;.app"
+            BuildableName = "&#x957f;&#x6c5f;&#x59d4;&#x8282;&#x6c34;&#x5e73;&#x53f0;.app"
             BlueprintName = "monitor"
             ReferencedContainer = "container:monitor.xcodeproj">
          </BuildableReference>
@@ -109,7 +109,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "&#x957f;&#x6c5f;&#x59d4;&#x8282;&#x6c34;.app"
+            BuildableName = "&#x957f;&#x6c5f;&#x59d4;&#x8282;&#x6c34;&#x5e73;&#x53f0;.app"
             BlueprintName = "monitor"
             ReferencedContainer = "container:monitor.xcodeproj">
          </BuildableReference>

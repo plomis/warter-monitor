@@ -19,7 +19,7 @@ function withUpdate( Component ) {
 
     handleUpdate = () => {
       if ( Platform.OS === 'ios' ) {
-        const appId = '1481037525';
+        const appId = '1485211538';
         getAppstoreAppVersion( appId ).then( async ( latest ) => {
           const version = await DeviceInfo.getVersion();
           if ( compare( latest, version, 2 ) > 0 ) {
