@@ -25,8 +25,8 @@ function Screen({ dispatch, navigation, loading, data }) {
   const statusBarHeight = getStatusBarHeight();
   const title = '总览';
 
-  const handleFetch = () => {
-    dispatch({ type: 'home.getData' });
+  const handleFetch = ( isRefresh ) => () => {
+    dispatch({ type: 'home.getData', isRefresh });
   };
 
   const handleWillFocus = () => {
@@ -36,7 +36,7 @@ function Screen({ dispatch, navigation, loading, data }) {
         barStyle: 'light-content'
       }
     });
-    handleFetch();
+    handleFetch()();
   };
 
   const handleMessage = () => {
@@ -64,7 +64,7 @@ function Screen({ dispatch, navigation, loading, data }) {
     }
   };
 
-  useEffect( handleFetch, []);
+  // useEffect( handleFetch, []);
 
   return (
     <View style={styles.container}>
@@ -73,7 +73,7 @@ function Screen({ dispatch, navigation, loading, data }) {
       <AnimatedScrollView
         title={title}
         refreshing={data !== null && loading}
-        onRefresh={handleFetch}
+        onRefresh={handleFetch( true )}
         statusBarHeight={0}
         headerLeft={<IconSvg name={scan} color="#fff" size={28} />}
         headerRight={<IconWithBadge dot component={IconSvg} name={message} color="#fff" size={28} badgeCount={data && data.warn ? data.warn.count : 0} />}

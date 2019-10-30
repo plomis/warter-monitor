@@ -10,16 +10,18 @@ export default {
   },
   effects: {
 
-    async getData({ request }, { put }) {
+    async getData({ request, isRefresh }, { put }) {
 
       let nextPayload = {};
 
-      await put({
-        type: 'update',
-        payload: {
-          loading: true
-        }
-      });
+      if ( isRefresh ) {
+        await put({
+          type: 'update',
+          payload: {
+            loading: true
+          }
+        });
+      }
 
       try {
 
