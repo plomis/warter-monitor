@@ -38,6 +38,7 @@ function NewsInfo({ dispatch, navigation }) {
         onLoad={handleLoad}
         source={{ uri: basename + url }}
         style={styles.webview}
+        originWhitelist={['*']}
         dataDetectorTypes="none"
         hideKeyboardAccessoryView
         showsVerticalScrollIndicator={false}
