@@ -76,8 +76,10 @@ function Screen({ navigation, dispatch }) {
         onMessage={handleMessage}
         dataDetectorTypes="none"
         onLoad={handleLoad}
+        mixedContentMode="always"
         hideKeyboardAccessoryView
         applicationNameForUserAgent="Thingspower/1.0.0"
+        nativeConfig={{ props: { webContentsDebuggingEnabled: true, mixedContentMode: 'always' }}}
         style={styles.webview} />
       {loading ? <ActivityIndicator toast text="正在加载" /> : null}
     </View>

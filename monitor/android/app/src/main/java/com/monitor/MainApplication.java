@@ -12,6 +12,10 @@ import java.util.List;
 import com.microsoft.codepush.react.CodePush;
 import com.download.DownloadApkPackage;
 import android.webkit.WebView;
+// import android.webkit.WebSettings;
+import com.facebook.react.common.build.ReactBuildConfig;
+// import android.os.Build;
+
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -54,7 +58,13 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
-    WebView.setWebContentsDebuggingEnabled(true);
+    if ( ReactBuildConfig.DEBUG ) {
+      WebView.setWebContentsDebuggingEnabled(true);
+    }
+    // if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+    //   // WebSettings.MIXED_CONTENT_ALWAYS_ALLOW = 2
+    //   webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+    // }
   }
 
   /**

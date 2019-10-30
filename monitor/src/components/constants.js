@@ -6,7 +6,7 @@ export const HEADER_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 export const HEADER_LARGE_HEIGHT = 88;
 export const ACTIVE_OPACITY = 0.5;
 export const HOST = 'https://slcjw.oicp.vip'; // 'https://water.thingspower.com.cn'; // 'https://slcjw.oicp.vip';
-export const UPDATE_URL = `${HOST}/water/monitor/app/apk/version.json`;
+export const UPDATE_URL = 'https://thingspower.obs.cn-east-3.myhuaweicloud.com/version.json';
 
 
 export const ThemeConstants = {

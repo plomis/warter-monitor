@@ -39,10 +39,12 @@ function WebPagetHome({ dispatch, navigation }) {
         source={{ uri: basename + url }}
         style={styles.webview}
         dataDetectorTypes="none"
+        mixedContentMode="always"
         hideKeyboardAccessoryView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
-        applicationNameForUserAgent="Thingspower/1.0.0" />
+        applicationNameForUserAgent="Thingspower/1.0.0"
+        nativeConfig={{ props: { webContentsDebuggingEnabled: true, mixedContentMode: 'always' }}} />
       {loading ? <ActivityIndicator toast text="正在加载" /> : null}
     </View>
   );

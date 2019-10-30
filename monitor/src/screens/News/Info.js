@@ -40,9 +40,11 @@ function NewsInfo({ dispatch, navigation }) {
         style={styles.webview}
         originWhitelist={['*']}
         dataDetectorTypes="none"
+        mixedContentMode="always"
         hideKeyboardAccessoryView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        nativeConfig={{ props: { webContentsDebuggingEnabled: true, mixedContentMode: 'always' }}}
         applicationNameForUserAgent="Thingspower/1.0.0" />
       {loading ? <ActivityIndicator toast text="正在加载" /> : null}
     </View>
