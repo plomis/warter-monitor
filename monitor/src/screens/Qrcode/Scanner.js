@@ -33,14 +33,21 @@ function Scanner({ dispatch, navigation }) {
   };
 
   const handleScan = ( event ) => {
-    if ( event.data.indexOf( `${HOST}` ) !== -1 ) {
-      navigation.navigate( 'QrcodePage', {
-        url: event.data
-      });
-    } else {
+    try {
+      if ( event.data.indexOf( `${HOST}` ) !== -1 ) {
+        navigation.navigate( 'QrcodePage', {
+          url: event.data
+        });
+      } else {
+        Alert.alert(
+          '',
+          '您扫描的二维码不正确！',
+          [
+            {
+    } catch( err ) {
       Alert.alert(
         '',
-        '您扫描的二维码不正确！',
+        `发生错误(${err.toString()})`,
         [
           {
             text: '知道了',
