@@ -44,6 +44,12 @@ function Scanner({ dispatch, navigation }) {
           '您扫描的二维码不正确！',
           [
             {
+              text: '知道了',
+              style: 'cancel'
+            },
+          ]
+        );
+      }
     } catch( err ) {
       Alert.alert(
         '',
