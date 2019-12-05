@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react';
 import DeviceInfo from 'react-native-device-info';
 import { Platform, Linking, Alert } from 'react-native';
-import { getAppstoreAppVersion } from 'react-native-appstore-version-checker';
+import { getAppstoreAppMetadata } from 'react-native-appstore-version-checker';
 import { ActivityIndicator } from '@ant-design/react-native';
 import { UPDATE_URL } from '../components/constants';
 import compare from './compareVersion';
@@ -18,9 +18,10 @@ function withUpdate( Component ) {
 
     handleUpdate = () => {
       if ( Platform.OS === 'ios' ) {
-        const appId = '1481037525';
+        const appId = '1485211538';
         this.setState({ loading: true });
-        getAppstoreAppVersion( appId ).then( async ( latest ) => {
+        getAppstoreAppMetadata( appId ).then( async ( data ) => {
+          const latest = data.version;
           const version = await DeviceInfo.getVersion();
           if ( compare( latest, version, 3 ) > 0 ) {
             Alert.alert( '', '应用有新的更新', [{
@@ -45,10 +46,10 @@ function withUpdate( Component ) {
               ]
             );
           }
-        }).catch(() => {
+        }).catch(( err ) => {
           Alert.alert(
             '',
-            '网络请求失败！',
+            err.toString() || '网络请求失败！',
             [{ text: '知道了', style: 'cancel' }]
           );
         }).finally(() => {

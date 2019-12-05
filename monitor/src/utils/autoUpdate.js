@@ -3,7 +3,7 @@ import React from 'react';
 import codePush from 'react-native-code-push';
 import DeviceInfo from 'react-native-device-info';
 import { Platform, Linking, Alert, NativeModules } from 'react-native';
-import { getAppstoreAppVersion } from 'react-native-appstore-version-checker';
+import { getAppstoreAppMetadata } from 'react-native-appstore-version-checker';
 import { UPDATE_URL } from '../components/constants';
 import compare from './compareVersion';
 
@@ -20,7 +20,7 @@ function withUpdate( Component ) {
     handleUpdate = () => {
       if ( Platform.OS === 'ios' ) {
         const appId = '1485211538';
-        getAppstoreAppVersion( appId ).then( async ( latest ) => {
+        getAppstoreAppMetadata( appId ).then( async ( latest ) => {
           const version = await DeviceInfo.getVersion();
           if ( compare( latest, version, 2 ) > 0 ) {
             Alert.alert( '', '应用有新的更新', [{
