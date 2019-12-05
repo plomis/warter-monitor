@@ -1,4 +1,5 @@
 
+import moment from 'moment';
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import Tabs from '../../../../components/Tabs';
@@ -29,7 +30,7 @@ function Block({ data }) {
       <View style={styles.tabItem}>
         <View style={styles.chart}>
           <Text style={styles.chartTitle}>近30天用水趋势</Text>
-          <Text style={styles.chartSubTitle}>2018-10-1 ~ 2018-10-30</Text>
+          <Text style={styles.chartSubTitle}>{moment().add( -29, 'day' ).format( 'YYYY-MM-DD' )} ~ {moment().format( 'YYYY-MM-DD' )}</Text>
           <Chart1 type="day" data={data['30Day'] ? data['30Day'].use : []} />
         </View>
         <View style={styles.chart}>
@@ -40,7 +41,7 @@ function Block({ data }) {
       <View style={styles.tabItem}>
         <View style={styles.chart}>
           <Text style={styles.chartTitle}>近一年用水趋势</Text>
-          <Text style={styles.chartSubTitle}>2019-01 ~ 2019-10</Text>
+          <Text style={styles.chartSubTitle}>{moment().add( -11, 'month' ).format( 'YYYY-MM' )} ~ {moment().format( 'YYYY-MM' )}</Text>
           <Chart1 type="year" data={data['12Month'] ? data['12Month'].use : []} />
         </View>
         <View style={styles.chart}>

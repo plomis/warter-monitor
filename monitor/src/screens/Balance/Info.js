@@ -36,7 +36,7 @@ function BalanceInfo({ dispatch, navigation, accessToken, beginDate, endDate }) 
 
   const balanceId = navigation.getParam( 'id' );
   const [ loading, setLoading ] = useState( true );
-  const url = `/balance?balanceId=${balanceId}&beginDate=${beginDate}&endDate=${endDate}&token=${accessToken}`;
+  const url = `/balance?balanceId=${balanceId}&beginDay=${beginDate}&endDay=${endDate}&token=${accessToken}`;
 
   const handleWillFocus = () => {
     dispatch({

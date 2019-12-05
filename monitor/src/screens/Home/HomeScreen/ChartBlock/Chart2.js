@@ -16,7 +16,7 @@ function Chart({ data, height }) {
   const dataString = JSON.stringify( data.map(( itemData ) => ({
     name: itemData.subitemName,
     percent: itemData.percent,
-    value: itemData.avgPeopleDosage,
+    value: itemData.dosage,
     type: 'const'
   })));
 
